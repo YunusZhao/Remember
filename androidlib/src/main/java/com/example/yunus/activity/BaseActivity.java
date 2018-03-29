@@ -19,10 +19,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         LogUtil.d("BaseActivity", getClass().getSimpleName());
         ActivityCollector.addActivity(this);
-
-        initVariables();
-        initViews(savedInstanceState);
-        loadData();
     }
 
     @Override
@@ -30,11 +26,4 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onDestroy();
         ActivityCollector.removeActivity(this);
     }
-
-    //接收其他页面的intent参数
-    protected abstract void initVariables();
-    //加载布局，初始化控件，注册点击事件
-    protected abstract void initViews(Bundle savedInstanceState);
-    //调用MobileAPI获取数据
-    protected abstract void loadData();
 }

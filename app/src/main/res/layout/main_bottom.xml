@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_bottom_bar"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:layout_alignParentBottom="true"
+    android:background="#dfe2ec"
+    android:orientation="horizontal">
+
+    <RadioButton
+        android:id="@+id/main_bottom_home"
+        style="@style/tab_menu_item"
+        android:drawableTop="@mipmap/home"
+        android:text="首页" />
+
+    <RadioButton
+        android:id="@+id/main_bottom__ranking"
+        style="@style/tab_menu_item"
+        android:drawableTop="@mipmap/ranking"
+        android:text="排行" />
+
+    <RadioButton
+        android:id="@+id/main_bottom_mine"
+        style="@style/tab_menu_item"
+        android:drawableTop="@mipmap/mine"
+        android:text="我的" />
+
+</RadioGroup>

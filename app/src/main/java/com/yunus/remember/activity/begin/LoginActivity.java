@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.yunus.activity.BaseActivity;
 import com.yunus.remember.R;
+import com.yunus.remember.activity.chief.MainActivity;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -26,14 +28,9 @@ public class LoginActivity extends BaseActivity {
     TextView forgetPassword;
     TextView register ;
 
-
     @Override
-    protected void initVariables() {
-
-    }
-
-    @Override
-    protected void initViews(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         toolbar = (Toolbar) findViewById(R.id.login_toolbar);
@@ -75,6 +72,15 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
 
 //        getSupportActionBar().setHomeButtonEnabled(true);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -85,10 +91,6 @@ public class LoginActivity extends BaseActivity {
 //                finish();
 //            }
 //        });
-    }
-
-    @Override
-    protected void loadData() {
 
     }
 }
