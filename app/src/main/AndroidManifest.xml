@@ -20,11 +20,13 @@
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".activity.begin.RegisterActivity" />
-        <activity android:name=".activity.begin.PasswordActivity"/>
+        <activity android:name=".activity.begin.PasswordActivity" />
+        <activity android:name=".activity.chief.SearchActivity"></activity>
     </application>
 
 </manifest>

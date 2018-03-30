@@ -24,8 +24,6 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_pager_home, container, false);
-        TextView tv = (TextView) view.findViewById(R.id.txt_content);
-        tv.setText("home");
         return view;
     }
 }
