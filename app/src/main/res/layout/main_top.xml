@@ -22,8 +22,9 @@
             <TextView
                 android:id="@+id/main_top_search"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="left"
                 android:text="查询英文"/>
 
         </LinearLayout>

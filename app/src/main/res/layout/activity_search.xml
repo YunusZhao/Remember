@@ -4,24 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="15dp"
     android:orientation="vertical"
     tools:context="com.yunus.remember.activity.chief.SearchActivity">
+
     <android.support.v7.widget.Toolbar
+        android:id="@+id/search_toolbar"
+        style="@style/Toolbar.MyStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:navigationIcon="@mipmap/back"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextAppearance="@style/Toolbar.TitleText">
+
         <SearchView
             android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:iconifiedByDefault="false"
-            android:queryHint="查询英文" />
+            android:queryHint="查询英文"/>
     </android.support.v7.widget.Toolbar>
 
-
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/searchListView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content" />
 </LinearLayout>

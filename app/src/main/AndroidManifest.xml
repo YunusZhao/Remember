@@ -26,7 +26,8 @@
         </activity>
         <activity android:name=".activity.begin.RegisterActivity" />
         <activity android:name=".activity.begin.PasswordActivity" />
-        <activity android:name=".activity.chief.SearchActivity"></activity>
+        <activity android:name=".activity.chief.SearchActivity" />
+        <activity android:name=".activity.home.TestActivity"></activity>
     </application>
 
 </manifest>
