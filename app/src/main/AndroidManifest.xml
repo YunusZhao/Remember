@@ -30,7 +30,10 @@
         <activity android:name=".activity.home.TestActivity" />
         <activity android:name=".activity.home.DetailActivity" />
         <activity android:name=".activity.home.SummaryActivity" />
-        <activity android:name=".activity.ranking.RankingActivity"></activity>
+        <activity android:name=".activity.ranking.RankingActivity" />
+        <activity android:name=".activity.home.CalendarActivity" />
+        <activity android:name=".activity.home.DiaryActivity" />
+        <activity android:name=".activity.home.DiariesActivity"></activity>
     </application>
 
 </manifest>
