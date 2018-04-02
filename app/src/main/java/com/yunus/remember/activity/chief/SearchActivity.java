@@ -5,11 +5,8 @@ import com.yunus.remember.R;
 
 import android.os.Bundle;
 
-import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -31,8 +28,8 @@ public class SearchActivity extends BaseActivity {
         setContentView(R.layout.activity_search);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.search_toolbar);
-        SearchView searchView = (SearchView) findViewById(R.id.searchView);
-        listView = (ListView) findViewById(R.id.searchListView);
+        SearchView searchView = (SearchView) findViewById(R.id.search_view);
+        listView = (ListView) findViewById(R.id.search_list_view);
 
         setSupportActionBar(toolbar);
 
@@ -66,7 +63,7 @@ public class SearchActivity extends BaseActivity {
     private void setAdapter(List<Word> list) {
         if (listView.getAdapter() == null) {
             SearchWordAdapter adapter = new SearchWordAdapter(SearchActivity.this,
-                    R.layout.search_word_item, list);
+                    R.layout.item_search_word, list);
             listView.setAdapter(adapter);
         } else {
             ((SearchWordAdapter)listView.getAdapter()).notifyDataSetChanged();

@@ -9,7 +9,7 @@ public class Word {
 
     private String spell;
 
-    private String mean;
+    private String chineseMean;
 
     public Word() {
 
@@ -17,7 +17,7 @@ public class Word {
 
     public Word(String spell, String mean) {
         this.spell = spell;
-        this.mean = mean;
+        this.chineseMean = mean;
     }
 
     public String getSpell() {
@@ -28,11 +28,11 @@ public class Word {
         this.spell = spell;
     }
 
-    public String getMean() {
-        return mean;
+    public String getChineseMean() {
+        return chineseMean;
     }
 
-    public void setMean(String mean) {
-        this.mean = mean;
+    public void setChineseMean(String chineseMean) {
+        this.chineseMean = chineseMean;
     }
 }

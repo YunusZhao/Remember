@@ -18,7 +18,7 @@
         app:titleTextAppearance="@style/Toolbar.TitleText">
 
         <SearchView
-            android:id="@+id/searchView"
+            android:id="@+id/search_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:iconifiedByDefault="false"
@@ -26,7 +26,7 @@
     </android.support.v7.widget.Toolbar>
 
     <ListView
-        android:id="@+id/searchListView"
+        android:id="@+id/search_list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>

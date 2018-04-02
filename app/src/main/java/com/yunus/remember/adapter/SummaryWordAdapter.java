@@ -15,29 +15,26 @@ import com.yunus.remember.entity.Word;
 import java.util.List;
 
 /**
- * Created by yun on 2018/3/31.
+ * Created by yun on 2018/4/1.
  */
 
-public class SearchWordAdapter extends ArrayAdapter<Word> {
-
+public class SummaryWordAdapter extends ArrayAdapter<Word> {
     private int resourceId;
+
+    public SummaryWordAdapter(@NonNull Context context, int resource, @NonNull List<Word> objects) {
+        super(context, resource, objects);
+        resourceId = resource;
+    }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Word word = getItem(position);
         View view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
-        TextView spell = (TextView) view.findViewById(R.id.search_word_spell);
-        TextView mean = (TextView) view.findViewById(R.id.search_word_chinese_mean);
+        TextView spell = (TextView) view.findViewById(R.id.summary_word_spell);
+        TextView mean = (TextView) view.findViewById(R.id.summary_word_chinese_mean);
         spell.setText(word.getSpell());
         mean.setText(word.getChineseMean());
         return view;
     }
-
-    public SearchWordAdapter(@NonNull Context context, int resource, @NonNull List<Word> objects) {
-        super(context, resource, objects);
-        resourceId = resource;
-    }
-
-
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/summary_word_spell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ease"/>
+    <TextView
+        android:id="@+id/summary_word_chinese_mean"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="n.安乐，安逸，悠闲"/>
+
+</LinearLayout>
