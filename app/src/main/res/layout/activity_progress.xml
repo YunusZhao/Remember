@@ -122,7 +122,7 @@
                </RelativeLayout>
                <lecho.lib.hellocharts.view.ColumnChartView
                    android:layout_width="match_parent"
-                   android:layout_height="wrap_content" />
+                   android:layout_height="200dp" />
            </LinearLayout>
            <LinearLayout
                android:layout_width="match_parent"
@@ -139,7 +139,7 @@
                </RelativeLayout>
                <lecho.lib.hellocharts.view.ComboLineColumnChartView
                    android:layout_width="match_parent"
-                   android:layout_height="wrap_content" />
+                   android:layout_height="200dp" />
            </LinearLayout>
 
        </LinearLayout>

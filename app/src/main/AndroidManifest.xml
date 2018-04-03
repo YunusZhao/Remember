@@ -36,7 +36,20 @@
         <activity android:name=".activity.home.DiariesActivity" />
         <activity android:name=".activity.chief.NoticeActivity" />
         <activity android:name=".activity.mine.SetupActivity" />
-        <activity android:name=".activity.mine.ProgressActivity"></activity>
+        <activity android:name=".activity.mine.ProgressActivity" />
+        <activity android:name=".activity.mine.SetupStudyActivity" />
+        <activity android:name=".activity.mine.SetupStudyNumberActivity" />
+        <activity android:name=".activity.mine.SetupAccountActivity" />
+        <activity android:name=".activity.mine.ChangeNameActivity" />
+        <activity android:name=".activity.mine.ChangePasswordActivity" />
+        <activity android:name=".activity.mine.MineBookActivity" />
+        <activity android:name=".activity.mine.BooksActivity" />
+        <activity android:name=".activity.mine.MineWordsActivity" />
+        <activity android:name=".activity.mine.FriendActivity" />
+        <activity android:name=".activity.mine.FriendNewActivity" />
+        <activity android:name=".activity.ranking.PersonalDataActivity" />
+        <activity android:name=".activity.ranking.PersonalDataUpdateActivity" />
+        <activity android:name=".activity.chief.NoticeContentActivity"></activity>
     </application>
 
 </manifest>

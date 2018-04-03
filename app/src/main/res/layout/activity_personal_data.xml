@@ -6,44 +6,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.yunus.remember.activity.mine.SetupActivity">
+    tools:context=".activity.ranking.PersonalDataActivity">
 
-    <include layout="@layout/main_toolbar"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+    </LinearLayout>
 
     <Button
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="学习设置"
+        android:text="好友—人"
         android:gravity="start|center_vertical"
         android:drawableEnd="@mipmap/go"
         android:background="#fff"/>
-
     <Button
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="账号设置"
+        android:text="打卡—天"
         android:gravity="start|center_vertical"
         android:drawableEnd="@mipmap/go"
         android:background="#fff"/>
 
-    <Button
-        android:layout_margin="10dp"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="关于"
-        android:gravity="start|center_vertical"
-        android:drawableEnd="@mipmap/go"
-        android:background="#fff"/>
-
-    <Button
-        android:layout_margin="10dp"
+        android:text="性别"/>
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="退出登录"
-        android:gravity="start|center_vertical"
-        android:drawableEnd="@mipmap/go"
-        android:background="#fff"/>
-
+        android:text="生日"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="地区"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="学校"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="个人简介"/>
 </LinearLayout>
