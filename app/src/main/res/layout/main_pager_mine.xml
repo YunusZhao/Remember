@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:background="#fff"
         android:orientation="horizontal">
-        <TextView
+        <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -21,9 +21,10 @@
             android:gravity="center"
             android:padding="5dp"
             android:drawableTop="@mipmap/book"
+            android:background="#fff"
             android:text="单词书"
             android:textSize="16sp" />
-        <TextView
+        <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -31,9 +32,11 @@
             android:gravity="center"
             android:padding="5dp"
             android:drawableTop="@mipmap/store"
+            android:background="#fff"
             android:text="我的词库"
             android:textSize="16sp" />
-        <TextView
+        <Button
+            android:id="@+id/mine_progress"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -41,6 +44,7 @@
             android:gravity="center"
             android:padding="5dp"
             android:drawableTop="@mipmap/progress"
+            android:background="#fff"
             android:text="单词进度"
             android:textSize="16sp" />
 

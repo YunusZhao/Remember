@@ -33,7 +33,10 @@
         <activity android:name=".activity.ranking.RankingActivity" />
         <activity android:name=".activity.home.CalendarActivity" />
         <activity android:name=".activity.home.DiaryActivity" />
-        <activity android:name=".activity.home.DiariesActivity"></activity>
+        <activity android:name=".activity.home.DiariesActivity" />
+        <activity android:name=".activity.chief.NoticeActivity" />
+        <activity android:name=".activity.mine.SetupActivity" />
+        <activity android:name=".activity.mine.ProgressActivity"></activity>
     </application>
 
 </manifest>
