@@ -1,8 +1,6 @@
 package com.yunus.remember.activity.begin;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.yunus.activity.BaseActivity;
+import com.example.yunus.utils.ActivityCollector;
+import com.example.yunus.utils.ViewUtil;
 import com.yunus.remember.R;
 import com.yunus.remember.activity.chief.MainActivity;
 
@@ -33,27 +33,8 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        toolbar = (Toolbar) findViewById(R.id.login_toolbar);
-        toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
-        portrait = (CircleImageView) findViewById(R.id.begin_portrait);
-        email = (EditText) findViewById(R.id.login_email);
-        password = (EditText) findViewById(R.id.login_password);
-        login = (Button) findViewById(R.id.btn_login);
-        forgetPassword = (TextView) findViewById(R.id.login_forget_password);
-        register = (TextView) findViewById(R.id.login_register);
-
-        //透明状态栏
-        if (Build.VERSION.SDK_INT >= 21) {
-            View decorView = getWindow().getDecorView();
-            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            decorView.setSystemUiVisibility(option);
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-        }
-
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
-        toolbarTitle.setText(R.string.begin_sign_in_short);
+        getView();
+        ViewUtil.setToollbar(LoginActivity.this, toolbar);
 
         forgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,21 +57,28 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                ActivityCollector.finishAll();
                 startActivity(intent);
-                finish();
             }
         });
-
-
-//        getSupportActionBar().setHomeButtonEnabled(true);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                finish();
-//            }
-//        });
-
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        toolbar.setTitle("");
+        toolbarTitle.setText(R.string.sign_in_short);
+    }
+
+    private void getView() {
+        toolbar = (Toolbar) findViewById(R.id.login_toolbar);
+        toolbarTitle = (TextView) findViewById(R.id.begin_toolbar_title);
+        portrait = (CircleImageView) findViewById(R.id.login_portrait);
+        email = (EditText) findViewById(R.id.login_email);
+        password = (EditText) findViewById(R.id.login_password);
+        login = (Button) findViewById(R.id.btn_login);
+        forgetPassword = (TextView) findViewById(R.id.login_forget_password);
+        register = (TextView) findViewById(R.id.login_to_register);
+    }
+
 }

@@ -16,14 +16,14 @@
     </string>
 
     <!--自定义常量-->
-    <string name="begin_email">Email</string>
-    <string name="begin_password">密码（6—12位字符）</string>
-    <string name="begin_sign_in_short">登陆</string>
-    <string name="begin_sign_in_long">已有账号了？点击登陆</string>
-    <string name="begin_register_long">新用户？点击这里注册</string>
-    <string name="begin_register_short">注册</string>
-    <string name="begin_name">昵称</string>
-    <string name="begin_forget_password">忘记密码？</string>
-    <string name="begin_get_password">找回密码</string>
+    <string name="email">邮箱</string>
+    <string name="password">密码（6—12位字符）</string>
+    <string name="sign_in_short">登陆</string>
+    <string name="sign_in_long">已有账号了？点击登陆</string>
+    <string name="register_long">新用户？点击这里注册</string>
+    <string name="register_short">注册</string>
+    <string name="name">昵称</string>
+    <string name="forget_password">忘记密码？</string>
+    <string name="get_password">找回密码</string>
 
 </resources>

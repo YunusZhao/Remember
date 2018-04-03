@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_toolbar"
     style="@style/Toolbar.MyStyle"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="?attr/colorPrimary"
+    android:background="@color/white"
     app:navigationIcon="@mipmap/back"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
     app:titleTextAppearance="@style/Toolbar.TitleText"
-    app:titleTextColor="@android:color/white">
+    app:titleTextColor="@color/black">
 
 </android.support.v7.widget.Toolbar>

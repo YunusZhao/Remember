@@ -31,5 +31,22 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <!--注册等界面输入框风格-->
+    <style name="begin_input_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:background">@drawable/begin_input_shape</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <!--注册等界面按钮风格-->
+    <style name="begin_button_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@drawable/begin_button_shape</item>
+        <item name="android:textSize">20sp</item>
+    </style>
 
 </resources>
