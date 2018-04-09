@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.yunus.activity.BaseActivity;
 import com.yunus.remember.R;
 import com.yunus.remember.adapter.MainFragmentPagerAdapter;
+import com.yunus.remember.entity.Word;
 
 public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener,
         ViewPager.OnPageChangeListener{
@@ -39,6 +40,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         mAdapter = new MainFragmentPagerAdapter(getSupportFragmentManager());
         bindViews();
         btnHome.setChecked(true);
+        initDatabase();
     }
 
     private void bindViews() {
@@ -107,5 +109,10 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                     break;
             }
         }
+    }
+
+    private void initDatabase(){
+        Word word = new Word(1,"abandon",	"v．n．放弃，放纵","[ə'bændən]", "They had abandoned all hope./n他们已经放弃了一切希望。/n");
+        word.save();
     }
 }

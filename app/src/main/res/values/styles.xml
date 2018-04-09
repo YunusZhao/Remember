@@ -28,7 +28,7 @@
 
     <!--Toolbar标题文字大小-->
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">25sp</item>
     </style>
 
     <!--注册等界面输入框风格-->

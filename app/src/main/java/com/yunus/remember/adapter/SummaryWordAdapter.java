@@ -34,7 +34,7 @@ public class SummaryWordAdapter extends ArrayAdapter<Word> {
         TextView spell = (TextView) view.findViewById(R.id.summary_word_spell);
         TextView mean = (TextView) view.findViewById(R.id.summary_word_chinese_mean);
         spell.setText(word.getSpell());
-        mean.setText(word.getChineseMean());
+        mean.setText(word.getMean());
         return view;
     }
 }

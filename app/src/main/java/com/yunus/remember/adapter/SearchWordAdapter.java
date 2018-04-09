@@ -30,7 +30,7 @@ public class SearchWordAdapter extends ArrayAdapter<Word> {
         TextView spell = (TextView) view.findViewById(R.id.search_word_spell);
         TextView mean = (TextView) view.findViewById(R.id.search_word_chinese_mean);
         spell.setText(word.getSpell());
-        mean.setText(word.getChineseMean());
+        mean.setText(word.getMean());
         return view;
     }
 

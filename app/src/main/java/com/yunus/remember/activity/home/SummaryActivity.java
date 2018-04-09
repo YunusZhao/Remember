@@ -25,7 +25,7 @@ public class SummaryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.summary_toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("小结模式");
         next = (Button) findViewById(R.id.summary_next);

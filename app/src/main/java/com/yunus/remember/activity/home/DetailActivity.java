@@ -20,7 +20,7 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolBar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("探索模式");
         next = (Button) findViewById(R.id.detail_next);

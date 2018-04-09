@@ -1,23 +1,73 @@
 package com.yunus.remember.entity;
 
 
+import org.litepal.crud.DataSupport;
+
 /**
  * Created by yun on 2018/3/31.
  */
 
-public class Word {
+public class Word extends DataSupport{
+
+    private int id;
 
     private String spell;
 
-    private String chineseMean;
+    private String mean;
+
+    private String phonogram;
+
+    private String sentence;
+
+    private int level ;
 
     public Word() {
 
     }
 
+    public Word(int id, String spell, String mean, String phonogram, String sentence) {
+        this.id = id;
+        this.spell = spell;
+        this.mean = mean;
+        this.phonogram = phonogram;
+        this.sentence = sentence;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public String getPhonogram() {
+        return phonogram;
+    }
+
+    public void setPhonogram(String phonogram) {
+        this.phonogram = phonogram;
+    }
+
+    public String getSentence() {
+        return sentence;
+    }
+
+    public void setSentence(String sentence) {
+        this.sentence = sentence;
+    }
+
     public Word(String spell, String mean) {
         this.spell = spell;
-        this.chineseMean = mean;
+        this.mean = mean;
     }
 
     public String getSpell() {
@@ -28,11 +78,11 @@ public class Word {
         this.spell = spell;
     }
 
-    public String getChineseMean() {
-        return chineseMean;
+    public String getMean() {
+        return mean;
     }
 
-    public void setChineseMean(String chineseMean) {
-        this.chineseMean = chineseMean;
+    public void setMean(String mean) {
+        this.mean = mean;
     }
 }

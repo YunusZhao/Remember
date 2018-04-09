@@ -34,7 +34,7 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
 
         getView();
-        ViewUtil.setToollbar(LoginActivity.this, toolbar);
+        ViewUtil.setToolbar(LoginActivity.this, toolbar);
 
         forgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override

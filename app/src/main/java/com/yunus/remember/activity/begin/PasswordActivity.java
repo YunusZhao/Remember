@@ -1,6 +1,5 @@
 package com.yunus.remember.activity.begin;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,7 +27,7 @@ public class PasswordActivity extends BaseActivity {
         setContentView(R.layout.activity_password);
 
         getView();
-        ViewUtil.setToollbar(PasswordActivity.this, toolbar);
+        ViewUtil.setToolbar(PasswordActivity.this, toolbar);
 
         getPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,10 +53,12 @@ public class PasswordActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         toolbar.setTitle("");
-        toolbarTitle.setText(R.string.get_password);
+        toolbarTitle.setText(getString(R.string.get_password));
     }
 
     private void getView() {
+        toolbar = findViewById(R.id.password_toolbar);
+        toolbarTitle = (TextView) findViewById(R.id.begin_toolbar_title);
         email = (EditText) findViewById(R.id.forget_email);
         getPassword = (Button) findViewById(R.id.btn_get_password);
         register = (TextView) findViewById(R.id.password_to_register);

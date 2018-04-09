@@ -10,29 +10,29 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="总榜"/>
+        android:text="今日总榜"/>
     <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="总榜"/>
+    android:text="好友总榜"/>
     <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="总榜"/>
+    android:text="好友日榜"/>
     <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="总榜"/>
+    android:text="该类总榜"/>
     <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="总榜"/>
+    android:text="该类总榜"/>
     <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="总榜"/>
+    android:text="该类好友总榜"/>
     <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="总榜"/>
+    android:text="该类好友日榜"/>
 </LinearLayout>

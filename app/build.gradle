@@ -29,4 +29,5 @@ dependencies {
     implementation project(':androidlib')
     implementation 'de.hdodenhof:circleimageview:2.1.0'
     implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
+    implementation 'org.litepal.android:core:1.5.1'
 }

@@ -10,34 +10,33 @@
             android:layout_width="match_parent"
             android:layout_height="100dp">
             <TextView
-                android:id="@+id/com_day"
+                android:id="@+id/done_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="6"
                 android:textSize="60sp"
-                android:textColor="#4f529b"/>
+                android:textColor="@color/blueLight"/>
             <ImageView
+                android:id="@+id/home_calendar"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
-                android:layout_alignRight="@id/com_day"
-                android:layout_alignBottom="@id/com_day"
+                android:layout_alignEnd="@id/done_day"
+                android:layout_alignBottom="@id/done_day"
                 android:background="@mipmap/day"
                 android:layout_marginBottom="10dp"
-                android:layout_marginRight="-20dp" />
+                android:layout_marginEnd="-20dp" />
 
         </RelativeLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="打卡天数"
-            android:textSize="10sp"/>
-
-        
+            android:text="@string/done_day"
+            android:textSize="12sp"/>
     </LinearLayout>
     
     <LinearLayout
+        android:baselineAligned="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -46,17 +45,17 @@
             android:layout_weight="1"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/home_num_new"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0"
                 android:textSize="40sp"
                 android:gravity="center"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:gravity="center"
-                android:text="新词数"/>
+                android:text="@string/num_new"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -64,17 +63,17 @@
             android:layout_weight="1"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/home_num_today"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0"
                 android:textSize="40sp"
                 android:gravity="center"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="10sp"
-                android:text="新词数"/>
+                android:textSize="12sp"
+                android:text="@string/num_today"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -82,17 +81,17 @@
             android:layout_weight="1"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/home_num_remain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0"
                 android:textSize="40sp"
                 android:gravity="center"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="10sp"
-                android:text="新词数"/>
+                android:textSize="12sp"
+                android:text="@string/num_remain"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -100,17 +99,18 @@
             android:layout_weight="1"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/home_num_mine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0"
                 android:textSize="40sp"
                 android:gravity="center"/>
             <TextView
+                android:id="@+id/home_bt_mine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="10sp"
-                android:text="新词数"/>
+                android:textSize="12sp"
+                android:text="@string/num_mine"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -119,6 +119,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="开始学习"
-        android:background="#585fbc"/>
+        android:text="@string/begin_study"
+        android:background="@color/blueLight"
+        android:layout_marginTop="40dp"/>
 </LinearLayout>

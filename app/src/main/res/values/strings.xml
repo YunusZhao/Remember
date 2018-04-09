@@ -25,5 +25,15 @@
     <string name="name">昵称</string>
     <string name="forget_password">忘记密码？</string>
     <string name="get_password">找回密码</string>
+    <string name="done_day">打卡天数</string>
+    <string name="num_new">新词数</string>
+    <string name="num_today">今日单词</string>
+    <string name="num_remain">剩余单词</string>
+    <string name="num_mine">我的单词 ></string>
+    <string name="begin_study">开始学习</string>
+    <string name="next">下一个</string>
+    <string name="search">搜索</string>
+    <string name="delete">删除</string>
+    <string name="self_test">自测模式</string>
 
 </resources>

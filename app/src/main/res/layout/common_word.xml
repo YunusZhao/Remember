@@ -12,17 +12,15 @@
             android:id="@+id/test_spell"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="linear"
             android:textSize="30sp"
-            android:layout_marginLeft="10sp"
+            android:layout_marginStart="10sp"
             android:gravity="center"/>
         <TextView
-            android:id="@+id/test_symbol"
+            android:id="@+id/test_phonogram"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="/linier/"
-            android:layout_marginLeft="20dp"/>
+            android:layout_marginStart="20dp"/>
 
     </LinearLayout>
 
@@ -30,5 +28,6 @@
         android:id="@+id/test_voice"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@mipmap/delete"/>
+        android:src="@mipmap/voice"
+        android:background="@color/white"/>
 </LinearLayout>

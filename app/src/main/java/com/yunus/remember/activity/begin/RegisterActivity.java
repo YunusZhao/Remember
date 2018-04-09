@@ -35,7 +35,7 @@ public class RegisterActivity extends BaseActivity {
         setContentView(R.layout.activity_register);
 
         getView();
-        ViewUtil.setToollbar(RegisterActivity.this, toolbar);
+        ViewUtil.setToolbar(RegisterActivity.this, toolbar);
 
         addPortrait.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,11 +65,11 @@ public class RegisterActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         toolbar.setTitle("");
-        toolbarTitle.setText(R.string.register_short);
+        toolbarTitle.setText(getString(R.string.register_short));
     }
 
     private void getView() {
-        toolbar = (Toolbar) findViewById(R.id.login_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.register_toolbar);
         toolbarTitle = (TextView) findViewById(R.id.begin_toolbar_title);
         portrait = (CircleImageView) findViewById(R.id.register_portrait);
         addPortrait = (ImageButton) findViewById(R.id.register_add_portrait);

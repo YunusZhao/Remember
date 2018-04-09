@@ -6,13 +6,13 @@
         android:id="@+id/menu_search"
         android:icon="@mipmap/search"
         android:orderInCategory="100"
-        android:title="搜索"
-        app:showAsAction="always" />
+        android:title="@string/search"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_delete"
         android:icon="@mipmap/delete"
-        android:title="删除"
+        android:title="@string/delete"
         android:orderInCategory="100"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
 </menu>
