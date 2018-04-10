@@ -1,5 +1,6 @@
 package com.example.yunus.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;

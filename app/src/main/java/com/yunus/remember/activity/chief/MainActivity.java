@@ -10,9 +10,19 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.yunus.activity.BaseActivity;
+import com.example.yunus.utils.LogUtil;
+import com.example.yunus.utils.RWUtil;
 import com.yunus.remember.R;
 import com.yunus.remember.adapter.MainFragmentPagerAdapter;
 import com.yunus.remember.entity.Word;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.StringReader;
 
 public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener,
         ViewPager.OnPageChangeListener{
@@ -112,7 +122,57 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     }
 
     private void initDatabase(){
-        Word word = new Word(1,"abandon",	"v．n．放弃，放纵","[ə'bændən]", "They had abandoned all hope./n他们已经放弃了一切希望。/n");
-        word.save();
+//        Word word = new Word(1,"abandon",	"v．n．放弃，放纵","[ə'bændən]", "They had abandoned all hope./n他们已经放弃了一切希望。/n");
+//        word.save();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String words = RWUtil.inputStream2String(getResources().openRawResource(R.raw.word));
+                    parseXMLWithPull(words);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    private void parseXMLWithPull(String xmlData) {
+        try {
+            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+            XmlPullParser xmlPullParser = factory.newPullParser();
+            xmlPullParser.setInput(new StringReader(xmlData));
+            int eventType = xmlPullParser.getEventType();
+            Word word = new Word();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                String nodeName = xmlPullParser.getName();
+                switch (eventType) {
+                    case XmlPullParser.START_TAG : {
+                        if ("id".equals(nodeName)) {
+                            word.setId(Integer.valueOf(xmlPullParser.nextText()));
+                        } else if ("spell".equals(nodeName)) {
+                           word.setSpell(xmlPullParser.nextText());
+                        } else if ("meaning".equals(nodeName)) {
+                           word.setMean(xmlPullParser.nextText());
+                        } else if ("yinbiao".equals(nodeName)) {
+                            word.setPhonogram(xmlPullParser.nextText());
+                        } else if ("lx".equals(nodeName)) {
+                           word.setSentence(xmlPullParser.nextText());
+                        }
+                        break;
+                    }
+                    case XmlPullParser.END_TAG: {
+                        if ("RECORD".equals(nodeName)) {
+                            word.save();
+                        }
+                    }
+                    default:
+                        break;
+                }
+                eventType = xmlPullParser.next();
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
