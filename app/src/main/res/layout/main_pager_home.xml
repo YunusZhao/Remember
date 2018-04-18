@@ -3,6 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
+        android:id="@+id/home_common_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -34,8 +35,35 @@
             android:text="@string/done_day"
             android:textSize="12sp"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/home_welcome_layout"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textSize="60sp"
+                android:text="Hi"
+                android:textColor="@color/blueLight"/>
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/home_add_book"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="心动不如行动，开始学习吧！"
+            android:textSize="12sp"/>
+    </LinearLayout>
     
     <LinearLayout
+        android:id="@+id/home_num_layout"
         android:baselineAligned="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

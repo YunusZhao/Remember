@@ -1,8 +1,6 @@
 package com.yunus.remember.activity.mine;
 
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.yunus.activity.BaseActivity;
@@ -13,77 +11,276 @@ import java.util.List;
 
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
+import lecho.lib.hellocharts.model.Column;
+import lecho.lib.hellocharts.model.ColumnChartData;
+import lecho.lib.hellocharts.model.ComboLineColumnChartData;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
+import lecho.lib.hellocharts.model.SubcolumnValue;
 import lecho.lib.hellocharts.model.ValueShape;
+import lecho.lib.hellocharts.model.Viewport;
+import lecho.lib.hellocharts.util.ChartUtils;
+import lecho.lib.hellocharts.view.ColumnChartView;
+import lecho.lib.hellocharts.view.ComboLineColumnChartView;
 import lecho.lib.hellocharts.view.LineChartView;
 
 public class ProgressActivity extends BaseActivity {
+    private int numberOfLines = 1;
+    private int maxNumberOfLines = 2;
+    private int numberOfPoints = 7;
+    private boolean hasAxes = true;
+    private boolean hasAxesNames = false;
+    private boolean hasLines = true;
+    private boolean hasPoints = true;
+    private ValueShape shape = ValueShape.CIRCLE;
+    private boolean isFilled = true;
+    private boolean hasLabels = false;
+    private boolean isCubic = false;
+    private boolean hasLabelForSelected = true;
+    private String[] dates = new String[7];
+
     private LineChartView lineChart;
-    private LineChartData lineData;
-    private int numOfLine;
-    private int numOfPoint;
+    float[][] randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
+
+    private ColumnChartView columnChart;
+
+    private ComboLineColumnChartView comboChart;
+    float[][] randomNumbersTab2 = new float[maxNumberOfLines][numberOfPoints];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progress);
+        initDates();
 
         lineChart = (LineChartView) findViewById(R.id.line_chart);
-        lineChart.setZoomEnabled(false);
-        lineChart.setInteractive(false);
-        lineChart.setValueSelectionEnabled(true);
+        generateLineValues();
+        generateLineData();
+        setView();
+        resetLineViewport();
+
+        columnChart = (ColumnChartView) findViewById(R.id.column_chart);
+        generateColumnLineData();
+        resetColumnViewport();
+
+        comboChart = (ComboLineColumnChartView) findViewById(R.id.combo_chart);
+        generateComboValues();
+        generateComboData();
+    }
+
+    private void initDates() {
+        for (int i = 0; i < numberOfPoints; ++i) {
+            dates[i] = "4." + (i + 10);
+        }
+    }
+
+    private void generateLineValues() {
+        for (int i = 0; i < maxNumberOfLines; ++i) {
+            for (int j = 0; j < numberOfPoints; ++j) {
+                randomNumbersTab[i][j] = (float) Math.random() * 100f;
+            }
+        }
+    }
+
+    private void generateLineData() {
+
+        List<Line> lines = new ArrayList<Line>();
+        for (int i = 0; i < maxNumberOfLines; ++i) {
+
+            List<PointValue> values = new ArrayList<PointValue>();
+            for (int j = 0; j < numberOfPoints; ++j) {
+                values.add(new PointValue(j, randomNumbersTab[i][j]));
+            }
+
+            Line line = new Line(values);
+            line.setColor(ChartUtils.COLORS[i]);// 设置折线颜色
+            line.setStrokeWidth(1);// 设置折线宽度
+            line.setShape(shape);// 节点图形样式 DIAMOND菱形、SQUARE方形、CIRCLE圆形
+            line.setCubic(isCubic);// 是否设置为立体的
+            line.setFilled(isFilled);// 设置折线覆盖区域是否填充
+            line.setPointColor(ChartUtils.COLOR_GREEN);// 设置节点颜色
+            line.setPointRadius(2);// 设置节点半径
+            line.setHasLabels(hasLabels);// 是否显示节点数据
+            line.setHasLabelsOnlyForSelected(hasLabelForSelected);// 隐藏数据，触摸可以显示
+            line.setHasLines(hasLines);// 是否显示折线
+            line.setHasPoints(hasPoints);// 是否显示节点
+            lines.add(line);
+        }
+        LineChartData lineData = new LineChartData(lines);
+
+        if (hasAxes) {
+            Axis axisX = new Axis().setHasLines(true);// 是否显示X轴网格线
+            Axis axisY = new Axis().setHasLines(true);
+            axisX.setLineColor(Color.BLACK);// 设置X轴轴线颜色
+            axisY.setLineColor(Color.BLACK);// 设置Y轴轴线颜色
+            axisX.setHasSeparationLine(false);// 设置是否有分割线
+            axisY.setHasSeparationLine(false);
+            axisX.setInside(false);// 设置X轴文字是否在X轴内部
+            axisY.setInside(false);
+            ArrayList<AxisValue> axisValuesX = new ArrayList<>();//定义X轴刻度值的数据集合
+            for (int j = 0; j < numberOfPoints; j++) {//循环为节点、X、Y轴添加数据
+                axisValuesX.add(new AxisValue(j).setLabel(dates[j]));// 添加X轴显示的刻度值
+            }
+            axisX.setValues(axisValuesX);//为X轴显示的刻度值设置数据集合
+            if (hasAxesNames) {
+                axisX.setName("");
+                axisY.setName("");
+            }
+            lineData.setAxisXBottom(axisX);
+            lineData.setAxisYLeft(axisY);
+        } else {
+            lineData.setAxisXBottom(null);
+            lineData.setAxisYLeft(null);
+        }
+        lineData.setBaseValue(Float.NEGATIVE_INFINITY);// 设置反向覆盖区域颜色
+//        chartData.setValueLabelBackgroundAuto(false);// 设置数据背景是否跟随节点颜色
+//        chartData.setValueLabelBackgroundColor(Color.YELLOW);// 设置数据背景颜色
+//        chartData.setValueLabelBackgroundEnabled(false);// 设置是否有数据背景
+//        chartData.setValueLabelsTextColor(Color.BLACK);// 设置数据文字颜色
+//        chartData.setValueLabelTextSize(15);// 设置数据文字大小
+//        chartData.setValueLabelTypeface(Typeface.MONOSPACE);// 设置数据文字样式
         lineChart.setLineChartData(lineData);
 
-        //设置节点、X、Y轴属性及添加数据：
-        List<PointValue> linePointValues = new ArrayList<>();// 节点数据结合
-        Axis axisY = new Axis().setHasLines(true);// Y轴属性
-        Axis axisX = new Axis();// X轴属性
-        ArrayList<AxisValue> axisValuesX = new ArrayList<>();//定义X轴刻度值的数据集合
-        ArrayList<AxisValue> axisValuesY = new ArrayList<>();//定义Y轴刻度值的数据集合
-        axisX.setValues(axisValuesX);//为X轴显示的刻度值设置数据集合
-        axisX.setLineColor(Color.BLACK);// 设置X轴轴线颜色
-        axisY.setLineColor(Color.BLACK);// 设置Y轴轴线颜色
-        axisX.setHasLines(true);// 是否显示X轴网格线
-        axisY.setHasLines(true);// 是否显示Y轴网格线
-        axisX.setHasSeparationLine(true);// 设置是否有分割线
-        axisX.setInside(true);// 设置X轴文字是否在X轴内部
-        axisY.setInside(true);
-        for (int j = 0; j < 5; j++) {//循环为节点、X、Y轴添加数据
-            linePointValues.add(new PointValue(j, j * 10));// 添加节点数据
-            axisValuesY.add(new AxisValue(j).setValue(j));// 添加Y轴显示的刻度值
-            axisValuesX.add(new AxisValue(j).setValue(j).setLabel(""));// 添加X轴显示的刻度值
+    }
 
+    private void setView() {
+        // Disable viewport recalculations, see toggleCubic() method for more info.
+        lineChart.setViewportCalculationEnabled(false);
+
+        lineChart.setZoomEnabled(false);//缩放
+        lineChart.setInteractive(true);//交互
+        lineChart.setValueSelectionEnabled(false);//值选择
+
+    }
+
+    private void resetLineViewport() {
+        // Reset viewport height range to (0,100)
+        Viewport v = new Viewport(lineChart.getMaximumViewport());
+        v.bottom = 0;
+        v.top = 103;
+        v.left = -0.2f;
+        v.right = numberOfPoints - 0.8f;
+        lineChart.setMaximumViewport(v);
+        lineChart.setCurrentViewport(v);
+    }
+
+    private void generateColumnLineData() {
+        int numSubcolumns = 1;
+        // Column can have many subcolumns, here by default I use 1 subcolumn in each of 8 columns.
+        List<Column> columns = new ArrayList<Column>();
+        List<SubcolumnValue> values;
+        for (int i = 0; i < numberOfPoints; ++i) {
+
+            values = new ArrayList<SubcolumnValue>();
+            for (int j = 0; j < numSubcolumns; ++j) {
+                values.add(new SubcolumnValue((float) Math.random() * 50f + 5, ChartUtils.COLOR_BLUE));
+            }
+
+            Column column = new Column(values);
+            column.setHasLabels(hasLabels);
+            column.setHasLabelsOnlyForSelected(hasLabelForSelected);
+            columns.add(column);
         }
 
-        //设置折线Line的属性：
-        List<Line> lines = new ArrayList<>();//定义线的集合
-        Line line = new Line(linePointValues);//将值设置给折线
-        line.setColor(Color.GREEN);// 设置折线颜色
-        line.setStrokeWidth(1);// 设置折线宽度
-        line.setFilled(true);// 设置折线覆盖区域是否填充
-        line.setCubic(false);// 是否设置为立体的
-        line.setPointColor(Color.BLUE);// 设置节点颜色
-        line.setPointRadius(2);// 设置节点半径
-        line.setHasLabels(false);// 是否显示节点数据
-        line.setHasLines(true);// 是否显示折线
-        line.setHasPoints(true);// 是否显示节点
-        line.setShape(ValueShape.CIRCLE);// 节点图形样式 DIAMOND菱形、SQUARE方形、CIRCLE圆形
-        line.setHasLabelsOnlyForSelected(true);// 隐藏数据，触摸可以显示
-        lines.add(line);// 将数据集合添加线
+        ColumnChartData columnData = new ColumnChartData(columns);
 
-        //设置LineChartData属性及为chart设置数据：
-        LineChartData chartData = new LineChartData(lines);//将线的集合设置为折线图的数据
-        chartData.setAxisYLeft(axisY);// 将Y轴属性设置到左边
-        chartData.setAxisXBottom(axisX);// 将X轴属性设置到底部
-        chartData.setBaseValue(20);// 设置反向覆盖区域颜色
-        chartData.setValueLabelBackgroundAuto(false);// 设置数据背景是否跟随节点颜色
-        chartData.setValueLabelBackgroundColor(Color.YELLOW);// 设置数据背景颜色
-        chartData.setValueLabelBackgroundEnabled(false);// 设置是否有数据背景
-        chartData.setValueLabelsTextColor(Color.BLACK);// 设置数据文字颜色
-        chartData.setValueLabelTextSize(15);// 设置数据文字大小
-        chartData.setValueLabelTypeface(Typeface.MONOSPACE);// 设置数据文字样式
-        lineChart.setLineChartData(chartData);//最后为图表设置数据，数据类型为LineChartData
+        if (hasAxes) {
+            Axis axisX = new Axis();
+            Axis axisY = new Axis().setHasLines(true);
+            ArrayList<AxisValue> axisValuesX = new ArrayList<>();//定义X轴刻度值的数据集合
+            for (int j = 0; j < numberOfPoints; j++) {//循环为节点、X、Y轴添加数据
+                axisValuesX.add(new AxisValue(j).setLabel(dates[j]));// 添加X轴显示的刻度值
+            }
+            axisX.setValues(axisValuesX);//为X轴显示的刻度值设置数据集合
+            if (hasAxesNames) {
+                axisX.setName("Axis X");
+                axisY.setName("Axis Y");
+            }
+            columnData.setAxisXBottom(axisX);
+            columnData.setAxisYLeft(axisY);
+        } else {
+            columnData.setAxisXBottom(null);
+            columnData.setAxisYLeft(null);
+        }
+
+        columnChart.setColumnChartData(columnData);
+    }
+
+    private void resetColumnViewport() {
+        // Reset viewport height range to (0,100)
+        Viewport v = new Viewport(columnChart.getMaximumViewport());
+        v.bottom = 0;
+        v.top = 103;
+        v.left = -0.5f;
+        v.right = numberOfPoints - 0.5f;
+        columnChart.setMaximumViewport(v);
+        columnChart.setCurrentViewport(v);
+    }
+
+    private void generateComboValues() {
+        for (int i = 0; i < maxNumberOfLines; ++i) {
+            for (int j = 0; j < numberOfPoints; ++j) {
+                randomNumbersTab2[i][j] = (float) Math.random() * 50f + 5;
+            }
+        }
+    }
+
+    private void generateComboData() {
+        // Chart looks the best when line data and column data have similar maximum viewports.
+        ComboLineColumnChartData comboData = new ComboLineColumnChartData(generateComboColumnData(), generateComboLineData());
+
+        if (hasAxes) {
+            Axis axisX = new Axis().setHasLines(true);
+            Axis axisY = new Axis().setHasLines(true);
+            if (hasAxesNames) {
+                axisX.setName("Axis X");
+                axisY.setName("Axis Y");
+            }
+            comboData.setAxisXBottom(axisX);
+            comboData.setAxisYLeft(axisY);
+        } else {
+            comboData.setAxisXBottom(null);
+            comboData.setAxisYLeft(null);
+        }
+
+        comboChart.setComboLineColumnChartData(comboData);
+    }
+
+    private LineChartData generateComboLineData() {
+
+        List<Line> lines = new ArrayList<Line>();
+        for (int i = 0; i < numberOfLines; ++i) {
+
+            List<PointValue> values = new ArrayList<PointValue>();
+            for (int j = 0; j < numberOfPoints; ++j) {
+                values.add(new PointValue(j, randomNumbersTab2[i][j]));
+            }
+
+            Line line = new Line(values);
+            line.setFilled(isFilled);// 设置折线覆盖区域是否填充
+            line.setColor(ChartUtils.COLORS[i]);
+            line.setCubic(isCubic);
+            line.setHasLabels(hasLabels);
+            line.setHasLines(hasLines);
+            line.setHasPoints(hasPoints);
+            lines.add(line);
+        }
+        return new LineChartData(lines);
+    }
+
+    private ColumnChartData generateComboColumnData() {
+        int numSubcolumns = 1;
+        // Column can have many subcolumns, here by default I use 1 subcolumn in each of 8 columns.
+        List<Column> columns = new ArrayList<Column>();
+        List<SubcolumnValue> values;
+        for (int i = 0; i < numberOfPoints; ++i) {
+            values = new ArrayList<SubcolumnValue>();
+            for (int j = 0; j < numSubcolumns; ++j) {
+                values.add(new SubcolumnValue(randomNumbersTab2[j][i], ChartUtils.COLOR_GREEN));
+            }
+            columns.add(new Column(values));
+        }
+        return new ColumnChartData(columns);
     }
 }

@@ -19,7 +19,9 @@ public class Word extends DataSupport{
 
     private String sentence;
 
-    private int level ;
+    private int level;
+
+    private int importance;
 
     public Word() {
 
@@ -84,5 +86,13 @@ public class Word extends DataSupport{
 
     public void setMean(String mean) {
         this.mean = mean;
+    }
+
+    public int getImportance() {
+        return importance;
+    }
+
+    public void setImportance(int importance) {
+        this.importance = importance;
     }
 }

@@ -32,6 +32,9 @@
     <string name="num_mine">我的单词 ></string>
     <string name="begin_study">开始学习</string>
     <string name="next">下一个</string>
+    <string name="detail">单词信息</string>
+    <string name="know">认识</string>
+    <string name="unknow">不认识</string>
     <string name="search">搜索</string>
     <string name="delete">删除</string>
     <string name="self_test">自测模式</string>

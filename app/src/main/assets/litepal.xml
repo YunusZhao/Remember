@@ -6,5 +6,9 @@
 
     <list>
         <mapping class = "com.yunus.remember.entity.Word"></mapping>
+        <mapping class = "com.yunus.remember.entity.Book"></mapping>
+        <mapping class = "com.yunus.remember.entity.RegisterCount"></mapping>
+        <mapping class = "com.yunus.remember.entity.SevenDaysReview"></mapping>
+        <mapping class = "com.yunus.remember.entity.TodayWord"></mapping>
     </list>
 </litepal>

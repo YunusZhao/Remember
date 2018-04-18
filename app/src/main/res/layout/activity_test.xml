@@ -7,41 +7,57 @@
     android:orientation="vertical"
     tools:context="com.yunus.remember.activity.home.TestActivity">
 
-    <include layout="@layout/main_toolbar"
-        android:id="@+id/test_toolbar"/>
+    <include
+        android:id="@+id/test_toolbar"
+        layout="@layout/main_toolbar" />
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:orientation="vertical"
         android:padding="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/black" />
-            <include layout="@layout/common_word"/>
+
+            <include layout="@layout/common_word" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/test_sentence"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/test_word_sentence"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <ImageButton
+                android:id="@+id/test_voice_sentence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/voice"/>
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/test_word_sentence"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-
+            android:layout_weight="1">
             <TextView
                 android:id="@+id/test_word_mean"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -50,12 +66,46 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <Button
-                android:id="@+id/test_next"
+
+            <LinearLayout
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/test_know"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/blueLight"
+                    android:text="@string/know" />
+
+                <Button
+                    android:id="@+id/test_unknow"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="40dp"
+                    android:background="@color/blueLight"
+                    android:text="@string/unknow" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:visibility="gone"
+                android:id="@+id/test_detail"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/next"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
+                android:background="@color/blueLight"
+                android:text="@string/detail" />
 
         </LinearLayout>
 

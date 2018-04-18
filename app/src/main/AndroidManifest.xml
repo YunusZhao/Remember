@@ -28,7 +28,8 @@
         <activity android:name=".activity.begin.RegisterActivity" />
         <activity android:name=".activity.begin.PasswordActivity" />
         <activity android:name=".activity.chief.SearchActivity" />
-        <activity android:name=".activity.home.TestActivity" />
+        <activity android:name=".activity.home.TestActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".activity.home.DetailActivity" />
         <activity android:name=".activity.home.SummaryActivity" />
         <activity android:name=".activity.ranking.RankingActivity" />

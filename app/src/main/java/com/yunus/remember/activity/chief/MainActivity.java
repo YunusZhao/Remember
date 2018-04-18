@@ -14,6 +14,7 @@ import com.example.yunus.utils.LogUtil;
 import com.example.yunus.utils.RWUtil;
 import com.yunus.remember.R;
 import com.yunus.remember.adapter.MainFragmentPagerAdapter;
+import com.yunus.remember.entity.Book;
 import com.yunus.remember.entity.Word;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -50,6 +51,9 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         mAdapter = new MainFragmentPagerAdapter(getSupportFragmentManager());
         bindViews();
         btnHome.setChecked(true);
+        Book book = new Book();
+        book.setName("123");
+        book.save();
         initDatabase();
     }
 
@@ -122,8 +126,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     }
 
     private void initDatabase(){
-//        Word word = new Word(1,"abandon",	"v．n．放弃，放纵","[ə'bændən]", "They had abandoned all hope./n他们已经放弃了一切希望。/n");
-//        word.save();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -164,6 +166,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                     case XmlPullParser.END_TAG: {
                         if ("RECORD".equals(nodeName)) {
                             word.save();
+                            word = new Word();
                         }
                     }
                     default:
