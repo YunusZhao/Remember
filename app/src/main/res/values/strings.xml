@@ -42,5 +42,6 @@
     <string name="allDiary">全部日记</string>
     <string name="registerDiary">打卡日记</string>
     <string name="myBook">我的图书</string>
+    <string name="allBooks">书库</string>
 
 </resources>

@@ -7,9 +7,11 @@
     android:orientation="vertical"
     tools:context=".activity.mine.BooksActivity">
 
-    <include layout="@layout/main_toolbar"/>
+    <include layout="@layout/main_toolbar"
+        android:id="@+id/books_toolbar"/>
 
     <ListView
+        android:id="@+id/books_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">

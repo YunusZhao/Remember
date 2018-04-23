@@ -8,11 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.yunus.remember.R;
 import com.yunus.remember.entity.Book;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
@@ -36,9 +40,8 @@ public class BookAdapter extends ArrayAdapter<Book> {
             viewHolder = new ViewHolder();
             viewHolder.bookName = view.findViewById(R.id.book_name);
             viewHolder.wordNum = view.findViewById(R.id.book_word_num);
-            viewHolder.bookProgress = view.findViewById(R.id.book_progress);
-            viewHolder.progressText = view.findViewById(R.id.book_progress_text);
-            viewHolder.finishTime = view.findViewById(R.id.book_finish_time);
+            viewHolder.addBook = view.findViewById(R.id.book_add_book);
+            //点击事件
             view.setTag(viewHolder);
 
         } else {
@@ -47,19 +50,16 @@ public class BookAdapter extends ArrayAdapter<Book> {
         }
         viewHolder.bookName.setText(book.getName());
         viewHolder.wordNum.setText(book.getWordNum());
-        int progress = book.getStudyWordNum() * 100 / book.getWordNum();
-        viewHolder.bookProgress.setProgress(progress);
-        String string = progress + "%";
-        viewHolder.progressText.setText(string);
-        viewHolder.finishTime.setText("//完成");
+        List<Book> books = DataSupport.where("id = ?", "" + book.getId()).find(Book.class);
+        if (books.isEmpty()) {
+            viewHolder.addBook.setVisibility(View.GONE);
+        }
         return view;
     }
 
     class ViewHolder {
         TextView bookName;
         TextView wordNum;
-        ProgressBar bookProgress;
-        TextView progressText;
-        TextView finishTime;
+        Button addBook;
     }
 }
