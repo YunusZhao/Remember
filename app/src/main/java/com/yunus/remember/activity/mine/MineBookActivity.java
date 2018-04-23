@@ -1,6 +1,7 @@
 package com.yunus.remember.activity.mine;
 
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -26,6 +27,17 @@ public class MineBookActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mine_book);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.mine_book_toolbar);
+
+        toolbar.setTitle(R.string.myBook);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         TextView bookName = findViewById(R.id.book_name);
         TextView wordNum = findViewById(R.id.book_word_num);

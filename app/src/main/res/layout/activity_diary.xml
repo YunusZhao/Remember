@@ -7,25 +7,25 @@
     android:orientation="vertical"
     tools:context="com.yunus.remember.activity.home.DiaryActivity">
 
-    <include layout="@layout/main_toolbar"/>
+    <include layout="@layout/main_toolbar"
+        android:id="@+id/diary_toolbar"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="100dp">
         <TextView
-            android:id="@+id/diary_date"
+            android:id="@+id/diary_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="6"
             android:textSize="40sp"
-            android:textColor="#47a745"/>
+            android:textColor="@color/green"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" 天打卡"
-            android:layout_toRightOf="@+id/diary_date"
-            android:layout_alignBottom="@+id/diary_date"/>
+            android:text="@string/diary_text_shorty"
+            android:layout_toEndOf="@+id/diary_num"
+            android:layout_alignBottom="@+id/diary_num"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -39,36 +39,37 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <android.support.v4.widget.CircleImageView
-                android:id="@+id/daily_image"
+                android:id="@+id/diary_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/delete"/>
             <TextView
+                android:id="@+id/diary_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/daily_image"
+                android:layout_toEndOf="@+id/diary_image"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:text="昵称"
+                android:layout_marginStart="10dp"
                 android:layout_gravity="center"/>
             <TextView
+                android:id="@+id/diary_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:text="2017/02/23"/>
+                android:layout_alignParentEnd="true" />
 
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/diary_state_long"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="学习了23个单词，学习时间22分钟"/>
+            android:layout_height="wrap_content" />
 
         <Button
+            android:id="@+id/diary_allDiary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="全部日记"
+            android:text="@string/allDiary"
             android:layout_gravity="center"
             android:layout_marginTop="50sp"/>
 

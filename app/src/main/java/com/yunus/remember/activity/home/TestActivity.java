@@ -43,7 +43,7 @@ public class TestActivity extends BaseActivity {
     Button unknow;
     Button detail;
     TextToSpeech tts;
-    private int state = 0;
+    private byte state = 0;
     LinearLayout sentence;
     List<TodayWord> words;
     int position;

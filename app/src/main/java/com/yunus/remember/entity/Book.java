@@ -13,6 +13,14 @@ public class Book extends DataSupport{
     public Book() {
     }
 
+    public Book(int id, String name, int wordNum, int studyWordNum, byte state) {
+        this.id = id;
+        this.name = name;
+        this.wordNum = wordNum;
+        this.studyWordNum = studyWordNum;
+        this.state = state;
+    }
+
     public int getId() {
         return id;
     }

@@ -36,8 +36,6 @@ public class DetailActivity extends BaseActivity {
     Button next;
     TodayWord todayWord;
     long beginTime;
-    SharedPreferences pref;
-    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +47,12 @@ public class DetailActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolBar);
         toolbar.setTitle("探索模式");
         setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         detailSpell = findViewById(R.id.test_spell);
         detailPhonogram = findViewById(R.id.test_phonogram);
@@ -88,10 +92,7 @@ public class DetailActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        pref = getSharedPreferences("data", Context.MODE_PRIVATE);
-        editor = pref.edit();
-        editor.putInt(StorageUtil.STUDY_TIME, ((pref.getInt(StorageUtil.STUDY_TIME, 0) + (int) (System.currentTimeMillis() - beginTime))));
-        editor.apply();
+        StorageUtil.updateInt(DetailActivity.this, StorageUtil.STUDY_TIME, ((StorageUtil.getInt(DetailActivity.this, StorageUtil.STUDY_TIME, 0) + (int) (System.currentTimeMillis() - beginTime))));
     }
 
     @Override
@@ -108,7 +109,10 @@ public class DetailActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.menu_delete:
+                todayWord.setLevel(-1);
+                //
 
+                finish();
                 break;
             default:
 

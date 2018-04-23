@@ -38,5 +38,9 @@
     <string name="search">搜索</string>
     <string name="delete">删除</string>
     <string name="self_test">自测模式</string>
+    <string name="diary_text_shorty"> 天打卡</string>
+    <string name="allDiary">全部日记</string>
+    <string name="registerDiary">打卡日记</string>
+    <string name="myBook">我的图书</string>
 
 </resources>

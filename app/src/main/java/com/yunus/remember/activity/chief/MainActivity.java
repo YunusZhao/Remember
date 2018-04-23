@@ -15,6 +15,7 @@ import com.example.yunus.utils.RWUtil;
 import com.yunus.remember.R;
 import com.yunus.remember.adapter.MainFragmentPagerAdapter;
 import com.yunus.remember.entity.Book;
+import com.yunus.remember.entity.ComboBookWord;
 import com.yunus.remember.entity.Word;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -26,7 +27,7 @@ import java.io.IOException;
 import java.io.StringReader;
 
 public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener,
-        ViewPager.OnPageChangeListener{
+        ViewPager.OnPageChangeListener {
 
     //UI Objects
     private RadioGroup mainBottom;
@@ -51,9 +52,10 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         mAdapter = new MainFragmentPagerAdapter(getSupportFragmentManager());
         bindViews();
         btnHome.setChecked(true);
-        Book book = new Book();
-        book.setName("123");
-        book.save();
+        for (int i = 0; i < 3; i++) {
+            Book book = new Book(i, "book" + i, 5, 3, (byte) (i - 1));
+            book.save();
+        }
         initDatabase();
     }
 
@@ -69,7 +71,15 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         tvSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent  = new Intent(MainActivity.this, SearchActivity.class);
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ibMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, NoticeActivity.class);
                 startActivity(intent);
             }
         });
@@ -92,8 +102,8 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             case R.id.main_bottom_mine:
                 viewPager.setCurrentItem(PAGE_THREE);
                 break;
-           default:
-               viewPager.setCurrentItem(PAGE_ONE);
+            default:
+                viewPager.setCurrentItem(PAGE_ONE);
         }
     }
 
@@ -125,13 +135,25 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         }
     }
 
-    private void initDatabase(){
+    private void initDatabase() {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     String words = RWUtil.inputStream2String(getResources().openRawResource(R.raw.word));
                     parseXMLWithPull(words);
+                    for (int i = 1; i < 11; i++) {
+                        ComboBookWord combo = new ComboBookWord(0, i);
+                        combo.save();
+                    }
+                    for (int i = 11; i < 16; i++) {
+                        ComboBookWord combo = new ComboBookWord(-1, i);
+                        combo.save();
+                    }
+                    for (int i = 16; i < 21; i++) {
+                        ComboBookWord combo = new ComboBookWord(1, i);
+                        combo.save();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -149,17 +171,17 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             while (eventType != XmlPullParser.END_DOCUMENT) {
                 String nodeName = xmlPullParser.getName();
                 switch (eventType) {
-                    case XmlPullParser.START_TAG : {
+                    case XmlPullParser.START_TAG: {
                         if ("id".equals(nodeName)) {
                             word.setId(Integer.valueOf(xmlPullParser.nextText()));
                         } else if ("spell".equals(nodeName)) {
-                           word.setSpell(xmlPullParser.nextText());
+                            word.setSpell(xmlPullParser.nextText());
                         } else if ("meaning".equals(nodeName)) {
-                           word.setMean(xmlPullParser.nextText());
+                            word.setMean(xmlPullParser.nextText());
                         } else if ("yinbiao".equals(nodeName)) {
                             word.setPhonogram(xmlPullParser.nextText());
                         } else if ("lx".equals(nodeName)) {
-                           word.setSentence(xmlPullParser.nextText());
+                            word.setSentence(xmlPullParser.nextText());
                         }
                         break;
                     }
@@ -174,7 +196,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 }
                 eventType = xmlPullParser.next();
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <litepal>
-    <dbname value = "remember"></dbname>
+    <dbname value="remember"></dbname>
 
-    <version value = "1"></version>
+    <version value="1"></version>
 
     <list>
-        <mapping class = "com.yunus.remember.entity.Word"></mapping>
-        <mapping class = "com.yunus.remember.entity.Book"></mapping>
-        <mapping class = "com.yunus.remember.entity.RegisterCount"></mapping>
-        <mapping class = "com.yunus.remember.entity.SevenDaysReview"></mapping>
-        <mapping class = "com.yunus.remember.entity.TodayWord"></mapping>
+        <mapping class="com.yunus.remember.entity.Word"></mapping>
+        <mapping class="com.yunus.remember.entity.Book"></mapping>
+        <mapping class="com.yunus.remember.entity.RegisterCount"></mapping>
+        <mapping class="com.yunus.remember.entity.SevenDaysReview"></mapping>
+        <mapping class="com.yunus.remember.entity.TodayWord"></mapping>
+        <mapping class="com.yunus.remember.entity.ComboBookWord"></mapping>
     </list>
 </litepal>

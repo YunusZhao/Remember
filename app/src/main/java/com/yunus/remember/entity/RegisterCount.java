@@ -7,7 +7,7 @@ import java.sql.Date;
 //打卡记录
 public class RegisterCount extends DataSupport{
     private int dayCount;
-    private Date registerDate;
+    private String registerDate;
     private int wordNum;
     private int studyTime;
 
@@ -22,11 +22,11 @@ public class RegisterCount extends DataSupport{
         this.dayCount = dayCount;
     }
 
-    public Date getRegisterDate() {
+    public String getRegisterDate() {
         return registerDate;
     }
 
-    public void setRegisterDate(Date registerDate) {
+    public void setRegisterDate(String registerDate) {
         this.registerDate = registerDate;
     }
 

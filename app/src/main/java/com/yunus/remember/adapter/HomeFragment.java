@@ -48,11 +48,6 @@ public class HomeFragment extends Fragment {
     LinearLayout welcomeLayout;
     LinearLayout commonLayout;
     TextView addBook;
-    SharedPreferences pref;
-    SharedPreferences.Editor editor;
-    DateFormat df = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
-    String today = df.format(new Date(System.currentTimeMillis()));
-
 
     public HomeFragment() {
 
@@ -80,7 +75,6 @@ public class HomeFragment extends Fragment {
         welcomeLayout = getActivity().findViewById(R.id.home_welcome_layout);
         commonLayout = getActivity().findViewById(R.id.home_common_layout);
         addBook = getActivity().findViewById(R.id.home_add_book);
-        pref = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
 
         initView();
 
@@ -113,8 +107,9 @@ public class HomeFragment extends Fragment {
     public void onStart() {
         super.onStart();
         initText();
-        if (!pref.getString(StorageUtil.TODAY_DATE, " ").equals(today)) {
-            //联网，生成今日单词
+        if (!StorageUtil.getString(getContext(), StorageUtil.TODAY_DATE, " ").equals(StorageUtil.getToday())) {
+
+            //联网，生成今日单词 更新7天记录
             DataSupport.deleteAll(TodayWord.class);
             List<Word> words = DataSupport.findAll(Word.class);
             LogUtil.d("BBBBBBBBB", words.size() + "");
@@ -123,15 +118,13 @@ public class HomeFragment extends Fragment {
                 todayWord = new TodayWord(word.getSpell(), word.getMean(), word.getPhonogram(), word.getSentence(), 1);
                 todayWord.save();
             }
-            editor = pref.edit();
-            editor.putString(StorageUtil.TODAY_DATE, today);
-            editor.putInt(StorageUtil.STUDY_TIME, 0);
-            editor.apply();
+            StorageUtil.updateString(getContext(), StorageUtil.TODAY_DATE, StorageUtil.getToday());
+            StorageUtil.updateInt(getContext(), StorageUtil.STUDY_TIME, 0);
         }
     }
 
     private void initView() {
-        if (!pref.getString(StorageUtil.TODAY_DATE, " ").equals(today)) {
+        if (!StorageUtil.getString(getContext(), StorageUtil.TODAY_DATE, " ").equals(StorageUtil.getToday())) {
             List<Book> books = DataSupport.findAll(Book.class);
             if (books.isEmpty()) {
                 commonLayout.setVisibility(View.GONE);
@@ -140,23 +133,21 @@ public class HomeFragment extends Fragment {
                 welcomeLayout.setVisibility(View.VISIBLE);
             } else {
                 List<Word> words = DataSupport.select("spell").where("importance > ?", "3").find(Word.class);
-                editor = pref.edit();
-                if (words.size() > pref.getInt(StorageUtil.TODAY_NEW_NUM, 0)) {
-                    editor.putInt(StorageUtil.TODAY_REAL_NEW_NUM, 0);
+                if (words.size() > StorageUtil.getInt(getContext(), StorageUtil.TODAY_NEW_NUM, 0)) {
+                    StorageUtil.updateInt(getContext(), StorageUtil.TODAY_REAL_NEW_NUM, 0);
                 } else {
-                    editor.putInt(StorageUtil.TODAY_REAL_NEW_NUM, pref.getInt(StorageUtil.TODAY_NEW_NUM, 0) - words.size());
+                    StorageUtil.updateInt(getContext(), StorageUtil.TODAY_REAL_NEW_NUM, StorageUtil.getInt(getContext(), StorageUtil.TODAY_NEW_NUM, 0) - words.size());
                 }
-                editor.apply();
             }
         }
     }
 
 
     private void initText() {
-        doneDay.setText(String.valueOf(pref.getInt(StorageUtil.REGISTER_DAY, 0)));
-        newNum.setText(String.valueOf(pref.getInt(StorageUtil.TODAY_REAL_NEW_NUM, 0)));
-        todayNum.setText(String.valueOf(pref.getInt(StorageUtil.TODAY_NUM, 0)));
-        remainNum.setText(String.valueOf(pref.getInt(StorageUtil.TODAY_REMAIN_NUM, 0)));
-        mineNum.setText(String.valueOf(pref.getInt(StorageUtil.WORDS_NUM, 0)));
+        doneDay.setText(String.valueOf(StorageUtil.getInt(getContext(), StorageUtil.REGISTER_DAY, 0)));
+        newNum.setText(String.valueOf(StorageUtil.getInt(getContext(), StorageUtil.TODAY_REAL_NEW_NUM, 0)));
+        todayNum.setText(String.valueOf(StorageUtil.getInt(getContext(), StorageUtil.TODAY_NUM, 0)));
+        remainNum.setText(String.valueOf(StorageUtil.getInt(getContext(), StorageUtil.TODAY_REMAIN_NUM, 0)));
+        mineNum.setText(String.valueOf(StorageUtil.getInt(getContext(), StorageUtil.WORDS_NUM, 0)));
     }
 }
