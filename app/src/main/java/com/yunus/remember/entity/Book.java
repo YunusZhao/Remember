@@ -4,10 +4,21 @@ import org.litepal.crud.DataSupport;
 
 public class Book extends DataSupport{
 
+    private int id;
     private String name;
-    private String version;
+    private int wordNum;
+    private int studyWordNum;
+    private byte state;//已学完1/正在学-1/已收藏0
 
     public Book() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -18,11 +29,27 @@ public class Book extends DataSupport{
         this.name = name;
     }
 
-    public String getVersion() {
-        return version;
+    public int getWordNum() {
+        return wordNum;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public void setWordNum(int wordNum) {
+        this.wordNum = wordNum;
+    }
+
+    public int getStudyWordNum() {
+        return studyWordNum;
+    }
+
+    public void setStudyWordNum(int studyWordNum) {
+        this.studyWordNum = studyWordNum;
+    }
+
+    public byte getState() {
+        return state;
+    }
+
+    public void setState(byte state) {
+        this.state = state;
     }
 }

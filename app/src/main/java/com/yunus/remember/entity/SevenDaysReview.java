@@ -8,9 +8,9 @@ import java.sql.Date;
 public class SevenDaysReview extends DataSupport{
 
     private Date theDate;
-    private int wordsCount;
-    private int hadCount;
-    private int studiedCount;
+    private int allWordsCount;
+    private int allHadCount;
+    private int todayStudiedCount;
     private int studiedTime;
 
     public SevenDaysReview() {
@@ -24,28 +24,28 @@ public class SevenDaysReview extends DataSupport{
         this.theDate = theDate;
     }
 
-    public int getWordsCount() {
-        return wordsCount;
+    public int getAllWordsCount() {
+        return allWordsCount;
     }
 
-    public void setWordsCount(int wordsCount) {
-        this.wordsCount = wordsCount;
+    public void setAllWordsCount(int allWordsCount) {
+        this.allWordsCount = allWordsCount;
     }
 
-    public int getHadCount() {
-        return hadCount;
+    public int getAllHadCount() {
+        return allHadCount;
     }
 
-    public void setHadCount(int hadCount) {
-        this.hadCount = hadCount;
+    public void setAllHadCount(int allHadCount) {
+        this.allHadCount = allHadCount;
     }
 
-    public int getStudiedCount() {
-        return studiedCount;
+    public int getTodayStudiedCount() {
+        return todayStudiedCount;
     }
 
-    public void setStudiedCount(int studiedCount) {
-        this.studiedCount = studiedCount;
+    public void setTodayStudiedCount(int todayStudiedCount) {
+        this.todayStudiedCount = todayStudiedCount;
     }
 
     public int getStudiedTime() {

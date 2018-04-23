@@ -8,24 +8,38 @@
     android:orientation="vertical"
     tools:context=".activity.mine.MineBookActivity">
 
-    <include layout="@layout/main_toolbar"/>
+    <include layout="@layout/main_toolbar"
+        android:id="@+id/mine_book_toolbar"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="正在学习"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="shuju"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="我的单词书"/>
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-    </ListView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="正在学习"/>
+
+        <include layout="@layout/item_book"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="我的单词书"/>
+        <ListView
+            android:id="@+id/book_mine_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </ListView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="已学习"/>
+        <ListView
+            android:id="@+id/book_finish_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </ListView>
+    </ScrollView>
+
 
 </LinearLayout>

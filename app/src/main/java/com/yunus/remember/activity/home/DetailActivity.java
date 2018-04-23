@@ -47,8 +47,8 @@ public class DetailActivity extends BaseActivity {
         todayWord = (TodayWord) getIntent().getParcelableExtra("today_word");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolBar);
-        setSupportActionBar(toolbar);
         toolbar.setTitle("探索模式");
+        setSupportActionBar(toolbar);
 
         detailSpell = findViewById(R.id.test_spell);
         detailPhonogram = findViewById(R.id.test_phonogram);

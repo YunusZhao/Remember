@@ -48,8 +48,6 @@ public class TestActivity extends BaseActivity {
     List<TodayWord> words;
     int position;
     long beginTime;
-    SharedPreferences pref;
-    SharedPreferences.Editor editor;
 
     Runnable command = new Runnable() {
         @Override
@@ -90,7 +88,6 @@ public class TestActivity extends BaseActivity {
                 tts.setLanguage(Locale.ENGLISH);
             }
         });
-        pref = getSharedPreferences("data", Context.MODE_PRIVATE);
 
         words = DataSupport.where("level > ?", "0").find(TodayWord.class);
 
@@ -108,7 +105,7 @@ public class TestActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if (tts != null) {
-                    tts.setPitch(1.0f);// 设置音调，值越大声音越尖（女生），值越小则变成男声,1.0是常规
+                    tts.setPitch(1.2f);// 设置音调，值越大声音越尖（女生），值越小则变成男声,1.0是常规
                     tts.speak(sentenceWord.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
                 }
             }
@@ -147,7 +144,7 @@ public class TestActivity extends BaseActivity {
                     case 0:
                         sentence.setVisibility(View.VISIBLE);
                         if (tts != null) {
-                            tts.setPitch(1.0f);// 设置音调，值越大声音越尖（女生），值越小则变成男声,1.0是常规
+                            tts.setPitch(1.2f);// 设置音调，值越大声音越尖（女生），值越小则变成男声,1.0是常规
                             tts.speak(sentenceWord.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
                         }
                         state += 1;
@@ -176,15 +173,17 @@ public class TestActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        editor = pref.edit();
-        editor.putInt(StorageUtil.STUDY_TIME, ((pref.getInt(StorageUtil.STUDY_TIME, 0) + (int) (System.currentTimeMillis() - beginTime))));
-        editor.apply();
+        StorageUtil.updateInt(TestActivity.this, StorageUtil.STUDY_TIME, ((StorageUtil.getInt(TestActivity.this, StorageUtil.STUDY_TIME, 0) + (int) (System.currentTimeMillis() - beginTime))));
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         //save学习时间
+
+        if (tts != null) {
+            tts.shutdown();
+        }
     }
 
     @Override
