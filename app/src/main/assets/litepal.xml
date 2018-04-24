@@ -11,5 +11,7 @@
         <mapping class="com.yunus.remember.entity.SevenDaysReview"></mapping>
         <mapping class="com.yunus.remember.entity.TodayWord"></mapping>
         <mapping class="com.yunus.remember.entity.ComboBookWord"></mapping>
+        <mapping class="com.yunus.remember.entity.Friend"></mapping>
+        <mapping class="com.yunus.remember.entity.Chat"></mapping>
     </list>
 </litepal>

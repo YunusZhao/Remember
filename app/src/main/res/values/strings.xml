@@ -43,5 +43,8 @@
     <string name="registerDiary">打卡日记</string>
     <string name="myBook">我的图书</string>
     <string name="allBooks">书库</string>
+    <string name="message">消息</string>
+    <string name="input">请输入文本</string>
+    <string name="send">发送</string>
 
 </resources>

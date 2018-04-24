@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name="org.litepal.LitePalApplication"
@@ -28,8 +29,9 @@
         <activity android:name=".activity.begin.RegisterActivity" />
         <activity android:name=".activity.begin.PasswordActivity" />
         <activity android:name=".activity.chief.SearchActivity" />
-        <activity android:name=".activity.home.TestActivity"
-            android:launchMode="singleTask"/>
+        <activity
+            android:name=".activity.home.TestActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".activity.home.DetailActivity" />
         <activity android:name=".activity.home.SummaryActivity" />
         <activity android:name=".activity.ranking.RankingActivity" />
@@ -51,7 +53,7 @@
         <activity android:name=".activity.mine.FriendNewActivity" />
         <activity android:name=".activity.ranking.PersonalDataActivity" />
         <activity android:name=".activity.ranking.PersonalDataUpdateActivity" />
-        <activity android:name=".activity.chief.NoticeContentActivity"></activity>
+        <activity android:name=".activity.chief.ChatActivity"></activity>
     </application>
 
 </manifest>
