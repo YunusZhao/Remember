@@ -8,7 +8,7 @@ public class Book extends DataSupport{
     private String name;
     private int wordNum;
     private int studyWordNum;
-    private byte state;//已学完1/正在学-1/已收藏0
+    private int state;//已学完1/正在学-1/已收藏0
 
     public Book() {
     }
@@ -53,7 +53,7 @@ public class Book extends DataSupport{
         this.studyWordNum = studyWordNum;
     }
 
-    public byte getState() {
+    public int getState() {
         return state;
     }
 

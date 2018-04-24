@@ -61,6 +61,15 @@
             android:text="心动不如行动，开始学习吧！"
             android:textSize="12sp"/>
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/home_progress"
+        android:visibility="gone"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_marginTop="10dp"
+        android:indeterminate="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     
     <LinearLayout
         android:id="@+id/home_num_layout"

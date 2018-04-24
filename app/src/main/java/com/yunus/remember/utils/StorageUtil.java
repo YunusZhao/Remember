@@ -12,12 +12,14 @@ public class StorageUtil {
 
     public static final String REGISTER_DAY = "registerDay";//打卡天数
     public static final String WORDS_NUM = "wordsNum";//单词总数
+    public static final String WORDS_STUDIED_NUM = "wordsHadNum";//已掌握单词数
     public static final String TODAY_NUM = "todayNum";//今日单词
     public static final String TODAY_NEW_NUM = "todayNewNum";//今日新单词
     public static final String TODAY_REAL_NEW_NUM = "realNewNum";//实际新单词
     public static final String TODAY_REMAIN_NUM = "todayRemainNum";//今日剩余单词
     public static final String TODAY_DATE = "todayDate";//今天日期
     public static final String STUDY_TIME = "studyTime";//学习时间
+    public static final String USER_ID = "userId";//用户ID
 
     public static String getToday() {
         DateFormat df = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());

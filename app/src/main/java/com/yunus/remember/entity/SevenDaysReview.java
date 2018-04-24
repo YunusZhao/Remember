@@ -16,6 +16,11 @@ public class SevenDaysReview extends DataSupport{
     public SevenDaysReview() {
     }
 
+    public SevenDaysReview(Date theDate, int allHadCount) {
+        this.theDate = theDate;
+        this.allHadCount = allHadCount;
+    }
+
     public Date getTheDate() {
         return theDate;
     }
