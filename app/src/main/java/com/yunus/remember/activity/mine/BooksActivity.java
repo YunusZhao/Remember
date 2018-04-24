@@ -1,6 +1,5 @@
 package com.yunus.remember.activity.mine;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -16,7 +15,7 @@ import java.util.List;
 public class BooksActivity extends BaseActivity {
 
     Toolbar toolbar;
-    ListView bookList;
+    ListView bookListView;
     List<Book> books;
 
     @Override
@@ -33,11 +32,11 @@ public class BooksActivity extends BaseActivity {
                 finish();
             }
         });
-        bookList = findViewById(R.id.books_list);
+        bookListView = findViewById(R.id.books_list);
 
         books = getAllBooks();
         BookAdapter bookAdapter = new BookAdapter(BooksActivity.this, R.layout.item_book, books);
-        bookList.setAdapter(bookAdapter);
+        bookListView.setAdapter(bookAdapter);
     }
 
     private List<Book> getAllBooks() {

@@ -1,13 +1,15 @@
 package com.yunus.remember.activity.chief;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.yunus.activity.BaseActivity;
 import com.yunus.remember.R;
-import com.yunus.remember.adapter.FriendAdapter;
+import com.yunus.remember.adapter.NoticeFriendAdapter;
 import com.yunus.remember.entity.Friend;
 
 import java.util.List;
@@ -15,7 +17,7 @@ import java.util.List;
 public class NoticeActivity extends BaseActivity {
 
     Toolbar toolbar;
-    ListView friendList;
+    ListView friendListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +34,19 @@ public class NoticeActivity extends BaseActivity {
             }
         });
 
-        friendList = findViewById(R.id.notice_friend_list);
-        List<Friend> friends = getNoticeFriends();
-        FriendAdapter friendAdapter = new FriendAdapter(NoticeActivity.this, R.layout.item_notice_friend, friends);
-        friendList.setAdapter(friendAdapter);
+        friendListView = findViewById(R.id.notice_friend_list);
+        final List<Friend> friends = getNoticeFriends();
+        NoticeFriendAdapter noticeFriendAdapter = new NoticeFriendAdapter(NoticeActivity.this, R.layout.item_notice_friend, friends);
+        friendListView.setAdapter(noticeFriendAdapter);
+        friendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Friend friend = friends.get(i);
+                Intent intent = new Intent(NoticeActivity.this, ChatActivity.class);
+                intent.putExtra("friend", friend);
+                startActivity(intent);
+            }
+        });
     }
 
     private List<Friend> getNoticeFriends() {

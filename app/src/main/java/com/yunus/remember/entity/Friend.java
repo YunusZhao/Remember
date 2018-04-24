@@ -2,7 +2,9 @@ package com.yunus.remember.entity;
 
 import org.litepal.crud.DataSupport;
 
-public class Friend extends DataSupport {
+import java.io.Serializable;
+
+public class Friend extends DataSupport implements Serializable{
 
     private int id;
     private String name;

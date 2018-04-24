@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.yunus.remember.R;
@@ -17,11 +16,10 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class FriendAdapter extends ArrayAdapter<Friend> {
-
+public class RankingAdapter extends ArrayAdapter<Friend> {
     private int resourceId;
 
-    public FriendAdapter(@NonNull Context context, int textViewResourceId, @NonNull List<Friend> objects) {
+    public RankingAdapter(@NonNull Context context, int textViewResourceId, @NonNull List<Friend> objects) {
         super(context, textViewResourceId, objects);
         resourceId = textViewResourceId;
     }
@@ -35,30 +33,33 @@ public class FriendAdapter extends ArrayAdapter<Friend> {
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
-            viewHolder.image = view.findViewById(R.id.item_friend_image);
-            viewHolder.name = view.findViewById(R.id.item_friend_name);
-            viewHolder.summary = view.findViewById(R.id.item_friend_summary);
-            viewHolder.addFriend = view.findViewById(R.id.item_friend_add);
-            viewHolder.num = view.findViewById(R.id.item_friend_message_num);
-            //点击事件
+            viewHolder.ranking = view.findViewById(R.id.ranking_id);
+            viewHolder.image = view.findViewById(R.id.ranking_image);
+            viewHolder.name = view.findViewById(R.id.ranking_name);
+            viewHolder.summary = view.findViewById(R.id.ranking_summary);
+            viewHolder.allNum = view.findViewById(R.id.ranking_num);
+            viewHolder.allTime = view.findViewById(R.id.ranking_time);
             view.setTag(viewHolder);
 
         } else {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-//        viewHolder.image.;
+        viewHolder.ranking.setText(position);
+//        viewHolder.image;
         viewHolder.name.setText(friend.getName());
         viewHolder.summary.setText(friend.getSummary());
-//        viewHolder.num.setText();
+//        viewHolder.allNum = ;
+//        viewHolder.allTime = ;
         return view;
     }
 
     class ViewHolder {
+        TextView ranking;
         CircleImageView image;
         TextView name;
         TextView summary;
-        Button addFriend;
-        TextView num;
+        TextView allNum;
+        TextView allTime;
     }
 }

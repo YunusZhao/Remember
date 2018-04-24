@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -192,12 +191,15 @@ public class HomeFragment extends Fragment {
             needNum = needNum - words.size();
             List<Word> saveWords = new ArrayList<>();
             while (needNum > 0) {
-                int levelNeed = needNum / 4;
+                int levelNeed = (needNum + 3) / 4;
                 int level;
                 for (level = 1; level < 5; level++) {
                     for (int i = 0; i < levelNeed; i++) {
                         saveWords.add(getWord(level));
                         needNum--;
+                        if (needNum == 0) {
+                            break;
+                        }
                     }
                 }
             }
@@ -223,8 +225,9 @@ public class HomeFragment extends Fragment {
                 public void onResponse(Call call, Response response) throws IOException {
                     String result = response.body().string();
                     Gson gson = new Gson();
-                    List<Word> netWords = gson.fromJson(result, new TypeToken<List<Word>>(){}.getType());
-                    for (Word word: netWords) {
+                    List<Word> netWords = gson.fromJson(result, new TypeToken<List<Word>>() {
+                    }.getType());
+                    for (Word word : netWords) {
                         word.setLevel(5);
                         word.setImportance(0);
                         new TodayWord(word.getSpell(), word.getMean(), word.getPhonogram(), word.getSentence(), 1).save();

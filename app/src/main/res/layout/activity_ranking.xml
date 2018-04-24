@@ -8,13 +8,16 @@
     android:orientation="vertical"
     tools:context="com.yunus.remember.activity.ranking.RankingActivity">
 
-    <include layout="@layout/main_toolbar"/>
+    <include layout="@layout/main_toolbar"
+        android:id="@+id/ranking_toolbar"/>
     <ListView
+        android:id="@+id/ranking_list_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
     </ListView>
 
-    <include layout="@layout/item_ranking_information"/>
+    <include layout="@layout/item_ranking_information"
+        android:id="@+id/ranking_mine"/>
 </LinearLayout>
