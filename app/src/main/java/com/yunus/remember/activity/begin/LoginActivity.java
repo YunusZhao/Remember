@@ -1,5 +1,6 @@
 package com.yunus.remember.activity.begin;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,14 +9,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.yunus.activity.BaseActivity;
 import com.example.yunus.utils.ActivityCollector;
+import com.example.yunus.utils.RWUtil;
 import com.example.yunus.utils.ViewUtil;
 import com.yunus.remember.R;
 import com.yunus.remember.activity.chief.MainActivity;
+import com.yunus.remember.utils.HttpUtil;
+
+import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class LoginActivity extends BaseActivity {
 
@@ -26,7 +37,8 @@ public class LoginActivity extends BaseActivity {
     EditText password;
     Button login;
     TextView forgetPassword;
-    TextView register ;
+    TextView register;
+    ProgressDialog myDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,9 +68,19 @@ public class LoginActivity extends BaseActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                ActivityCollector.finishAll();
-                startActivity(intent);
+                if (email.getText().toString().isEmpty() || !RWUtil.isEmail(email.getText().toString())) {
+                    Toast.makeText(LoginActivity.this, "邮箱输入错误", Toast.LENGTH_SHORT).show();
+                } else if (password.getText().toString().isEmpty() || !RWUtil.isPwd(password.getText().toString())) {
+                    Toast.makeText(LoginActivity.this, "密码输入错误", Toast.LENGTH_SHORT).show();
+                } else {
+                    myDialog = ProgressDialog.show(LoginActivity.this, "提示...", "登陆中...", true);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            loginToIntel();
+                        }
+                    }).start();
+                }
             }
         });
     }
@@ -81,4 +103,47 @@ public class LoginActivity extends BaseActivity {
         register = (TextView) findViewById(R.id.login_to_register);
     }
 
+    private void loginToIntel() {
+        final RequestBody requestBody = new FormBody.Builder()
+                .add("email", email.getText().toString())
+                .add("password", password.getText().toString())
+                .add("action", "login")
+                .build();
+        HttpUtil.postOkhttpRequest(requestBody, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        myDialog.dismiss();
+                        Toast.makeText(LoginActivity.this, "联网失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String result = response.body().string();
+                if (!"-1".equals(result)){
+                    //TODO 解析数据保存至数据库
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        myDialog.dismiss();
+                        switch (result) {
+                            case "-1":
+                                Toast.makeText(LoginActivity.this, "登陆失败", Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                ActivityCollector.finishAll();
+                                startActivity(intent);
+                                break;
+                        }
+                    }
+                });
+            }
+        });
+    }
 }

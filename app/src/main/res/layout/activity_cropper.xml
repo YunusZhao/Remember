@@ -16,9 +16,10 @@
 
     <Button
         android:id="@+id/cropper_ok"
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="裁剪" >
+        android:text="@string/cut" >
     </Button>
 
 </LinearLayout>

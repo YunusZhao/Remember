@@ -64,7 +64,8 @@ public class HomeFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle
+            savedInstanceState) {
         View view = inflater.inflate(R.layout.main_pager_home, container, false);
         return view;
     }
@@ -137,122 +138,6 @@ public class HomeFragment extends Fragment {
         mineNum.setText(String.valueOf(StorageUtil.getInt(getContext(), StorageUtil.WORDS_NUM, 0)));
     }
 
-    class DownloadTask extends AsyncTask<Void, Integer, Boolean> {
-
-        @Override
-        protected void onPreExecute() {
-            progress.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-
-            //前期更新
-            List<Word> allWord = DataSupport.where("level > 0").find(Word.class);
-            for (Word word : allWord) {
-                word.setImportance(word.getImportance() + 1);
-            }
-            DataSupport.saveAll(allWord);
-
-            //计算要下载单词量
-            int needStudyNum = StorageUtil.getInt(getContext(), StorageUtil.WORDS_NUM, 0) -
-                    StorageUtil.getInt(getContext(), StorageUtil.WORDS_STUDIED_NUM, 0);
-            if (needStudyNum < StorageUtil.getInt(getContext(), StorageUtil.TODAY_NUM, 0)) {
-                StorageUtil.updateInt(getContext(), StorageUtil.TODAY_REAL_NEW_NUM, StorageUtil.getInt(getContext(), StorageUtil.TODAY_NUM, 0) - needStudyNum);
-            } else {
-                int wordNum = DataSupport.where("importance > 3").count(Word.class);
-                if (wordNum >= StorageUtil.getInt(getContext(), StorageUtil.TODAY_NEW_NUM, 0)) {
-                    StorageUtil.updateInt(getContext(), StorageUtil.TODAY_REAL_NEW_NUM, 0);
-                } else {
-                    StorageUtil.updateInt(getContext(), StorageUtil.TODAY_REAL_NEW_NUM, StorageUtil.getInt(getContext(), StorageUtil.TODAY_NEW_NUM, 0) - wordNum);
-
-                }
-            }
-
-            //更新上次登陆记录
-            DataSupport.deleteAll(SevenDaysReview.class, "theDate before ?", new Date(System.currentTimeMillis() - (long) (6 * 24 * 60 * 60 * 1000)).toString());
-            SevenDaysReview lastReview = DataSupport.findLast(SevenDaysReview.class);
-            lastReview.setStudiedTime(StorageUtil.getInt(getContext(), StorageUtil.STUDY_TIME, 0));
-            lastReview.save();
-
-            //更新今天记录
-            int studiedNum = DataSupport.where("level < 1").count(Word.class);
-            SevenDaysReview newReview = new SevenDaysReview(new Date(System.currentTimeMillis()), studiedNum);
-            newReview.save();
-
-            //本地词库填充
-            DataSupport.deleteAll(TodayWord.class);
-            int needNum = StorageUtil.getInt(getContext(), StorageUtil.TODAY_NUM, 0) - StorageUtil.getInt(getContext(), StorageUtil.TODAY_REAL_NEW_NUM, 0);
-            List<Word> words = DataSupport.where("importance > 3").limit(needNum).order("importance desc").find(Word.class);
-            List<TodayWord> todayWords = new ArrayList<>();
-            for (Word word : words) {
-                todayWords.add(new TodayWord(word.getSpell(), word.getMean(), word.getPhonogram(), word.getSentence(), 1));
-            }
-            needNum = needNum - words.size();
-            List<Word> saveWords = new ArrayList<>();
-            while (needNum > 0) {
-                int levelNeed = (needNum + 3) / 4;
-                int level;
-                for (level = 1; level < 5; level++) {
-                    for (int i = 0; i < levelNeed; i++) {
-                        saveWords.add(getWord(level));
-                        needNum--;
-                        if (needNum == 0) {
-                            break;
-                        }
-                    }
-                }
-            }
-            DataSupport.saveAll(saveWords);
-            for (Word word : saveWords) {
-                todayWords.add(new TodayWord(word.getSpell(), word.getMean(), word.getPhonogram(), word.getSentence(), 1));
-            }
-            DataSupport.saveAll(todayWords);
-
-            //联网，下载生成今日单词
-            RequestBody body = new FormBody.Builder()
-                    .add("userId", "" + StorageUtil.getInt(getContext(), StorageUtil.USER_ID, 0))
-                    .add("bookId", "" + DataSupport.where("state = -1").findFirst(Book.class).getId())
-                    .add("needNum", "" + StorageUtil.getInt(getContext(), StorageUtil.TODAY_REAL_NEW_NUM, 0))
-                    .build();
-            HttpUtil.postOkhttpRequrst(body, new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    String result = response.body().string();
-                    Gson gson = new Gson();
-                    List<Word> netWords = gson.fromJson(result, new TypeToken<List<Word>>() {
-                    }.getType());
-                    for (Word word : netWords) {
-                        word.setLevel(5);
-                        word.setImportance(0);
-                        new TodayWord(word.getSpell(), word.getMean(), word.getPhonogram(), word.getSentence(), 1).save();
-                    }
-                    DataSupport.saveAll(netWords);
-                }
-            });
-
-            StorageUtil.updateString(getContext(), StorageUtil.TODAY_DATE, StorageUtil.getToday());
-            StorageUtil.updateInt(getContext(), StorageUtil.STUDY_TIME, 0);
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            progress.setVisibility(View.GONE);
-            commonLayout.setVisibility(View.VISIBLE);
-            startStudy.setText("开始学习");
-            startStudy.setEnabled(true);
-            numLayout.setVisibility(View.VISIBLE);
-            welcomeLayout.setVisibility(View.GONE);
-            initText();
-        }
-    }
-
     private Word getWord(int level) {
         if (DataSupport.where("level > 0").count(Word.class) <= 0) {
             return null;
@@ -287,9 +172,134 @@ public class HomeFragment extends Fragment {
             if (DataSupport.where("level = ? and importance = ?", level + "", importance + "").count(Word.class) == 0) {
                 return getWord(level);
             }
-            Word word = DataSupport.where("level = ? and importance = ?", level + "", importance + "").findFirst(Word.class);
+            Word word = DataSupport.where("level = ? and importance = ?", level + "", importance + "").findFirst(Word
+                    .class);
             DataSupport.delete(Word.class, word.getId());
             return word;
+        }
+    }
+
+    class DownloadTask extends AsyncTask<Void, Integer, Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            progress.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+
+            //前期更新
+            List<Word> allWord = DataSupport.where("level > 0").find(Word.class);
+            for (Word word : allWord) {
+                word.setImportance(word.getImportance() + 1);
+            }
+            DataSupport.saveAll(allWord);
+
+            //计算要下载单词量
+            int needStudyNum = StorageUtil.getInt(getContext(), StorageUtil.WORDS_NUM, 0) -
+                    StorageUtil.getInt(getContext(), StorageUtil.WORDS_STUDIED_NUM, 0);
+            if (needStudyNum < StorageUtil.getInt(getContext(), StorageUtil.TODAY_NUM, 0)) {
+                StorageUtil.updateInt(getContext(), StorageUtil.TODAY_REAL_NEW_NUM, StorageUtil.getInt(getContext(),
+                        StorageUtil.TODAY_NUM, 0) - needStudyNum);
+            } else {
+                int wordNum = DataSupport.where("importance > 3").count(Word.class);
+                if (wordNum >= StorageUtil.getInt(getContext(), StorageUtil.TODAY_NEW_NUM, 0)) {
+                    StorageUtil.updateInt(getContext(), StorageUtil.TODAY_REAL_NEW_NUM, 0);
+                } else {
+                    StorageUtil.updateInt(getContext(), StorageUtil.TODAY_REAL_NEW_NUM, StorageUtil.getInt(getContext
+                            (), StorageUtil.TODAY_NEW_NUM, 0) - wordNum);
+
+                }
+            }
+
+            //更新上次登陆记录
+            DataSupport.deleteAll(SevenDaysReview.class, "theDate before ?", new Date(System.currentTimeMillis() -
+                    (long) (6 * 24 * 60 * 60 * 1000)).toString());
+            SevenDaysReview lastReview = DataSupport.findLast(SevenDaysReview.class);
+            lastReview.setStudiedTime(StorageUtil.getInt(getContext(), StorageUtil.STUDY_TIME, 0));
+            lastReview.save();
+
+            //更新今天记录
+            int studiedNum = DataSupport.where("level < 1").count(Word.class);
+            SevenDaysReview newReview = new SevenDaysReview(new Date(System.currentTimeMillis()), studiedNum);
+            newReview.save();
+
+            //本地词库填充
+            DataSupport.deleteAll(TodayWord.class);
+            int needNum = StorageUtil.getInt(getContext(), StorageUtil.TODAY_NUM, 0) - StorageUtil.getInt(getContext
+                    (), StorageUtil.TODAY_REAL_NEW_NUM, 0);
+            List<Word> words = DataSupport.where("importance > 3").limit(needNum).order("importance desc").find(Word
+                    .class);
+            List<TodayWord> todayWords = new ArrayList<>();
+            for (Word word : words) {
+                todayWords.add(new TodayWord(word.getSpell(), word.getMean(), word.getPhonogram(), word.getSentence()
+                        , 1));
+            }
+            needNum = needNum - words.size();
+            List<Word> saveWords = new ArrayList<>();
+            while (needNum > 0) {
+                int levelNeed = (needNum + 3) / 4;
+                int level;
+                for (level = 1; level < 5; level++) {
+                    for (int i = 0; i < levelNeed; i++) {
+                        saveWords.add(getWord(level));
+                        needNum--;
+                        if (needNum == 0) {
+                            break;
+                        }
+                    }
+                }
+            }
+            DataSupport.saveAll(saveWords);
+            for (Word word : saveWords) {
+                todayWords.add(new TodayWord(word.getSpell(), word.getMean(), word.getPhonogram(), word.getSentence()
+                        , 1));
+            }
+            DataSupport.saveAll(todayWords);
+
+            //联网，下载生成今日单词
+            RequestBody body = new FormBody.Builder()
+                    .add("userId", "" + StorageUtil.getInt(getContext(), StorageUtil.USER_ID, 0))
+                    .add("bookId", "" + DataSupport.where("state = -1").findFirst(Book.class).getId())
+                    .add("needNum", "" + StorageUtil.getInt(getContext(), StorageUtil.TODAY_REAL_NEW_NUM, 0))
+                    .build();
+            HttpUtil.postOkhttpRequest(body, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String result = response.body().string();
+                    Gson gson = new Gson();
+                    List<Word> netWords = gson.fromJson(result, new TypeToken<List<Word>>() {
+                    }.getType());
+                    for (Word word : netWords) {
+                        word.setLevel(5);
+                        word.setImportance(0);
+                        new TodayWord(word.getSpell(), word.getMean(), word.getPhonogram(), word.getSentence(), 1)
+                                .save();
+                    }
+                    DataSupport.saveAll(netWords);
+                }
+            });
+
+            StorageUtil.updateString(getContext(), StorageUtil.TODAY_DATE, StorageUtil.getToday());
+            StorageUtil.updateInt(getContext(), StorageUtil.STUDY_TIME, 0);
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            progress.setVisibility(View.GONE);
+            commonLayout.setVisibility(View.VISIBLE);
+            startStudy.setText("开始学习");
+            startStudy.setEnabled(true);
+            numLayout.setVisibility(View.VISIBLE);
+            welcomeLayout.setVisibility(View.GONE);
+            initText();
         }
     }
 }

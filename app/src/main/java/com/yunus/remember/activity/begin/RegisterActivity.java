@@ -2,6 +2,7 @@ package com.yunus.remember.activity.begin;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -26,11 +27,20 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.yunus.activity.BaseActivity;
 import com.example.yunus.utils.LogUtil;
+import com.example.yunus.utils.RWUtil;
 import com.example.yunus.utils.ViewUtil;
 import com.yunus.remember.R;
 import com.yunus.remember.activity.chief.CropperActivity;
+import com.yunus.remember.utils.HttpUtil;
+
+import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class RegisterActivity extends BaseActivity {
 
@@ -46,6 +56,8 @@ public class RegisterActivity extends BaseActivity {
     EditText password;
     Button register;
     TextView login;
+    byte[] imageByte;
+    ProgressDialog myDialog;
 
 
     @Override
@@ -55,6 +67,9 @@ public class RegisterActivity extends BaseActivity {
 
         getView();
         ViewUtil.setToolbar(RegisterActivity.this, toolbar);
+
+        //TODO 初始化图片
+        imageByte = " ".getBytes();
 
         addPortrait.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +88,21 @@ public class RegisterActivity extends BaseActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (name.getText().toString().isEmpty() || !RWUtil.isName(name.getText().toString())) {
+                    Toast.makeText(RegisterActivity.this, "昵称输入错误", Toast.LENGTH_SHORT).show();
+                } else if (email.getText().toString().isEmpty() || !RWUtil.isEmail(email.getText().toString())) {
+                    Toast.makeText(RegisterActivity.this, "邮箱输入错误", Toast.LENGTH_SHORT).show();
+                } else if (password.getText().toString().isEmpty() || !RWUtil.isPwd(password.getText().toString())) {
+                    Toast.makeText(RegisterActivity.this, "密码输入错误", Toast.LENGTH_SHORT).show();
+                } else {
+                    myDialog = ProgressDialog.show(RegisterActivity.this, "提示...", "注册中...", true);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            registerToIntel();
+                        }
+                    }).start();
+                }
             }
         });
 
@@ -113,7 +142,8 @@ public class RegisterActivity extends BaseActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[]
+            grantResults) {
         switch (requestCode) {
             case 1:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -132,8 +162,9 @@ public class RegisterActivity extends BaseActivity {
             case APPLY_PHOTO:
                 if (resultCode == RESULT_OK) {
                     try {
-                        // 将拍摄的照片显示出来
-                        Glide.with(this).load(data.getByteArrayExtra("data")).into(portrait);
+                        // 将照片显示出来
+                        imageByte = data.getByteArrayExtra("data");
+                        Glide.with(this).load(imageByte).into(portrait);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -169,7 +200,8 @@ public class RegisterActivity extends BaseActivity {
                 String selection = MediaStore.Images.Media._ID + "=" + id;
                 imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
             } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
-                Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(docId));
+                Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long
+                        .valueOf(docId));
                 imagePath = getImagePath(contentUri, null);
             }
         } else if ("content".equalsIgnoreCase(uri.getScheme())) {
@@ -209,5 +241,51 @@ public class RegisterActivity extends BaseActivity {
         } else {
             Toast.makeText(this, "failed to get image", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void registerToIntel() {
+        final RequestBody requestBody = new FormBody.Builder()
+                .add("image", new String(imageByte))
+                .add("name", name.getText().toString())
+                .add("email", email.getText().toString())
+                .add("password", password.getText().toString())
+                .add("action", "password")
+                .build();
+        HttpUtil.postOkhttpRequest(requestBody, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        myDialog.dismiss();
+                        Toast.makeText(RegisterActivity.this, "联网失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String result = response.body().string();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        myDialog.dismiss();
+                        switch (result) {
+                            case "0":
+                                Toast.makeText(RegisterActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
+                                break;
+                            case "1":
+                                Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                finish();
+                                startActivity(intent);
+                                break;
+                            default:
+                                Toast.makeText(RegisterActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
     }
 }
