@@ -18,6 +18,7 @@ import com.example.yunus.utils.ViewUtil;
 import com.yunus.remember.R;
 import com.yunus.remember.activity.chief.MainActivity;
 import com.yunus.remember.utils.HttpUtil;
+import com.yunus.remember.utils.StorageUtil;
 
 import java.io.IOException;
 
@@ -126,6 +127,8 @@ public class LoginActivity extends BaseActivity {
                 final String result = response.body().string();
                 if (!"-1".equals(result)){
                     //TODO 解析数据保存至数据库
+                    String session = response.header("set-cookie");
+                    StorageUtil.updateString(LoginActivity.this, StorageUtil.SESSION, session);
                 }
                 runOnUiThread(new Runnable() {
                     @Override
