@@ -41,8 +41,8 @@ public class MineBookActivity extends BaseActivity {
 
         TextView bookName = findViewById(R.id.book_name);
         TextView wordNum = findViewById(R.id.book_word_num);
-        ProgressBar bookProgress = findViewById(R.id.book_progress);
-        TextView progressText = findViewById(R.id.book_progress_text);
+        ProgressBar bookProgress = findViewById(R.id.mine_book_progress);
+        TextView progressText = findViewById(R.id.mine_book_progress_text);
         TextView finishTime = findViewById(R.id.book_finish_time);
 
         initBook();
