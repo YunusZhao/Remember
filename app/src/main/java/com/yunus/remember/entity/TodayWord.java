@@ -7,15 +7,30 @@ import org.litepal.crud.DataSupport;
 
 public class TodayWord extends DataSupport implements Parcelable {
 
+    public static final Parcelable.Creator<TodayWord> CREATOR = new Parcelable.Creator<TodayWord>() {
+
+        @Override
+        public TodayWord createFromParcel(Parcel parcel) {
+            TodayWord todayWord = new TodayWord();
+            todayWord.spell = parcel.readString();
+            todayWord.mean = parcel.readString();
+            todayWord.phonogram = parcel.readString();
+            todayWord.sentence = parcel.readString();
+            todayWord.level = parcel.readInt();
+            return todayWord;
+        }
+
+        @Override
+        public TodayWord[] newArray(int i) {
+            return new TodayWord[i];
+        }
+    };
     private String spell;
-
     private String mean;
-
     private String phonogram;
-
     private String sentence;
-
     private int level;
+    private Word word;
 
     public TodayWord() {
     }
@@ -81,23 +96,4 @@ public class TodayWord extends DataSupport implements Parcelable {
         parcel.writeString(sentence);
         parcel.writeInt(level);
     }
-
-    public static final Parcelable.Creator<TodayWord> CREATOR = new Parcelable.Creator<TodayWord>() {
-
-        @Override
-        public TodayWord createFromParcel(Parcel parcel) {
-            TodayWord todayWord = new TodayWord();
-            todayWord.spell = parcel.readString();
-            todayWord.mean = parcel.readString();
-            todayWord.phonogram = parcel.readString();
-            todayWord.sentence = parcel.readString();
-            todayWord.level = parcel.readInt();
-            return todayWord;
-        }
-
-        @Override
-        public TodayWord[] newArray(int i) {
-            return new TodayWord[i];
-        }
-    };
 }

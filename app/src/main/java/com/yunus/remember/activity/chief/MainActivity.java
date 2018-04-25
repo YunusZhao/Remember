@@ -10,25 +10,27 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.yunus.activity.BaseActivity;
-import com.example.yunus.utils.LogUtil;
 import com.example.yunus.utils.RWUtil;
 import com.yunus.remember.R;
 import com.yunus.remember.adapter.MainFragmentPagerAdapter;
 import com.yunus.remember.entity.Book;
-import com.yunus.remember.entity.ComboBookWord;
 import com.yunus.remember.entity.Word;
 
+import org.litepal.crud.DataSupport;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.List;
 
 public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener,
         ViewPager.OnPageChangeListener {
 
+    //几个代表页面的常量
+    public static final int PAGE_ONE = 0;
+    public static final int PAGE_TWO = 1;
+    public static final int PAGE_THREE = 2;
     //UI Objects
     private RadioGroup mainBottom;
     private RadioButton btnHome;
@@ -37,13 +39,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     private ViewPager viewPager;
     private TextView tvSearch;
     private ImageButton ibMessage;
-
     private MainFragmentPagerAdapter mAdapter;
-
-    //几个代表页面的常量
-    public static final int PAGE_ONE = 0;
-    public static final int PAGE_TWO = 1;
-    public static final int PAGE_THREE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,18 +138,19 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 try {
                     String words = RWUtil.inputStream2String(getResources().openRawResource(R.raw.word));
                     parseXMLWithPull(words);
-                    for (int i = 1; i < 11; i++) {
-                        ComboBookWord combo = new ComboBookWord(0, i);
-                        combo.save();
-                    }
-                    for (int i = 11; i < 16; i++) {
-                        ComboBookWord combo = new ComboBookWord(-1, i);
-                        combo.save();
-                    }
-                    for (int i = 16; i < 21; i++) {
-                        ComboBookWord combo = new ComboBookWord(1, i);
-                        combo.save();
-                    }
+
+                    Book book = DataSupport.where("id = 0").findFirst(Book.class);
+                    List<Word> wordList = DataSupport.where("id < 11").find(Word.class);
+                    book.getWordList().addAll(wordList);
+                    book.save();
+                    book = DataSupport.where("id = -1").findFirst(Book.class);
+                    wordList = DataSupport.where("id > 10 and id < 16").find(Word.class);
+                    book.getWordList().addAll(wordList);
+                    book.save();
+                    book = DataSupport.where("id = 1").findFirst(Book.class);
+                    wordList = DataSupport.where("id > 15 and id < 21").find(Word.class);
+                    book.getWordList().addAll(wordList);
+                    book.save();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

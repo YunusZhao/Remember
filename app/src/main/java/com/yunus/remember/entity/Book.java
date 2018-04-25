@@ -2,8 +2,13 @@ package com.yunus.remember.entity;
 
 import org.litepal.crud.DataSupport;
 
-public class Book extends DataSupport{
+import java.util.ArrayList;
+import java.util.List;
 
+public class Book extends DataSupport {
+
+    List<Word> wordList = new ArrayList<>();
+    List<Friend> friendList = new ArrayList<>();
     private int id;
     private String name;
     private int wordNum;
@@ -57,7 +62,27 @@ public class Book extends DataSupport{
         return state;
     }
 
+    public void setState(int state) {
+        this.state = state;
+    }
+
     public void setState(byte state) {
         this.state = state;
+    }
+
+    public List<Word> getWordList() {
+        return wordList;
+    }
+
+    public void setWordList(List<Word> wordList) {
+        this.wordList = wordList;
+    }
+
+    public List<Friend> getFriendList() {
+        return friendList;
+    }
+
+    public void setFriendList(List<Friend> friendList) {
+        this.friendList = friendList;
     }
 }

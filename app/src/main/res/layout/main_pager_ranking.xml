@@ -7,33 +7,33 @@
         android:id="@+id/ranking_all"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="总榜"/>
+        android:text="单词总榜"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="今日总榜"/>
+        android:text="今日单词总榜"/>
     <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="好友总榜"/>
+    android:text="好友单词总榜"/>
     <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="好友日榜"/>
+    android:text="好友单词日榜"/>
     <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="该类总榜"/>
+    android:text="时间总榜"/>
     <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="该类总榜"/>
+    android:text="时间日榜"/>
     <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="该类好友总榜"/>
+    android:text="好友时间总榜"/>
     <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="该类好友日榜"/>
+    android:text="好友时间日榜"/>
 </LinearLayout>

@@ -3,9 +3,14 @@ package com.yunus.remember.entity;
 import org.litepal.crud.DataSupport;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Friend extends DataSupport implements Serializable{
+public class Friend extends DataSupport implements Serializable {
 
+    List<Chat> chatList = new ArrayList<>();
+    List<Word> wordList = new ArrayList<>();
+    List<Book> bookList = new ArrayList<>();
     private int id;
     private String name;
     private byte sex;
@@ -14,6 +19,10 @@ public class Friend extends DataSupport implements Serializable{
     private String school;
     private String summary;
     private int messageNum;
+    private int wordNum;
+    private int allTime;
+    private int todayNum;
+    private int todayTime;
 
     public int getId() {
         return id;
@@ -77,5 +86,61 @@ public class Friend extends DataSupport implements Serializable{
 
     public void setMessageNum(int messageNum) {
         this.messageNum = messageNum;
+    }
+
+    public List<Chat> getChatList() {
+        return chatList;
+    }
+
+    public void setChatList(List<Chat> chatList) {
+        this.chatList = chatList;
+    }
+
+    public List<Word> getWordList() {
+        return wordList;
+    }
+
+    public void setWordList(List<Word> wordList) {
+        this.wordList = wordList;
+    }
+
+    public List<Book> getBookList() {
+        return bookList;
+    }
+
+    public void setBookList(List<Book> bookList) {
+        this.bookList = bookList;
+    }
+
+    public int getWordNum() {
+        return wordNum;
+    }
+
+    public void setWordNum(int wordNum) {
+        this.wordNum = wordNum;
+    }
+
+    public int getAllTime() {
+        return allTime;
+    }
+
+    public void setAllTime(int allTime) {
+        this.allTime = allTime;
+    }
+
+    public int getTodayNum() {
+        return todayNum;
+    }
+
+    public void setTodayNum(int todayNum) {
+        this.todayNum = todayNum;
+    }
+
+    public int getTodayTime() {
+        return todayTime;
+    }
+
+    public void setTodayTime(int todayTime) {
+        this.todayTime = todayTime;
     }
 }

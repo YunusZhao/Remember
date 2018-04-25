@@ -8,21 +8,11 @@ public class Chat extends DataSupport {
 
     public static final byte TYPE_RECEIVED = 0;
     public static final byte TYPE_SENT = 1;
-
-    private int friendId;
+    Friend friend;
     private int type;
     private String message;
     private boolean read;
     private Date time;
-
-
-    public int getFriendId() {
-        return friendId;
-    }
-
-    public void setFriendId(int friendId) {
-        this.friendId = friendId;
-    }
 
     public int getType() {
         return type;
@@ -54,5 +44,13 @@ public class Chat extends DataSupport {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public Friend getFriend() {
+        return friend;
+    }
+
+    public void setFriend(Friend friend) {
+        this.friend = friend;
     }
 }

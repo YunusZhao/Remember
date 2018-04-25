@@ -40,7 +40,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable {
     public void run() {
         try {
             Thread.sleep(3000);
-            //todo 添加启动页
+            //todo 添加引导页
 
             String email = StorageUtil.getString(WelcomeActivity.this, StorageUtil.EMAIL, " ");
             if (" ".equals(email)) {

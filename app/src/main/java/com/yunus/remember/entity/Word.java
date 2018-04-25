@@ -3,11 +3,17 @@ package com.yunus.remember.entity;
 
 import org.litepal.crud.DataSupport;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by yun on 2018/3/31.
  */
 
-public class Word extends DataSupport{
+public class Word extends DataSupport {
+
+    List<Book> bookList = new ArrayList<>();
+    List<Friend> friendList = new ArrayList<>();
 
     private int id;
 
@@ -33,6 +39,11 @@ public class Word extends DataSupport{
         this.mean = mean;
         this.phonogram = phonogram;
         this.sentence = sentence;
+    }
+
+    public Word(String spell, String mean) {
+        this.spell = spell;
+        this.mean = mean;
     }
 
     public int getId() {
@@ -67,11 +78,6 @@ public class Word extends DataSupport{
         this.sentence = sentence;
     }
 
-    public Word(String spell, String mean) {
-        this.spell = spell;
-        this.mean = mean;
-    }
-
     public String getSpell() {
         return spell;
     }
@@ -94,5 +100,21 @@ public class Word extends DataSupport{
 
     public void setImportance(int importance) {
         this.importance = importance;
+    }
+
+    public List<Book> getBookList() {
+        return bookList;
+    }
+
+    public void setBookList(List<Book> bookList) {
+        this.bookList = bookList;
+    }
+
+    public List<Friend> getFriendList() {
+        return friendList;
+    }
+
+    public void setFriendList(List<Friend> friendList) {
+        this.friendList = friendList;
     }
 }
