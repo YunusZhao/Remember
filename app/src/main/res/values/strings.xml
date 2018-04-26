@@ -47,5 +47,6 @@
     <string name="input">请输入文本</string>
     <string name="send">发送</string>
     <string name="cut">裁剪</string>
+    <string name="day">天</string>
 
 </resources>

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yunus.remember.R;
+import com.yunus.remember.activity.home.DiariesActivity;
 import com.yunus.remember.activity.home.TestActivity;
 import com.yunus.remember.activity.mine.BooksActivity;
 import com.yunus.remember.activity.mine.ProgressActivity;
@@ -57,6 +59,7 @@ public class HomeFragment extends Fragment {
     LinearLayout commonLayout;
     TextView addBook;
     ProgressBar progress;
+    ImageView allDiary;
 
     public HomeFragment() {
 
@@ -64,8 +67,8 @@ public class HomeFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle
-            savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_pager_home, container, false);
         return view;
     }
@@ -86,6 +89,7 @@ public class HomeFragment extends Fragment {
         commonLayout = getActivity().findViewById(R.id.home_common_layout);
         addBook = getActivity().findViewById(R.id.home_add_book);
         progress = getActivity().findViewById(R.id.home_progress);
+        allDiary = getActivity().findViewById(R.id.home_calendar);
 
         startStudy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,13 +114,22 @@ public class HomeFragment extends Fragment {
                 getActivity().startActivity(intent);
             }
         });
+
+        allDiary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DiariesActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        if (!StorageUtil.getString(getContext(), StorageUtil.TODAY_DATE, " ").equals(StorageUtil.getToday())) {
+        if (!StorageUtil.getString(getContext(), StorageUtil.TODAY_DATE, " ").equals(StorageUtil
+                .getToday())) {
 
             commonLayout.setVisibility(View.GONE);
             numLayout.setVisibility(View.INVISIBLE);
@@ -131,10 +144,14 @@ public class HomeFragment extends Fragment {
     }
 
     private void initText() {
-        doneDay.setText(String.valueOf(StorageUtil.getInt(getContext(), StorageUtil.REGISTER_DAY, 0)));
-        newNum.setText(String.valueOf(StorageUtil.getInt(getContext(), StorageUtil.TODAY_REAL_NEW_NUM, 0)));
-        todayNum.setText(String.valueOf(StorageUtil.getInt(getContext(), StorageUtil.TODAY_NUM, 0)));
-        remainNum.setText(String.valueOf(StorageUtil.getInt(getContext(), StorageUtil.TODAY_REMAIN_NUM, 0)));
+        doneDay.setText(String.valueOf(StorageUtil.getInt(getContext(), StorageUtil.REGISTER_DAY,
+                0)));
+        newNum.setText(String.valueOf(StorageUtil.getInt(getContext(), StorageUtil
+                .TODAY_REAL_NEW_NUM, 0)));
+        todayNum.setText(String.valueOf(StorageUtil.getInt(getContext(), StorageUtil.TODAY_NUM,
+                0)));
+        remainNum.setText(String.valueOf(StorageUtil.getInt(getContext(), StorageUtil
+                .TODAY_REMAIN_NUM, 0)));
         mineNum.setText(String.valueOf(StorageUtil.getInt(getContext(), StorageUtil.WORDS_NUM, 0)));
     }
 
@@ -169,10 +186,12 @@ public class HomeFragment extends Fragment {
                     importance = 3;
 
             }
-            if (DataSupport.where("level = ? and importance = ?", level + "", importance + "").count(Word.class) == 0) {
+            if (DataSupport.where("level = ? and importance = ?", level + "", importance + "")
+                    .count(Word.class) == 0) {
                 return getWord(level);
             }
-            Word word = DataSupport.where("level = ? and importance = ?", level + "", importance + "").findFirst(Word
+            Word word = DataSupport.where("level = ? and importance = ?", level + "", importance
+                    + "").findFirst(Word
                     .class);
             DataSupport.delete(Word.class, word.getId());
             return word;
@@ -200,21 +219,24 @@ public class HomeFragment extends Fragment {
             int needStudyNum = StorageUtil.getInt(getContext(), StorageUtil.WORDS_NUM, 0) -
                     StorageUtil.getInt(getContext(), StorageUtil.WORDS_STUDIED_NUM, 0);
             if (needStudyNum < StorageUtil.getInt(getContext(), StorageUtil.TODAY_NUM, 0)) {
-                StorageUtil.updateInt(getContext(), StorageUtil.TODAY_REAL_NEW_NUM, StorageUtil.getInt(getContext(),
-                        StorageUtil.TODAY_NUM, 0) - needStudyNum);
+                StorageUtil.updateInt(getContext(), StorageUtil.TODAY_REAL_NEW_NUM, StorageUtil
+                        .getInt(getContext(),
+                                StorageUtil.TODAY_NUM, 0) - needStudyNum);
             } else {
                 int wordNum = DataSupport.where("importance > 3").count(Word.class);
                 if (wordNum >= StorageUtil.getInt(getContext(), StorageUtil.TODAY_NEW_NUM, 0)) {
                     StorageUtil.updateInt(getContext(), StorageUtil.TODAY_REAL_NEW_NUM, 0);
                 } else {
-                    StorageUtil.updateInt(getContext(), StorageUtil.TODAY_REAL_NEW_NUM, StorageUtil.getInt(getContext
-                            (), StorageUtil.TODAY_NEW_NUM, 0) - wordNum);
+                    StorageUtil.updateInt(getContext(), StorageUtil.TODAY_REAL_NEW_NUM,
+                            StorageUtil.getInt(getContext
+                                    (), StorageUtil.TODAY_NEW_NUM, 0) - wordNum);
 
                 }
             }
 
             //更新上次登陆记录
-            DataSupport.deleteAll(SevenDaysReview.class, "theDate before ?", new Date(System.currentTimeMillis() -
+            DataSupport.deleteAll(SevenDaysReview.class, "theDate before ?", new Date(System
+                    .currentTimeMillis() -
                     (long) (6 * 24 * 60 * 60 * 1000)).toString());
             SevenDaysReview lastReview = DataSupport.findLast(SevenDaysReview.class);
             lastReview.setStudiedTime(StorageUtil.getInt(getContext(), StorageUtil.STUDY_TIME, 0));
@@ -222,18 +244,22 @@ public class HomeFragment extends Fragment {
 
             //更新今天记录
             int studiedNum = DataSupport.where("level < 1").count(Word.class);
-            SevenDaysReview newReview = new SevenDaysReview(new Date(System.currentTimeMillis()), studiedNum);
+            SevenDaysReview newReview = new SevenDaysReview(new Date(System.currentTimeMillis()),
+                    studiedNum);
             newReview.save();
 
             //本地词库填充
             DataSupport.deleteAll(TodayWord.class);
-            int needNum = StorageUtil.getInt(getContext(), StorageUtil.TODAY_NUM, 0) - StorageUtil.getInt(getContext
-                    (), StorageUtil.TODAY_REAL_NEW_NUM, 0);
-            List<Word> words = DataSupport.where("importance > 3").limit(needNum).order("importance desc").find(Word
+            int needNum = StorageUtil.getInt(getContext(), StorageUtil.TODAY_NUM, 0) -
+                    StorageUtil.getInt(getContext
+                            (), StorageUtil.TODAY_REAL_NEW_NUM, 0);
+            List<Word> words = DataSupport.where("importance > 3").limit(needNum).order
+                    ("importance desc").find(Word
                     .class);
             List<TodayWord> todayWords = new ArrayList<>();
             for (Word word : words) {
-                todayWords.add(new TodayWord(word.getSpell(), word.getMean(), word.getPhonogram(), word.getSentence()
+                todayWords.add(new TodayWord(word.getSpell(), word.getMean(), word.getPhonogram()
+                        , word.getSentence()
                         , 1));
             }
             needNum = needNum - words.size();
@@ -253,7 +279,8 @@ public class HomeFragment extends Fragment {
             }
             DataSupport.saveAll(saveWords);
             for (Word word : saveWords) {
-                todayWords.add(new TodayWord(word.getSpell(), word.getMean(), word.getPhonogram(), word.getSentence()
+                todayWords.add(new TodayWord(word.getSpell(), word.getMean(), word.getPhonogram()
+                        , word.getSentence()
                         , 1));
             }
             DataSupport.saveAll(todayWords);
@@ -261,8 +288,10 @@ public class HomeFragment extends Fragment {
             //联网，下载生成今日单词
             RequestBody body = new FormBody.Builder()
                     .add("userId", "" + StorageUtil.getInt(getContext(), StorageUtil.USER_ID, 0))
-                    .add("bookId", "" + DataSupport.where("state = -1").findFirst(Book.class).getId())
-                    .add("needNum", "" + StorageUtil.getInt(getContext(), StorageUtil.TODAY_REAL_NEW_NUM, 0))
+                    .add("bookId", "" + DataSupport.where("state = -1").findFirst(Book.class)
+                            .getId())
+                    .add("needNum", "" + StorageUtil.getInt(getContext(), StorageUtil
+                            .TODAY_REAL_NEW_NUM, 0))
                     .build();
             HttpUtil.postOkhttpRequest(body, new Callback() {
                 @Override
@@ -279,8 +308,8 @@ public class HomeFragment extends Fragment {
                     for (Word word : netWords) {
                         word.setLevel(5);
                         word.setImportance(0);
-                        new TodayWord(word.getSpell(), word.getMean(), word.getPhonogram(), word.getSentence(), 1)
-                                .save();
+                        new TodayWord(word.getSpell(), word.getMean(), word.getPhonogram(),
+                                word.getSentence(), 1).save();
                     }
                     DataSupport.saveAll(netWords);
                 }
