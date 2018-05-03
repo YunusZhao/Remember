@@ -39,14 +39,17 @@
     <string name="delete">删除</string>
     <string name="self_test">自测模式</string>
     <string name="diary_text_shorty"> 天打卡</string>
-    <string name="allDiary">全部日记</string>
-    <string name="registerDiary">打卡日记</string>
-    <string name="myBook">我的图书</string>
-    <string name="allBooks">书库</string>
+    <string name="all_diary">全部日记</string>
+    <string name="register_diary">打卡日记</string>
+    <string name="my_book">我的图书</string>
+    <string name="all_books">书库</string>
     <string name="message">消息</string>
     <string name="input">请输入文本</string>
     <string name="send">发送</string>
-    <string name="cut">裁剪</string>
+    <string name="ok">确定</string>
     <string name="day">天</string>
+    <string name="new_name">新昵称</string>
+    <string name="change_name">修改昵称</string>
+    <string name="new_friend">添加朋友</string>
 
 </resources>

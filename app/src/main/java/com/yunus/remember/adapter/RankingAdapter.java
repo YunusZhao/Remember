@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.yunus.remember.R;
 import com.yunus.remember.entity.Friend;
 
@@ -19,7 +20,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class RankingAdapter extends ArrayAdapter<Friend> {
     private int resourceId;
 
-    public RankingAdapter(@NonNull Context context, int textViewResourceId, @NonNull List<Friend> objects) {
+    public RankingAdapter(@NonNull Context context, int textViewResourceId, @NonNull List<Friend>
+            objects) {
         super(context, textViewResourceId, objects);
         resourceId = textViewResourceId;
     }
@@ -46,11 +48,11 @@ public class RankingAdapter extends ArrayAdapter<Friend> {
             viewHolder = (ViewHolder) view.getTag();
         }
         viewHolder.ranking.setText(position);
-//        viewHolder.image;
+        Glide.with(view.getContext()).load(friend.getPortrait()).into(viewHolder.image);
         viewHolder.name.setText(friend.getName());
         viewHolder.summary.setText(friend.getSummary());
-//        viewHolder.allNum = ;
-//        viewHolder.allTime = ;
+        viewHolder.allNum.setText(friend.getWordNum());
+        viewHolder.allTime.setText(friend.getAllTime());
         return view;
     }
 

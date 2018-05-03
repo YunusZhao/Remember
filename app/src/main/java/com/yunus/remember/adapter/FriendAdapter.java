@@ -7,49 +7,51 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yunus.remember.R;
-import com.yunus.remember.entity.RegisterCount;
-import com.yunus.remember.utils.StorageUtil;
+import com.yunus.remember.entity.Friend;
 
 import java.util.List;
 
-public class DiaryAdapter extends ArrayAdapter<RegisterCount> {
+public class FriendAdapter extends ArrayAdapter<Friend> {
 
     private int resourceId;
 
-    public DiaryAdapter(@NonNull Context context, int textViewResourceId, @NonNull
-            List<RegisterCount> objects) {
-        super(context, textViewResourceId, objects);
-        resourceId = textViewResourceId;
+
+    public FriendAdapter(@NonNull Context context, int resource, @NonNull List<Friend> objects) {
+        super(context, resource, objects);
+        resourceId = resource;
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        RegisterCount diary = getItem(position);
+        Friend friend = getItem(position);
         View view;
         ViewHolder viewHolder;
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
-            viewHolder.date = view.findViewById(R.id.diaries_item_date);
-            viewHolder.textLong = view.findViewById(R.id.diaries_item_text_long);
+            viewHolder.name = view.findViewById(R.id.item_friend_name);
+            viewHolder.summary = view.findViewById(R.id.item_friend_summary);
+            viewHolder.right = view.findViewById(R.id.item_friend_right);
             view.setTag(viewHolder);
 
         } else {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.date.setText(StorageUtil.getDate(diary.getRegisterDate()));
-        viewHolder.textLong.setText("第" + diary.getDayCount() + "天打卡/学习了" + diary.getWordNum() +
-                "个单词，学习时间" + diary.getStudyTime() + "分钟");
+        viewHolder.name.setText(friend.getName());
+        viewHolder.summary.setText(friend.getSummary());
+        viewHolder.right.setVisibility(View.GONE);
         return view;
     }
 
     class ViewHolder {
-        TextView date;
-        TextView textLong;
+        TextView name;
+        TextView summary;
+        LinearLayout right;
     }
 }

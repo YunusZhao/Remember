@@ -5,9 +5,16 @@ import android.os.Bundle;
 
 import com.example.yunus.activity.BaseActivity;
 import com.yunus.remember.R;
+import com.yunus.remember.entity.SevenDaysReview;
+import com.yunus.remember.utils.StorageUtil;
 
+import org.litepal.crud.DataSupport;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
@@ -26,9 +33,13 @@ import lecho.lib.hellocharts.view.ComboLineColumnChartView;
 import lecho.lib.hellocharts.view.LineChartView;
 
 public class ProgressActivity extends BaseActivity {
+    Calendar c;
+    List<SevenDaysReview> reviews;
     private int numberOfLines = 1;
     private int maxNumberOfLines = 2;
     private int numberOfPoints = 7;
+    float[][] lineNumbers = new float[maxNumberOfLines][numberOfPoints];
+    float[][] comboNumbers = new float[maxNumberOfLines][numberOfPoints];
     private boolean hasAxes = true;
     private boolean hasAxesNames = false;
     private boolean hasLines = true;
@@ -39,14 +50,9 @@ public class ProgressActivity extends BaseActivity {
     private boolean isCubic = false;
     private boolean hasLabelForSelected = true;
     private String[] dates = new String[7];
-
     private LineChartView lineChart;
-    float[][] randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
-
     private ColumnChartView columnChart;
-
     private ComboLineColumnChartView comboChart;
-    float[][] randomNumbersTab2 = new float[maxNumberOfLines][numberOfPoints];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,17 +76,49 @@ public class ProgressActivity extends BaseActivity {
     }
 
     private void initDates() {
+        c = Calendar.getInstance();
         for (int i = 0; i < numberOfPoints; ++i) {
-            dates[i] = "4." + (i + 10);
+            SimpleDateFormat sdf = new SimpleDateFormat("MM.dd", Locale.getDefault());
+            dates[i] = sdf.format(c.getTime());
+            c.add(Calendar.DATE, -1);
         }
+        reviews = DataSupport.findAll(SevenDaysReview.class);
     }
 
     private void generateLineValues() {
-        for (int i = 0; i < maxNumberOfLines; ++i) {
-            for (int j = 0; j < numberOfPoints; ++j) {
-                randomNumbersTab[i][j] = (float) Math.random() * 100f;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
+        c = Calendar.getInstance();
+        c.add(Calendar.DATE, -6);
+        SevenDaysReview review;
+        int i = 0;
+        for (int j = 0; j < numberOfPoints; ++j) {
+            if (reviews.isEmpty()) {
+                lineNumbers[0][j] = 0;
+                lineNumbers[1][j] = 0;
+            } else {
+                if (i < reviews.size()) {
+                    review = reviews.get(i);
+                    if (StorageUtil.getDate(review.getTheDate()).equals(sdf.format(c.getTime()))) {
+                        i++;
+                        lineNumbers[0][j] = (float) review.getAllWordsCount();
+                        lineNumbers[1][j] = (float) review.getAllHadCount();
+                    } else {
+                        if (j == 0) {
+                            lineNumbers[0][j] = 0;
+                            lineNumbers[1][j] = 0;
+                        } else {
+                            lineNumbers[0][j] = lineNumbers[0][j - 1];
+                            lineNumbers[1][j] = lineNumbers[0][j - 1];
+                        }
+                    }
+                } else {
+                    lineNumbers[0][j] = lineNumbers[0][j - 1];
+                    lineNumbers[1][j] = lineNumbers[0][j - 1];
+                }
             }
+            c.add(Calendar.DATE, 1);
         }
+
     }
 
     private void generateLineData() {
@@ -90,7 +128,7 @@ public class ProgressActivity extends BaseActivity {
 
             List<PointValue> values = new ArrayList<PointValue>();
             for (int j = 0; j < numberOfPoints; ++j) {
-                values.add(new PointValue(j, randomNumbersTab[i][j]));
+                values.add(new PointValue(j, lineNumbers[i][j]));
             }
 
             Line line = new Line(values);
@@ -158,7 +196,7 @@ public class ProgressActivity extends BaseActivity {
         // Reset viewport height range to (0,100)
         Viewport v = new Viewport(lineChart.getMaximumViewport());
         v.bottom = 0;
-        v.top = 103;
+        v.top = StorageUtil.getInt(ProgressActivity.this, StorageUtil.WORDS_NUM, 100) + 20;
         v.left = -0.2f;
         v.right = numberOfPoints - 0.8f;
         lineChart.setMaximumViewport(v);
@@ -168,15 +206,35 @@ public class ProgressActivity extends BaseActivity {
     private void generateColumnLineData() {
         int numSubcolumns = 1;
         // Column can have many subcolumns, here by default I use 1 subcolumn in each of 8 columns.
-        List<Column> columns = new ArrayList<Column>();
+        List<Column> columns = new ArrayList<>();
         List<SubcolumnValue> values;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
+        c = Calendar.getInstance();
+        c.add(Calendar.DATE, -6);
+        SevenDaysReview review;
+        int k = 0;
+        int num = 0;
         for (int i = 0; i < numberOfPoints; ++i) {
-
-            values = new ArrayList<SubcolumnValue>();
-            for (int j = 0; j < numSubcolumns; ++j) {
-                values.add(new SubcolumnValue((float) Math.random() * 50f + 5, ChartUtils.COLOR_BLUE));
+            if (reviews.isEmpty()) {
+                num = 0;
+            } else {
+                if (k < reviews.size()) {
+                    review = reviews.get(k);
+                    if (StorageUtil.getDate(review.getTheDate()).equals(sdf.format(c.getTime()))) {
+                        k++;
+                        num = review.getTodayStudiedCount();
+                    } else {
+                        if (i == 0) {
+                            num = 0;
+                        }
+                    }
+                }
             }
-
+            c.add(Calendar.DATE, 1);
+            values = new ArrayList<>();
+            for (int j = 0; j < numSubcolumns; ++j) {
+                values.add(new SubcolumnValue((float) num, ChartUtils.COLOR_BLUE));
+            }
             Column column = new Column(values);
             column.setHasLabels(hasLabels);
             column.setHasLabelsOnlyForSelected(hasLabelForSelected);
@@ -211,7 +269,7 @@ public class ProgressActivity extends BaseActivity {
         // Reset viewport height range to (0,100)
         Viewport v = new Viewport(columnChart.getMaximumViewport());
         v.bottom = 0;
-        v.top = 103;
+        v.top = StorageUtil.getInt(ProgressActivity.this, StorageUtil.TODAY_NUM, 100);
         v.left = -0.5f;
         v.right = numberOfPoints - 0.5f;
         columnChart.setMaximumViewport(v);
@@ -219,16 +277,39 @@ public class ProgressActivity extends BaseActivity {
     }
 
     private void generateComboValues() {
-        for (int i = 0; i < maxNumberOfLines; ++i) {
-            for (int j = 0; j < numberOfPoints; ++j) {
-                randomNumbersTab2[i][j] = (float) Math.random() * 50f + 5;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
+        c = Calendar.getInstance();
+        c.add(Calendar.DATE, -6);
+        SevenDaysReview review;
+        int i = 0;
+        for (int j = 0; j < numberOfPoints; ++j) {
+            if (reviews.isEmpty()) {
+                comboNumbers[0][j] = 0;
+            } else {
+                if (i < reviews.size()) {
+                    review = reviews.get(i);
+                    if (StorageUtil.getDate(review.getTheDate()).equals(sdf.format(c.getTime()))) {
+                        i++;
+                        comboNumbers[0][j] = (float) review.getStudiedTime();
+                    } else {
+                        if (j == 0) {
+                            comboNumbers[0][j] = 0;
+                        } else {
+                            comboNumbers[0][j] = comboNumbers[0][j - 1];
+                        }
+                    }
+                } else {
+                    comboNumbers[0][j] = comboNumbers[0][j - 1];
+                }
             }
+            c.add(Calendar.DATE, 1);
         }
     }
 
     private void generateComboData() {
         // Chart looks the best when line data and column data have similar maximum viewports.
-        ComboLineColumnChartData comboData = new ComboLineColumnChartData(generateComboColumnData(), generateComboLineData());
+        ComboLineColumnChartData comboData = new ComboLineColumnChartData(generateComboColumnData
+                (), generateComboLineData());
 
         if (hasAxes) {
             Axis axisX = new Axis().setHasLines(true);
@@ -254,7 +335,7 @@ public class ProgressActivity extends BaseActivity {
 
             List<PointValue> values = new ArrayList<PointValue>();
             for (int j = 0; j < numberOfPoints; ++j) {
-                values.add(new PointValue(j, randomNumbersTab2[i][j]));
+                values.add(new PointValue(j, comboNumbers[i][j]));
             }
 
             Line line = new Line(values);
@@ -277,7 +358,7 @@ public class ProgressActivity extends BaseActivity {
         for (int i = 0; i < numberOfPoints; ++i) {
             values = new ArrayList<SubcolumnValue>();
             for (int j = 0; j < numSubcolumns; ++j) {
-                values.add(new SubcolumnValue(randomNumbersTab2[j][i], ChartUtils.COLOR_GREEN));
+                values.add(new SubcolumnValue(comboNumbers[j][i], ChartUtils.COLOR_GREEN));
             }
             columns.add(new Column(values));
         }

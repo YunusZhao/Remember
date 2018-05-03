@@ -1,8 +1,6 @@
 package com.yunus.remember.activity.home;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.widget.Toolbar;
@@ -18,15 +16,16 @@ import com.example.yunus.activity.BaseActivity;
 import com.example.yunus.utils.LogUtil;
 import com.yunus.remember.R;
 import com.yunus.remember.activity.chief.SearchActivity;
+import com.yunus.remember.entity.SevenDaysReview;
 import com.yunus.remember.entity.TodayWord;
 import com.yunus.remember.entity.Word;
 import com.yunus.remember.utils.StorageUtil;
 
 import org.litepal.crud.DataSupport;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -43,12 +42,10 @@ public class TestActivity extends BaseActivity {
     Button unknow;
     Button detail;
     TextToSpeech tts;
-    private byte state = 0;
     LinearLayout sentence;
     List<TodayWord> words;
     int position;
     long beginTime;
-
     Runnable command = new Runnable() {
         @Override
         public void run() {
@@ -56,12 +53,13 @@ public class TestActivity extends BaseActivity {
         }
     };
     ExecutorService single = Executors.newSingleThreadExecutor();
+    private byte state = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        toolbar = (Toolbar) findViewById(R.id.test_toolbar);
+        toolbar = findViewById(R.id.test_toolbar);
 
         toolbar.setTitle(R.string.self_test);
         setSupportActionBar(toolbar);
@@ -120,7 +118,6 @@ public class TestActivity extends BaseActivity {
                 if (words.get(position).getLevel() == 0) {
                     single.execute(command);
                 }
-
                 Intent intent = new Intent(TestActivity.this, DetailActivity.class);
                 intent.putExtra("today_word", words.get(position));
                 startActivity(intent);
@@ -145,7 +142,8 @@ public class TestActivity extends BaseActivity {
                         sentence.setVisibility(View.VISIBLE);
                         if (tts != null) {
                             tts.setPitch(1.2f);// 设置音调，值越大声音越尖（女生），值越小则变成男声,1.0是常规
-                            tts.speak(sentenceWord.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+                            tts.speak(sentenceWord.getText().toString(), TextToSpeech
+                                    .QUEUE_FLUSH, null);
                         }
                         state += 1;
                         words.get(position).setLevel(2);
@@ -173,14 +171,23 @@ public class TestActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        StorageUtil.updateInt(TestActivity.this, StorageUtil.STUDY_TIME, ((StorageUtil.getInt(TestActivity.this, StorageUtil.STUDY_TIME, 0) + (int) (System.currentTimeMillis() - beginTime))));
+        StorageUtil.updateInt(TestActivity.this, StorageUtil.STUDY_TIME, ((StorageUtil.getInt
+                (TestActivity.this, StorageUtil.STUDY_TIME, 0) + (int) (System.currentTimeMillis
+                () - beginTime))));
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         //save学习时间
+        Date today = new Date(System.currentTimeMillis());
+        SevenDaysReview review = DataSupport.where("date = ?", today.toString()).findLast
+                (SevenDaysReview.class);
+        LogUtil.d("TestActivity", today.toString());
+        review.setStudiedTime(StorageUtil.getInt(this, StorageUtil.STUDY_TIME, 0));
+        review.save();
 
+        DataSupport.saveAll(words);
         if (tts != null) {
             tts.shutdown();
         }
@@ -231,8 +238,7 @@ public class TestActivity extends BaseActivity {
     }
 
     private void updateWord(TodayWord todayWord) {
-        List<Word> words = DataSupport.where("spell = ?", todayWord.getSpell()).find(Word.class);
-        Word word = words.get(0);
+        Word word = DataSupport.where("spell = ?", todayWord.getSpell()).findFirst(Word.class);
         word.setImportance(0);
         if (todayWord.getLevel() == -1) {
             word.setLevel(-1);

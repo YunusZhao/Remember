@@ -88,11 +88,14 @@ public class RegisterActivity extends BaseActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (name.getText().toString().isEmpty() || !RWUtil.isName(name.getText().toString())) {
+                if (name.getText().toString().isEmpty() || !RWUtil.isName(name.getText().toString
+                        ())) {
                     Toast.makeText(RegisterActivity.this, "昵称输入错误", Toast.LENGTH_SHORT).show();
-                } else if (email.getText().toString().isEmpty() || !RWUtil.isEmail(email.getText().toString())) {
+                } else if (email.getText().toString().isEmpty() || !RWUtil.isEmail(email.getText
+                        ().toString())) {
                     Toast.makeText(RegisterActivity.this, "邮箱输入错误", Toast.LENGTH_SHORT).show();
-                } else if (password.getText().toString().isEmpty() || !RWUtil.isPwd(password.getText().toString())) {
+                } else if (password.getText().toString().isEmpty() || !RWUtil.isPwd(password
+                        .getText().toString())) {
                     Toast.makeText(RegisterActivity.this, "密码输入错误", Toast.LENGTH_SHORT).show();
                 } else {
                     myDialog = ProgressDialog.show(RegisterActivity.this, "提示...", "注册中...", true);
@@ -124,15 +127,15 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void getView() {
-        toolbar = (Toolbar) findViewById(R.id.register_toolbar);
-        toolbarTitle = (TextView) findViewById(R.id.begin_toolbar_title);
-        portrait = (CircleImageView) findViewById(R.id.register_portrait);
-        addPortrait = (ImageButton) findViewById(R.id.register_add_portrait);
+        toolbar = findViewById(R.id.register_toolbar);
+        toolbarTitle = findViewById(R.id.begin_toolbar_title);
+        portrait = findViewById(R.id.register_portrait);
+        addPortrait = findViewById(R.id.register_add_portrait);
         name = findViewById(R.id.register_name);
-        email = (EditText) findViewById(R.id.register_email);
-        password = (EditText) findViewById(R.id.register_password);
-        register = (Button) findViewById(R.id.btn_register);
-        login = (TextView) findViewById(R.id.register_to_login);
+        email = findViewById(R.id.register_email);
+        password = findViewById(R.id.register_password);
+        register = findViewById(R.id.btn_register);
+        login = findViewById(R.id.register_to_login);
     }
 
     private void openAlbum() {
@@ -142,11 +145,12 @@ public class RegisterActivity extends BaseActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[]
-            grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         switch (requestCode) {
             case 1:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager
+                        .PERMISSION_GRANTED) {
                     openAlbum();
                 } else {
                     Toast.makeText(this, "无权限", Toast.LENGTH_SHORT).show();
@@ -200,8 +204,8 @@ public class RegisterActivity extends BaseActivity {
                 String selection = MediaStore.Images.Media._ID + "=" + id;
                 imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
             } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
-                Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long
-                        .valueOf(docId));
+                Uri contentUri = ContentUris.withAppendedId(Uri.parse
+                        ("content://downloads/public_downloads"), Long.valueOf(docId));
                 imagePath = getImagePath(contentUri, null);
             }
         } else if ("content".equalsIgnoreCase(uri.getScheme())) {
@@ -239,7 +243,7 @@ public class RegisterActivity extends BaseActivity {
             intent.putExtra("source", imagePath);
             startActivityForResult(intent, APPLY_PHOTO);
         } else {
-            Toast.makeText(this, "failed to get image", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "获取图片失败", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -251,7 +255,7 @@ public class RegisterActivity extends BaseActivity {
                 .add("password", password.getText().toString())
                 .add("action", "password")
                 .build();
-        HttpUtil.postOkhttpRequest(requestBody, new Callback() {
+        HttpUtil.post(requestBody, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 runOnUiThread(new Runnable() {
@@ -272,16 +276,22 @@ public class RegisterActivity extends BaseActivity {
                         myDialog.dismiss();
                         switch (result) {
                             case "0":
-                                Toast.makeText(RegisterActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, "注册失败", Toast.LENGTH_SHORT)
+                                        .show();
                                 break;
                             case "1":
-                                Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT)
+                                        .show();
+                                //todo 解析数据，将个人信息存至本地和数据库
+
+                                Intent intent = new Intent(RegisterActivity.this, LoginActivity
+                                        .class);
                                 finish();
                                 startActivity(intent);
                                 break;
                             default:
-                                Toast.makeText(RegisterActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, "注册失败", Toast.LENGTH_SHORT)
+                                        .show();
                         }
                     }
                 });

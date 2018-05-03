@@ -293,7 +293,7 @@ public class HomeFragment extends Fragment {
                     .add("needNum", "" + StorageUtil.getInt(getContext(), StorageUtil
                             .TODAY_REAL_NEW_NUM, 0))
                     .build();
-            HttpUtil.postOkhttpRequest(body, new Callback() {
+            HttpUtil.post(body, new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
 

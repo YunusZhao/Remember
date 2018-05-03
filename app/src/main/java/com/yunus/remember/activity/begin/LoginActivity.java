@@ -69,9 +69,11 @@ public class LoginActivity extends BaseActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (email.getText().toString().isEmpty() || !RWUtil.isEmail(email.getText().toString())) {
+                if (email.getText().toString().isEmpty() ||
+                        !RWUtil.isEmail(email.getText().toString())) {
                     Toast.makeText(LoginActivity.this, "邮箱输入错误", Toast.LENGTH_SHORT).show();
-                } else if (password.getText().toString().isEmpty() || !RWUtil.isPwd(password.getText().toString())) {
+                } else if (password.getText().toString().isEmpty() ||
+                        !RWUtil.isPwd(password.getText().toString())) {
                     Toast.makeText(LoginActivity.this, "密码输入错误", Toast.LENGTH_SHORT).show();
                 } else {
                     myDialog = ProgressDialog.show(LoginActivity.this, "提示...", "登陆中...", true);
@@ -94,14 +96,14 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void getView() {
-        toolbar = (Toolbar) findViewById(R.id.login_toolbar);
-        toolbarTitle = (TextView) findViewById(R.id.begin_toolbar_title);
-        portrait = (CircleImageView) findViewById(R.id.login_portrait);
-        email = (EditText) findViewById(R.id.login_email);
-        password = (EditText) findViewById(R.id.login_password);
-        login = (Button) findViewById(R.id.btn_login);
-        forgetPassword = (TextView) findViewById(R.id.login_forget_password);
-        register = (TextView) findViewById(R.id.login_to_register);
+        toolbar = findViewById(R.id.login_toolbar);
+        toolbarTitle = findViewById(R.id.begin_toolbar_title);
+        portrait = findViewById(R.id.login_portrait);
+        email = findViewById(R.id.login_email);
+        password = findViewById(R.id.login_password);
+        login = findViewById(R.id.btn_login);
+        forgetPassword = findViewById(R.id.login_forget_password);
+        register = findViewById(R.id.login_to_register);
     }
 
     private void loginToIntel() {
@@ -110,7 +112,7 @@ public class LoginActivity extends BaseActivity {
                 .add("password", password.getText().toString())
                 .add("action", "login")
                 .build();
-        HttpUtil.postOkhttpRequest(requestBody, new Callback() {
+        HttpUtil.post(requestBody, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 runOnUiThread(new Runnable() {
@@ -125,7 +127,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String result = response.body().string();
-                if (!"-1".equals(result)){
+                if (!"-1".equals(result)) {
                     //TODO 解析数据保存至数据库
                     String session = response.header("set-cookie");
                     StorageUtil.updateString(LoginActivity.this, StorageUtil.SESSION, session);
@@ -136,7 +138,8 @@ public class LoginActivity extends BaseActivity {
                         myDialog.dismiss();
                         switch (result) {
                             case "-1":
-                                Toast.makeText(LoginActivity.this, "登陆失败", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "登陆失败", Toast.LENGTH_SHORT)
+                                        .show();
                                 break;
                             default:
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);

@@ -1,46 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.mine.MineWordsActivity">
 
-    <include layout="@layout/main_toolbar"/>
+    <include
+        android:id="@+id/mine_words_toolbar"
+        layout="@layout/main_toolbar" />
 
     <RadioGroup
+        android:id="@+id/words_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#fff">
-        <RadioButton
-            android:id="@+id/rb_channel"
-            style="@style/tab_menu_item"
-            android:text="今日单词" />
-        <RadioButton
+        android:background="@color/white"
+        android:orientation="horizontal">
 
-            style="@style/tab_menu_item"
-            android:text="今日单词" />
         <RadioButton
-
+            android:id="@+id/today_word"
             style="@style/tab_menu_item"
             android:text="今日单词" />
+
         <RadioButton
-
+            android:id="@+id/new_word"
             style="@style/tab_menu_item"
-            android:text="今日单词" />
+            android:text="新的单词" />
+
         <RadioButton
-
+            android:id="@+id/study_word"
             style="@style/tab_menu_item"
-            android:text="今日单词" />
+            android:text="正在学习" />
+
+        <RadioButton
+            android:id="@+id/had_word"
+            style="@style/tab_menu_item"
+            android:text="掌握单词" />
+
+        <RadioButton
+            android:id="@+id/simple_word"
+            style="@style/tab_menu_item"
+            android:text="简单单词" />
     </RadioGroup>
 
     <ListView
+        android:id="@+id/mine_words_list_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-    </ListView>
+        android:layout_weight="1" />
 
 </LinearLayout>

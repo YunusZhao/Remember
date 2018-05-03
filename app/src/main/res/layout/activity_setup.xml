@@ -8,9 +8,11 @@
     android:orientation="vertical"
     tools:context="com.yunus.remember.activity.mine.SetupActivity">
 
-    <include layout="@layout/main_toolbar"/>
+    <include layout="@layout/main_toolbar"
+        android:id="@+id/setup_toolbar"/>
 
     <Button
+        android:id="@+id/setup_study"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,6 +22,7 @@
         android:background="#fff"/>
 
     <Button
+        android:id="@+id/setup_account"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,6 +32,7 @@
         android:background="#fff"/>
 
     <Button
+        android:id="@+id/setup_about"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,6 +42,7 @@
         android:background="#fff"/>
 
     <Button
+        android:id="@+id/setup_logout"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

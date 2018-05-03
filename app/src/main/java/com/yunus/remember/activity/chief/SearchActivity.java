@@ -1,35 +1,39 @@
 package com.yunus.remember.activity.chief;
 
-import com.example.yunus.utils.LogUtil;
-import com.yunus.remember.R;
-
 import android.os.Bundle;
-
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.example.yunus.activity.BaseActivity;
+import com.example.yunus.utils.LogUtil;
+import com.yunus.remember.R;
 import com.yunus.remember.adapter.SearchWordAdapter;
 import com.yunus.remember.entity.Word;
+import com.yunus.remember.utils.HttpUtil;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
 public class SearchActivity extends BaseActivity {
 
+    private ListView listView;
     private List<Word> wordList = new ArrayList<>();
-    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.search_toolbar);
-        SearchView searchView = (SearchView) findViewById(R.id.search_view);
-        listView = (ListView) findViewById(R.id.search_list_view);
+        Toolbar toolbar = findViewById(R.id.search_toolbar);
+        final SearchView searchView = findViewById(R.id.search_view);
+        listView = findViewById(R.id.search_list_view);
 
         setSupportActionBar(toolbar);
 
@@ -52,10 +56,9 @@ public class SearchActivity extends BaseActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 wordList.clear();
-                wordList.addAll(getWords());
+                getWords(newText);
                 LogUtil.d("before", wordList.toString());
-                setAdapter(wordList);
-                return false;
+                return true;
             }
         });
     }
@@ -66,15 +69,34 @@ public class SearchActivity extends BaseActivity {
                     R.layout.item_search_word, list);
             listView.setAdapter(adapter);
         } else {
-            ((SearchWordAdapter)listView.getAdapter()).notifyDataSetChanged();
+            ((SearchWordAdapter) listView.getAdapter()).notifyDataSetChanged();
             LogUtil.d("SearchActivity", list.toString());
         }
     }
 
-    private List<Word> getWords() {
-        List<Word> list = new ArrayList<>();
-        list.add(new Word("qwe", "as"));
-        return list;
+    private void getWords(String data) {
+        HttpUtil.searchWord(data, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (wordList.isEmpty()) {
+                            listView.setVisibility(View.GONE);
+                        } else {
+                            setAdapter(wordList);
+                        }
+
+                    }
+                });
+            }
+        });
     }
 
 }

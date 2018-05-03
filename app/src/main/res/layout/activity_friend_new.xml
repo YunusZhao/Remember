@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.mine.FriendNewActivity">
 
-    <include layout="@layout/main_toolbar"/>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/friend_new_toolbar"
+        style="@style/Toolbar.MyStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:navigationIcon="@mipmap/back"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextAppearance="@style/Toolbar.TitleText">
+
+        <SearchView
+            android:id="@+id/friend_new_search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:iconifiedByDefault="false"
+            android:queryHint="查询英文" />
+    </android.support.v7.widget.Toolbar>
 
     <ListView
+        android:id="@+id/friend_new_list_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </ListView>
-
+        android:layout_height="wrap_content" />
 </LinearLayout>

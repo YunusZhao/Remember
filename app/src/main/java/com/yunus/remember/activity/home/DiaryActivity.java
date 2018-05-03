@@ -9,12 +9,9 @@ import android.widget.TextView;
 
 import com.example.yunus.activity.BaseActivity;
 import com.yunus.remember.R;
+import com.yunus.remember.entity.Friend;
 import com.yunus.remember.entity.RegisterCount;
 import com.yunus.remember.utils.StorageUtil;
-
-import org.litepal.crud.DataSupport;
-
-import java.sql.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -28,7 +25,7 @@ public class DiaryActivity extends BaseActivity {
     TextView textLong;
     Button allDiary;
 
-    Date date;
+    RegisterCount registerCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +33,12 @@ public class DiaryActivity extends BaseActivity {
         setContentView(R.layout.activity_diary);
 
         //获取日期，其他地方传过来
-        date = new Date(System.currentTimeMillis());
 
-        toolbar = (Toolbar) findViewById(R.id.detail_toolBar);
+        registerCount = (RegisterCount) getIntent().getSerializableExtra("date");
 
-        toolbar.setTitle(R.string.registerDiary);
+        toolbar =  findViewById(R.id.detail_toolBar);
+
+        toolbar.setTitle(R.string.register_diary);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,11 +66,9 @@ public class DiaryActivity extends BaseActivity {
     }
 
     private void initView() {
-        RegisterCount count = DataSupport.where("registerDate = ?", StorageUtil.getDate(date)).findFirst(RegisterCount.class);
-        diaryNum.setText(count.getDayCount());
-
-
-        diaryDate.setText(count.getRegisterDate());
-        textLong.setText("今日学习了"+count.getWordNum()+"个单词，学习时间"+count.getStudyTime()+"分钟");
+        diaryNum.setText(registerCount.getDayCount());
+        diaryDate.setText(StorageUtil.getDate(registerCount.getRegisterDate()));
+        textLong.setText("今日学习了" + registerCount.getWordNum() + "个单词，学习时间"
+                + registerCount.getStudyTime() + "分钟");
     }
 }

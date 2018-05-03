@@ -8,11 +8,12 @@ import java.util.List;
 
 public class Friend extends DataSupport implements Serializable {
 
-    List<Chat> chatList = new ArrayList<>();
-    List<Word> wordList = new ArrayList<>();
-    List<Book> bookList = new ArrayList<>();
+    private List<Chat> chatList = new ArrayList<>();
+    private List<Word> wordList = new ArrayList<>();
+    private List<Book> bookList = new ArrayList<>();
     private int id;
     private String name;
+    private byte[] portrait;
     private byte sex;
     private String birthday;
     private String place;
@@ -21,8 +22,8 @@ public class Friend extends DataSupport implements Serializable {
     private int messageNum;
     private int wordNum;
     private int allTime;
-    private int todayNum;
-    private int todayTime;
+    private int friendNum;
+    private int registerNum;
 
     public int getId() {
         return id;
@@ -38,6 +39,14 @@ public class Friend extends DataSupport implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public byte[] getPortrait() {
+        return portrait;
+    }
+
+    public void setPortrait(byte[] portrait) {
+        this.portrait = portrait;
     }
 
     public byte getSex() {
@@ -128,19 +137,19 @@ public class Friend extends DataSupport implements Serializable {
         this.allTime = allTime;
     }
 
-    public int getTodayNum() {
-        return todayNum;
+    public int getFriendNum() {
+        return friendNum;
     }
 
-    public void setTodayNum(int todayNum) {
-        this.todayNum = todayNum;
+    public void setFriendNum(int friendNum) {
+        this.friendNum = friendNum;
     }
 
-    public int getTodayTime() {
-        return todayTime;
+    public int getRegisterNum() {
+        return registerNum;
     }
 
-    public void setTodayTime(int todayTime) {
-        this.todayTime = todayTime;
+    public void setRegisterNum(int registerNum) {
+        this.registerNum = registerNum;
     }
 }

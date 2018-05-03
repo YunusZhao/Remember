@@ -1,9 +1,6 @@
 package com.yunus.remember.activity.home;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -18,8 +15,6 @@ import com.yunus.remember.R;
 import com.yunus.remember.activity.chief.SearchActivity;
 import com.yunus.remember.entity.TodayWord;
 import com.yunus.remember.utils.StorageUtil;
-
-import java.util.List;
 
 public class DetailActivity extends BaseActivity {
 
@@ -42,9 +37,9 @@ public class DetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        todayWord = (TodayWord) getIntent().getParcelableExtra("today_word");
+        todayWord = getIntent().getParcelableExtra("today_word");
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolBar);
+        Toolbar toolbar = findViewById(R.id.detail_toolBar);
         toolbar.setTitle("探索模式");
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -92,7 +87,9 @@ public class DetailActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        StorageUtil.updateInt(DetailActivity.this, StorageUtil.STUDY_TIME, ((StorageUtil.getInt(DetailActivity.this, StorageUtil.STUDY_TIME, 0) + (int) (System.currentTimeMillis() - beginTime))));
+        StorageUtil.updateInt(DetailActivity.this, StorageUtil.STUDY_TIME, ((StorageUtil.getInt
+                (DetailActivity.this, StorageUtil.STUDY_TIME, 0) + (int) (System
+                .currentTimeMillis() - beginTime))));
     }
 
     @Override
@@ -110,8 +107,7 @@ public class DetailActivity extends BaseActivity {
                 break;
             case R.id.menu_delete:
                 todayWord.setLevel(-1);
-                //
-
+                todayWord.save();
                 finish();
                 break;
             default:

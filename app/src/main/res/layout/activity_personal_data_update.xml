@@ -1,134 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.ranking.PersonalDataUpdateActivity">
 
-    <include layout="@layout/main_toolbar"/>
+    <include
+        android:id="@+id/personal_update_toolbar"
+        layout="@layout/main_toolbar" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="10dp">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="40dp">
+
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="#7e1919"/>
+                android:id="@+id/personal_update_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@color/black" />
+
             <Button
+                android:id="@+id/personal_update_change_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="修改头像"
-                android:drawableEnd="@mipmap/go"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true"
+                android:drawableEnd="@mipmap/go"
+                android:text="修改头像" />
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="昵称"/>
+                android:text="昵称" />
+
             <EditText
+                android:id="@+id/personal_update_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:text="洛然"/>
+                android:layout_marginStart="20dp"
+                android:layout_weight="1"
+                android:text="洛然" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp">
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="性别"/>
+                    android:text="性别" />
+
                 <EditText
+                    android:id="@+id/personal_update_sex"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="20dp"
-                    android:text="男"/>
+                    android:layout_marginStart="20dp"
+                    android:text="男" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="生日"/>
+                    android:text="生日" />
+
                 <EditText
+                    android:id="@+id/personal_update_birthday"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="20dp"
-                    android:text=""/>
+                    android:layout_marginStart="20dp"
+                    android:layout_weight="1"
+                    android:text="" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="地区"/>
+                android:text="地区" />
+
             <EditText
+                android:id="@+id/personal_update_place"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:text=""/>
+                android:layout_marginStart="20dp"
+                android:layout_weight="1"
+                android:text="" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="学校"/>
+                android:text="学校" />
+
             <EditText
+                android:id="@+id/personal_update_school"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:text="湖南大学"/>
+                android:layout_marginStart="20dp"
+                android:layout_weight="1"
+                android:text="湖南大学" />
         </LinearLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="个人简介"/>
+            android:text="个人简介" />
 
         <EditText
+            android:id="@+id/personal_update_summary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
-
-
-
-
 </LinearLayout>

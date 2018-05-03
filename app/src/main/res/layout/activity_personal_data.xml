@@ -8,47 +8,125 @@
     android:orientation="vertical"
     tools:context=".activity.ranking.PersonalDataActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="200dp">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/personal_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:src="@color/black"/>
+        <ImageButton
+            android:id="@+id/personal_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/back"
+            android:background="@color/white"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"/>
 
-    </LinearLayout>
+        <ImageButton
+            android:id="@+id/personal_write"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/pencil"
+            android:background="@color/white"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/personal_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/personal_image"
+            android:layout_centerHorizontal="true"
+            android:textSize="24sp"
+            android:textColor="@color/black"/>
+
+    </RelativeLayout>
 
     <Button
+        android:id="@+id/personal_friend"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="好友—人"
         android:gravity="start|center_vertical"
         android:drawableEnd="@mipmap/go"
-        android:background="#fff"/>
+        android:background="@color/white"/>
     <Button
+        android:id="@+id/personal_register"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="打卡—天"
         android:gravity="start|center_vertical"
         android:drawableEnd="@mipmap/go"
-        android:background="#fff"/>
+        android:background="@color/white"/>
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="性别"/>
-    <TextView
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="性别"/>
+        <TextView
+            android:id="@+id/personal_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+       <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="生日"/>
-    <TextView
+        <TextView
+            android:id="@+id/personal_birthday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="地区"/>
-    <TextView
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="地区"/>
+        <TextView
+            android:id="@+id/personal_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="学校"/>
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="学校"/>
+        <TextView
+            android:id="@+id/personal_school"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="个人简介"/>
+    <TextView
+        android:id="@+id/personal_summary"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/black"/>
 </LinearLayout>

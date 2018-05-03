@@ -5,7 +5,7 @@ import org.litepal.crud.DataSupport;
 import java.sql.Date;
 
 //七天记录，方便图表
-public class SevenDaysReview extends DataSupport{
+public class SevenDaysReview extends DataSupport {
 
     private Date theDate;
     private int allWordsCount;
@@ -18,6 +18,11 @@ public class SevenDaysReview extends DataSupport{
 
     public SevenDaysReview(Date theDate, int allHadCount) {
         this.theDate = theDate;
+        this.allHadCount = allHadCount;
+    }
+
+    public SevenDaysReview(int allWordsCount, int allHadCount) {
+        this.allWordsCount = allWordsCount;
         this.allHadCount = allHadCount;
     }
 

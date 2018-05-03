@@ -2,12 +2,13 @@ package com.yunus.remember.entity;
 
 import org.litepal.crud.DataSupport;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 //打卡记录
-public class RegisterCount extends DataSupport{
+public class RegisterCount extends DataSupport implements Serializable {
     private int dayCount;
-    private String registerDate;
+    private Date registerDate;
     private int wordNum;
     private int studyTime;
 
@@ -22,11 +23,11 @@ public class RegisterCount extends DataSupport{
         this.dayCount = dayCount;
     }
 
-    public String getRegisterDate() {
+    public Date getRegisterDate() {
         return registerDate;
     }
 
-    public void setRegisterDate(String registerDate) {
+    public void setRegisterDate(Date registerDate) {
         this.registerDate = registerDate;
     }
 

@@ -14,7 +14,6 @@ import com.yunus.remember.entity.Book;
 
 import org.litepal.crud.DataSupport;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MineBookActivity extends BaseActivity {
@@ -30,7 +29,7 @@ public class MineBookActivity extends BaseActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.mine_book_toolbar);
 
-        toolbar.setTitle(R.string.myBook);
+        toolbar.setTitle(R.string.my_book);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

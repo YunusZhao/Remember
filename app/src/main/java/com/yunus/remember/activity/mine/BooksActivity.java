@@ -9,8 +9,14 @@ import com.example.yunus.activity.BaseActivity;
 import com.yunus.remember.R;
 import com.yunus.remember.adapter.BookAdapter;
 import com.yunus.remember.entity.Book;
+import com.yunus.remember.utils.HttpUtil;
 
+import java.io.IOException;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class BooksActivity extends BaseActivity {
 
@@ -23,8 +29,8 @@ public class BooksActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_books);
 
-        toolbar = (Toolbar) findViewById(R.id.books_toolbar);
-        toolbar.setTitle(R.string.allBooks);
+        toolbar = findViewById(R.id.books_toolbar);
+        toolbar.setTitle(R.string.all_books);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,13 +40,31 @@ public class BooksActivity extends BaseActivity {
         });
         bookListView = findViewById(R.id.books_list);
 
-        books = getAllBooks();
+        updateAllBooks();
         BookAdapter bookAdapter = new BookAdapter(BooksActivity.this, R.layout.item_book, books);
         bookListView.setAdapter(bookAdapter);
     }
 
-    private List<Book> getAllBooks() {
-        //联网获取全部图书
-        return null;
+    private void updateAllBooks() {
+        HttpUtil.getBook(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                //books = response.body().string();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        BookAdapter bookAdapter = new BookAdapter(BooksActivity.this,
+                                R.layout.item_book, books);
+                        bookListView.setAdapter(bookAdapter);
+                    }
+                });
+
+            }
+        });
     }
 }

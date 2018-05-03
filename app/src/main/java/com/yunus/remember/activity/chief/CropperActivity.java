@@ -7,19 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.FutureTarget;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.edmodo.cropper.CropImageView;
 import com.example.yunus.activity.BaseActivity;
 import com.example.yunus.utils.LogUtil;
 import com.yunus.remember.R;
-import com.yunus.remember.utils.StorageUtil;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 
 public class CropperActivity extends BaseActivity {
 

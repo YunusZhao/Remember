@@ -78,7 +78,7 @@
             <ListView
                 android:id="@+id/book_mine_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></ListView>
+                android:layout_height="wrap_content"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -88,7 +88,7 @@
             <ListView
                 android:id="@+id/book_finish_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></ListView>
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </ScrollView>
 

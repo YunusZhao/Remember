@@ -41,7 +41,6 @@ public class BookAdapter extends ArrayAdapter<Book> {
             viewHolder.bookName = view.findViewById(R.id.book_name);
             viewHolder.wordNum = view.findViewById(R.id.book_word_num);
             viewHolder.addBook = view.findViewById(R.id.book_add_book);
-            //点击事件
             view.setTag(viewHolder);
 
         } else {
@@ -50,8 +49,8 @@ public class BookAdapter extends ArrayAdapter<Book> {
         }
         viewHolder.bookName.setText(book.getName());
         viewHolder.wordNum.setText(book.getWordNum());
-        List<Book> books = DataSupport.where("id = ?", "" + book.getId()).find(Book.class);
-        if (books.isEmpty()) {
+        int num = DataSupport.where("id = ?", "" + book.getId()).count(Book.class);
+        if (num == 0) {
             viewHolder.addBook.setVisibility(View.GONE);
         }
         return view;

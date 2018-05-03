@@ -8,7 +8,8 @@
     android:orientation="vertical"
     tools:context=".activity.mine.SetupAccountActivity">
 
-    <include layout="@layout/main_toolbar"/>
+    <include layout="@layout/main_toolbar"
+        android:id="@+id/setup_account_toolbar"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,9 +27,9 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"/>
             <TextView
+                android:id="@+id/setup_account_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="23234234@163.com"
                 android:layout_toStartOf="@+id/email_go"
                 android:layout_centerVertical="true"
                 android:gravity="center"/>
@@ -39,7 +40,7 @@
                 android:layout_alignParentEnd="true"
                 android:src="@mipmap/go"
                 android:layout_centerVertical="true"
-                android:background="#fff"
+                android:background="@color/white"
                 android:visibility="invisible"/>
         </RelativeLayout>
 
@@ -54,9 +55,9 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"/>
             <TextView
+                android:id="@+id/setup_account_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="阿斯蒂"
                 android:layout_toStartOf="@+id/name_go"
                 android:layout_centerVertical="true"
                 android:gravity="center"/>
@@ -67,7 +68,7 @@
                 android:layout_alignParentEnd="true"
                 android:src="@mipmap/go"
                 android:layout_centerVertical="true"
-                android:background="#fff" />
+                android:background="@color/white" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -94,7 +95,7 @@
                 android:layout_alignParentEnd="true"
                 android:src="@mipmap/go"
                 android:layout_centerVertical="true"
-                android:background="#fff"/>
+                android:background="@color/white"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -108,12 +109,13 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"/>
             <ImageButton
+                android:id="@+id/logout_go"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:src="@mipmap/go"
                 android:layout_centerVertical="true"
-                android:background="#fff"/>
+                android:background="@color/white"/>
         </RelativeLayout>
 
     </LinearLayout>

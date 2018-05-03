@@ -56,12 +56,12 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     }
 
     private void bindViews() {
-        mainBottom = (RadioGroup) findViewById(R.id.main_bottom_bar);
-        btnHome = (RadioButton) findViewById(R.id.main_bottom_home);
-        btnRanking = (RadioButton) findViewById(R.id.main_bottom__ranking);
-        btnMine = (RadioButton) findViewById(R.id.main_bottom_mine);
-        tvSearch = (TextView) findViewById(R.id.main_top_search);
-        ibMessage = (ImageButton) findViewById(R.id.main_message);
+        mainBottom = findViewById(R.id.main_bottom_bar);
+        btnHome = findViewById(R.id.main_bottom_home);
+        btnRanking = findViewById(R.id.main_bottom__ranking);
+        btnMine = findViewById(R.id.main_bottom_mine);
+        tvSearch = findViewById(R.id.main_top_search);
+        ibMessage = findViewById(R.id.main_message);
         mainBottom.setOnCheckedChangeListener(this);
 
         tvSearch.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +80,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             }
         });
 
-        viewPager = (ViewPager) findViewById(R.id.main_view_pager);
+        viewPager = findViewById(R.id.main_view_pager);
         viewPager.setAdapter(mAdapter);
         viewPager.setCurrentItem(0);
         viewPager.addOnPageChangeListener(this);
@@ -136,7 +136,10 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             @Override
             public void run() {
                 try {
-                    String words = RWUtil.inputStream2String(getResources().openRawResource(R.raw.word));
+
+                    //为单词和数据库添加数据，单机版本 要删
+                    String words = RWUtil.inputStream2String(getResources().openRawResource(R.raw
+                            .word));
                     parseXMLWithPull(words);
 
                     Book book = DataSupport.where("id = 0").findFirst(Book.class);

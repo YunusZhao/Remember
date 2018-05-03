@@ -25,6 +25,7 @@ public class StorageUtil {
     public static final String TODAY_DATE = "todayDate";//今天日期
     public static final String STUDY_TIME = "studyTime";//学习时间
     public static final String USER_ID = "userId";//用户ID
+    public static final String USER_NAME = "userName";
     public static final String SESSION = "session";//cookie
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
@@ -37,6 +38,11 @@ public class StorageUtil {
 
     public static String getDate(Date date) {
         DateFormat df = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
+        return df.format(date);
+    }
+
+    public static String getShortDate(Date date) {
+        DateFormat df = new SimpleDateFormat("MM.dd", Locale.getDefault());
         return df.format(date);
     }
 

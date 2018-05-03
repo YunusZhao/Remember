@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -35,7 +34,6 @@ public class PasswordActivity extends BaseActivity {
     Button getPassword;
     TextView register;
     private Dialog myDialog;
-    private Handler mHandler;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,7 +46,8 @@ public class PasswordActivity extends BaseActivity {
         getPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (email.getText().toString().isEmpty() || !RWUtil.isEmail(email.getText().toString())) {
+                if (email.getText().toString().isEmpty() ||
+                        !RWUtil.isEmail(email.getText().toString())) {
                     Toast.makeText(PasswordActivity.this, "邮箱输入错误", Toast.LENGTH_SHORT).show();
                 } else {
                     myDialog = ProgressDialog.show(PasswordActivity.this, "提示...", "找回中...", true);
@@ -84,10 +83,10 @@ public class PasswordActivity extends BaseActivity {
 
     private void getView() {
         toolbar = findViewById(R.id.password_toolbar);
-        toolbarTitle = (TextView) findViewById(R.id.begin_toolbar_title);
-        email = (EditText) findViewById(R.id.forget_email);
-        getPassword = (Button) findViewById(R.id.btn_get_password);
-        register = (TextView) findViewById(R.id.password_to_register);
+        toolbarTitle = findViewById(R.id.begin_toolbar_title);
+        email = findViewById(R.id.forget_email);
+        getPassword = findViewById(R.id.btn_get_password);
+        register = findViewById(R.id.password_to_register);
     }
 
     private void getPasswordToIntel() {
@@ -95,7 +94,7 @@ public class PasswordActivity extends BaseActivity {
                 .add("email", email.getText().toString())
                 .add("action", "password")
                 .build();
-        HttpUtil.postOkhttpRequest(requestBody, new Callback() {
+        HttpUtil.post(requestBody, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 runOnUiThread(new Runnable() {
@@ -116,16 +115,20 @@ public class PasswordActivity extends BaseActivity {
                         myDialog.dismiss();
                         switch (result) {
                             case "0":
-                                Toast.makeText(PasswordActivity.this, "邮箱未注册", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PasswordActivity.this, "邮箱未注册",
+                                        Toast.LENGTH_SHORT).show();
                                 break;
                             case "1":
-                                Toast.makeText(PasswordActivity.this, "新密码已发至邮箱", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(PasswordActivity.this, LoginActivity.class);
+                                Toast.makeText(PasswordActivity.this, "新密码已发至邮箱",
+                                        Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(PasswordActivity.this, LoginActivity
+                                        .class);
                                 finish();
                                 startActivity(intent);
                                 break;
                             default:
-                                Toast.makeText(PasswordActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PasswordActivity.this, "未知错误",
+                                        Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

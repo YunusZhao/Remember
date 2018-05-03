@@ -24,7 +24,7 @@ public class NoticeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice);
 
-        toolbar = (Toolbar) findViewById(R.id.notice_toolbar);
+        toolbar = findViewById(R.id.notice_toolbar);
         toolbar.setTitle(R.string.message);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -36,7 +36,8 @@ public class NoticeActivity extends BaseActivity {
 
         friendListView = findViewById(R.id.notice_friend_list);
         final List<Friend> friends = getNoticeFriends();
-        NoticeFriendAdapter noticeFriendAdapter = new NoticeFriendAdapter(NoticeActivity.this, R.layout.item_notice_friend, friends);
+        NoticeFriendAdapter noticeFriendAdapter = new NoticeFriendAdapter(NoticeActivity.this, R
+                .layout.item_friend, friends);
         friendListView.setAdapter(noticeFriendAdapter);
         friendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

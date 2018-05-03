@@ -46,6 +46,12 @@ public class Word extends DataSupport {
         this.mean = mean;
     }
 
+    public Word(String spell, String mean, String phonogram) {
+        this.spell = spell;
+        this.mean = mean;
+        this.phonogram = phonogram;
+    }
+
     public int getId() {
         return id;
     }

@@ -1,39 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <Button
-        android:id="@+id/ranking_all"
+        android:id="@+id/ranking_all_word"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="单词总榜"/>
+        android:text="单词榜" />
+
     <Button
+        android:id="@+id/ranking_friend_word"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="今日单词总榜"/>
+        android:text="好友单词榜" />
+
     <Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="好友单词总榜"/>
+        android:id="@+id/ranking_all_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="时间榜" />
+
     <Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="好友单词日榜"/>
-    <Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="时间总榜"/>
-    <Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="时间日榜"/>
-    <Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="好友时间总榜"/>
-    <Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="好友时间日榜"/>
+        android:id="@+id/ranking_friend_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="好友时间榜" />
 </LinearLayout>

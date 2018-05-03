@@ -8,7 +8,7 @@ public class Chat extends DataSupport {
 
     public static final byte TYPE_RECEIVED = 0;
     public static final byte TYPE_SENT = 1;
-    Friend friend;
+    private Friend friend;
     private int type;
     private String message;
     private boolean read;
