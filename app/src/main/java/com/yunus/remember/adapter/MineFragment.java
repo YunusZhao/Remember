@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.yunus.remember.R;
 import com.yunus.remember.activity.chief.NoticeActivity;
 import com.yunus.remember.activity.home.DiariesActivity;
@@ -55,7 +56,8 @@ public class MineFragment extends Fragment {
         Button setup = getActivity().findViewById(R.id.main_setup);
 
         //init Text
-        //todo 加载图片 配合存储图片编写
+        Glide.with(getActivity()).load(StorageUtil.getString(getActivity(), StorageUtil.PORTRAIT,
+                "").getBytes()).into(image);
         name.setText(StorageUtil.getString(getActivity(), StorageUtil.USER_NAME, ""));
         email.setText(StorageUtil.getString(getActivity(), StorageUtil.EMAIL, ""));
         registerText.setText("打卡" + StorageUtil.getInt(getActivity(), StorageUtil.REGISTER_DAY,

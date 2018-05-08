@@ -48,10 +48,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         mAdapter = new MainFragmentPagerAdapter(getSupportFragmentManager());
         bindViews();
         btnHome.setChecked(true);
-        for (int i = 0; i < 3; i++) {
-            Book book = new Book(i, "book" + i, 5, 3, (byte) (i - 1));
-            book.save();
-        }
     }
 
     private void bindViews() {

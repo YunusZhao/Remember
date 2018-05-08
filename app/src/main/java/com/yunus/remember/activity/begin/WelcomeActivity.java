@@ -55,23 +55,9 @@ public class WelcomeActivity extends BaseActivity implements Runnable {
                 startActivity(intent);
                 finish();
             } else {
-                String password = StorageUtil.getString(WelcomeActivity.this, StorageUtil
-                        .PASSWORD, " ");
-                //todo 登陆验证账号密码
-                HttpUtil.login(email, password, new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        //todo 失败后处理
-                        Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
+                Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         } catch (Exception e) {
             e.printStackTrace();

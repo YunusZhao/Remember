@@ -10,16 +10,23 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.yunus.activity.BaseActivity;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.yunus.remember.R;
 import com.yunus.remember.adapter.RankingAdapter;
 import com.yunus.remember.entity.Friend;
+import com.yunus.remember.utils.HttpUtil;
 import com.yunus.remember.utils.StorageUtil;
 
 import org.litepal.crud.DataSupport;
 
+import java.io.IOException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class RankingActivity extends BaseActivity {
 
@@ -58,11 +65,8 @@ public class RankingActivity extends BaseActivity {
         allTime = findViewById(R.id.ranking_time);
         rankListView = findViewById(R.id.ranking_list_view);
 
-        friendList = getRankingList(mode);
-        initText(mode);
-        RankingAdapter adapter = new RankingAdapter(RankingActivity.this, R.layout
-                .item_ranking_information, friendList);
-        rankListView.setAdapter(adapter);
+        getRankingList(mode);
+
         rankListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -74,20 +78,42 @@ public class RankingActivity extends BaseActivity {
         });
     }
 
-    private List<Friend> getRankingList(int mode) {
+    private void getRankingList(final int mode) {
         switch (mode) {
             case 0:
-                //todo
-                return null;
             case 1:
-                //todo
-                return null;
+                HttpUtil.getRankingList(StorageUtil.getInt(RankingActivity.this, StorageUtil
+                                .USER_ID, 0) + "", mode + "", new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws
+                                    IOException {
+                                Gson gson = new Gson();
+                               friendList = gson.fromJson(response.body().string(),
+                                        new TypeToken<List<Friend>>() {
+                                        }.getType());
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        initText(mode);
+                                    }
+                                });
+                            }
+                        }
+                );
+                break;
             case 2:
-                return DataSupport.order("wordNum").find(Friend.class);
+                friendList = DataSupport.order("wordNum").find(Friend.class);
+                initText(mode);
+                break;
             case 3:
-                return DataSupport.order("allTime").find(Friend.class);
-            default:
-                return null;
+                friendList =  DataSupport.order("allTime").find(Friend.class);
+                initText(mode);
+                break;
         }
     }
 
@@ -97,6 +123,7 @@ public class RankingActivity extends BaseActivity {
             case 0:
             case 1:
                 me = friendList.get(friendList.size() - 1);
+                friendList.remove(me);
                 ranking.setText(me.getId());
                 Glide.with(RankingActivity.this).load(me.getPortrait()).into(image);
                 name.setText(me.getName());
@@ -123,5 +150,9 @@ public class RankingActivity extends BaseActivity {
                 break;
             default:
         }
+
+        RankingAdapter adapter = new RankingAdapter(RankingActivity.this, R.layout
+                .item_ranking_information, friendList);
+        rankListView.setAdapter(adapter);
     }
 }

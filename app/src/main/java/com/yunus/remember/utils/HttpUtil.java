@@ -9,7 +9,7 @@ import okhttp3.RequestBody;
 
 public class HttpUtil {
 
-    private static final String address = "http://123.34.43.1";
+    private static final String address = "http://10.0.2.2:8080/remember";
     private static final String login = address + "/user/login";
     private static final String searchWord = address + "/searchWord";
     private static final String searchFriend = address + "/searchFriend";
@@ -19,8 +19,10 @@ public class HttpUtil {
     private static final String userBook = address + "/book/userBook";
     private static final String registerCount = address + "/user/registerCount";
     private static final String friend = address + "/user/friend";
+    private static final String addFriend = address + "/user/addFriend";
     private static final String word = address + "/word/getWord";
     private static final String todayWord = address + "/word/todayWord";
+    private static final String rankingList = address + "/user/ranking";
 
     public static void get(String address, okhttp3.Callback callback) {
         OkHttpClient client = new OkHttpClient();
@@ -63,6 +65,24 @@ public class HttpUtil {
     public static void friend(String id, okhttp3.Callback callback) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().addHeader("id", id).url(friend).build();
+        client.newCall(request).enqueue(callback);
+    }
+
+    public static void addFriend(String id,String friendId, okhttp3.Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .addHeader("id", id)
+                .addHeader("friendId", friendId)
+                .url(addFriend).build();
+        client.newCall(request).enqueue(callback);
+    }
+
+    public static void getRankingList(String id,String mode, okhttp3.Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .addHeader("id", id)
+                .addHeader("mode", mode)
+                .url(rankingList).build();
         client.newCall(request).enqueue(callback);
     }
 

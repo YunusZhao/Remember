@@ -14,7 +14,7 @@ public class Friend extends DataSupport implements Serializable {
     private int id;
     private String name;
     private String email;
-    private byte[] portrait;
+    private String portrait;
     private byte sex;
     private String birthday;
     private String place;
@@ -42,11 +42,11 @@ public class Friend extends DataSupport implements Serializable {
         this.name = name;
     }
 
-    public byte[] getPortrait() {
+    public String getPortrait() {
         return portrait;
     }
 
-    public void setPortrait(byte[] portrait) {
+    public void setPortrait(String portrait) {
         this.portrait = portrait;
     }
 

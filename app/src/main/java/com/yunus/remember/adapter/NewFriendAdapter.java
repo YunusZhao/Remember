@@ -8,18 +8,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yunus.remember.R;
+import com.yunus.remember.activity.mine.FriendNewActivity;
 import com.yunus.remember.entity.Friend;
+import com.yunus.remember.utils.HttpUtil;
+import com.yunus.remember.utils.StorageUtil;
 
+import java.io.IOException;
 import java.util.List;
 
-public class NewFriendAdapter extends ArrayAdapter<Friend>{
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
+public class NewFriendAdapter extends ArrayAdapter<Friend> {
 
     private int resourceId;
+
 
 
     public NewFriendAdapter(@NonNull Context context, int resource, @NonNull List<Friend> objects) {
@@ -50,10 +58,28 @@ public class NewFriendAdapter extends ArrayAdapter<Friend>{
         viewHolder.addFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                HttpUtil.addFriend(StorageUtil.getInt(getContext(), StorageUtil.USER_ID, 0) + "",
+                        friend.getId() + "", new Callback() {
 
-                //todo
-                friend.save();
-                Toast.makeText(v.getContext(), "添加成功", Toast.LENGTH_SHORT).show();
+
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws
+                                    IOException {
+                                friend.save();
+                                ((FriendNewActivity)getContext()).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getContext(), "添加成功", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        });
+
             }
         });
         return view;

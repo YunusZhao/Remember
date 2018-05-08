@@ -5,7 +5,7 @@ public class User {
     private String name;
     private String email;
     private String password;
-    private byte[] portrait;
+    private String portrait;
 
     public int getId() {
         return id;
@@ -39,11 +39,11 @@ public class User {
         this.password = password;
     }
 
-    public byte[] getPortrait() {
+    public String getPortrait() {
         return portrait;
     }
 
-    public void setPortrait(byte[] portrait) {
+    public void setPortrait(String portrait) {
         this.portrait = portrait;
     }
 }

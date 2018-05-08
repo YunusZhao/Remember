@@ -54,7 +54,7 @@ public class PasswordActivity extends BaseActivity {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            getPasswordToIntel();
+                            //getPasswordToIntel();
                         }
                     }).start();
 
@@ -89,50 +89,50 @@ public class PasswordActivity extends BaseActivity {
         register = findViewById(R.id.password_to_register);
     }
 
-    private void getPasswordToIntel() {
-        final RequestBody requestBody = new FormBody.Builder()
-                .add("email", email.getText().toString())
-                .add("action", "password")
-                .build();
-        HttpUtil.post(requestBody, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        myDialog.dismiss();
-                        Toast.makeText(PasswordActivity.this, "联网失败", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String result = response.body().string();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        myDialog.dismiss();
-                        switch (result) {
-                            case "0":
-                                Toast.makeText(PasswordActivity.this, "邮箱未注册",
-                                        Toast.LENGTH_SHORT).show();
-                                break;
-                            case "1":
-                                Toast.makeText(PasswordActivity.this, "新密码已发至邮箱",
-                                        Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(PasswordActivity.this, LoginActivity
-                                        .class);
-                                finish();
-                                startActivity(intent);
-                                break;
-                            default:
-                                Toast.makeText(PasswordActivity.this, "未知错误",
-                                        Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
-        });
-    }
+//    private void getPasswordToIntel() {
+//        final RequestBody requestBody = new FormBody.Builder()
+//                .add("email", email.getText().toString())
+//                .add("action", "password")
+//                .build();
+//        HttpUtil.post(requestBody, new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        myDialog.dismiss();
+//                        Toast.makeText(PasswordActivity.this, "联网失败", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                final String result = response.body().string();
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        myDialog.dismiss();
+//                        switch (result) {
+//                            case "0":
+//                                Toast.makeText(PasswordActivity.this, "邮箱未注册",
+//                                        Toast.LENGTH_SHORT).show();
+//                                break;
+//                            case "1":
+//                                Toast.makeText(PasswordActivity.this, "新密码已发至邮箱",
+//                                        Toast.LENGTH_SHORT).show();
+//                                Intent intent = new Intent(PasswordActivity.this, LoginActivity
+//                                        .class);
+//                                finish();
+//                                startActivity(intent);
+//                                break;
+//                            default:
+//                                Toast.makeText(PasswordActivity.this, "未知错误",
+//                                        Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//            }
+//        });
+//    }
 }

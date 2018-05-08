@@ -9,16 +9,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.yunus.activity.BaseActivity;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.yunus.remember.R;
 import com.yunus.remember.adapter.DiaryAdapter;
 import com.yunus.remember.entity.Friend;
 import com.yunus.remember.entity.RegisterCount;
+import com.yunus.remember.utils.HttpUtil;
 
 import org.litepal.crud.DataSupport;
 
+import java.io.IOException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class DiariesActivity extends BaseActivity {
 
@@ -49,13 +56,35 @@ public class DiariesActivity extends BaseActivity {
         name = findViewById(R.id.diaries_name);
         lvDiaries = findViewById(R.id.diaries_list);
 
-        //todo 他人日记
+        if (friend != null) {
+            HttpUtil.registerCount(friend.getId() + "", new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
 
-        //排序
-        diaries = DataSupport.order("dayCount desc").find(RegisterCount.class);
-        DiaryAdapter diaryAdapter = new DiaryAdapter(DiariesActivity.this,
-                R.layout.item_diary, diaries);
-        lvDiaries.setAdapter(diaryAdapter);
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    Gson gson = new Gson();
+                    diaries = gson.fromJson(response.body().string(),
+                            new TypeToken<List<RegisterCount>>() {
+                            }.getType());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            DiaryAdapter diaryAdapter = new DiaryAdapter(DiariesActivity.this,
+                                    R.layout.item_diary, diaries);
+                            lvDiaries.setAdapter(diaryAdapter);
+                        }
+                    });
+                }
+            });
+        } else {
+            diaries = DataSupport.order("dayCount desc").find(RegisterCount.class);
+            DiaryAdapter diaryAdapter = new DiaryAdapter(DiariesActivity.this,
+                    R.layout.item_diary, diaries);
+            lvDiaries.setAdapter(diaryAdapter);
+        }
 
         lvDiaries.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yunus.activity.BaseActivity;
+import com.example.yunus.utils.LogUtil;
 import com.example.yunus.utils.RWUtil;
 import com.example.yunus.utils.ViewUtil;
 import com.google.gson.Gson;
@@ -133,8 +134,10 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                LogUtil.d("login", result);
                 Gson gson = new Gson();
-                final Friend friend = gson.fromJson(response.body().string(), Friend.class);
+                final Friend friend = gson.fromJson(result, Friend.class);
                 if (friend != null) {
                     saveUser(friend);
                     getUserBook();
@@ -167,10 +170,13 @@ public class LoginActivity extends BaseActivity {
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
+                        String result = response.body().string();
+                        LogUtil.d("book", result);
                         Gson gson = new Gson();
-                        List<Book> books = gson.fromJson(response.body().string(), new
+                        List<Book> books = gson.fromJson(result, new
                                 TypeToken<List<Book>>() {
                                 }.getType());
+                        DataSupport.deleteAll(Book.class);
                         DataSupport.saveAll(books);
                         getRegisterCount();
                     }
@@ -187,11 +193,13 @@ public class LoginActivity extends BaseActivity {
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
+                        String result = response.body().string();
+                        LogUtil.d("register", result);
                         Gson gson = new Gson();
-                        List<RegisterCount> registerCounts = gson.fromJson(response.body().string
-                                (), new
+                        List<RegisterCount> registerCounts = gson.fromJson(result, new
                                 TypeToken<List<RegisterCount>>() {
                                 }.getType());
+                        DataSupport.deleteAll(RegisterCount.class);
                         DataSupport.saveAll(registerCounts);
                         getFriend();
                     }
@@ -208,8 +216,10 @@ public class LoginActivity extends BaseActivity {
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
+                        String result = response.body().string();
+                        LogUtil.d("friend", result);
                         Gson gson = new Gson();
-                        List<Friend> friends = gson.fromJson(response.body().string(), new
+                        List<Friend> friends = gson.fromJson(result, new
                                 TypeToken<List<Friend>>() {
                                 }.getType());
                         DataSupport.saveAll(friends);
@@ -228,10 +238,13 @@ public class LoginActivity extends BaseActivity {
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
+                        String result = response.body().string();
+                        LogUtil.d("word", result);
                         Gson gson = new Gson();
-                        List<Word> words = gson.fromJson(response.body().string(), new
+                        List<Word> words = gson.fromJson(result, new
                                 TypeToken<List<Word>>() {
                                 }.getType());
+                        DataSupport.deleteAll(Word.class);
                         DataSupport.saveAll(words);
                         complete();
                     }

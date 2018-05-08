@@ -17,6 +17,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,6 +53,7 @@ public class RegisterActivity extends BaseActivity {
 
     public static final int APPLY_PHOTO = 1;
     public static final int CHOOSE_PHOTO = 2;
+    private static final String TAG = "RegisterActivity";
 
     Toolbar toolbar;
     TextView toolbarTitle;
@@ -74,8 +76,7 @@ public class RegisterActivity extends BaseActivity {
         getView();
         ViewUtil.setToolbar(RegisterActivity.this, toolbar);
 
-        //TODO 初始化图片
-        imageByte = " ".getBytes();
+
 
         addPortrait.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -259,7 +260,7 @@ public class RegisterActivity extends BaseActivity {
         me.setName(name.getText().toString());
         me.setEmail(email.getText().toString());
         me.setPassword(password.getText().toString());
-        me.setPortrait(imageByte);
+        me.setPortrait(Base64.encodeToString(imageByte,Base64.DEFAULT));
 
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         RequestBody requestBody = RequestBody.create(JSON, gson.toJson(me));
