@@ -20,6 +20,7 @@ public class HttpUtil {
     private static final String registerCount = address + "/user/registerCount";
     private static final String friend = address + "/user/friend";
     private static final String word = address + "/word/getWord";
+    private static final String todayWord = address + "/word/todayWord";
 
     public static void get(String address, okhttp3.Callback callback) {
         OkHttpClient client = new OkHttpClient();
@@ -47,6 +48,10 @@ public class HttpUtil {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().addHeader("id", id).url(word).build();
         client.newCall(request).enqueue(callback);
+    }
+
+    public static void todayWord(RequestBody body, okhttp3.Callback callback) {
+        post(body, todayWord, callback);
     }
 
     public static void registerCount(String id, okhttp3.Callback callback) {

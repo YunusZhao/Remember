@@ -52,7 +52,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             Book book = new Book(i, "book" + i, 5, 3, (byte) (i - 1));
             book.save();
         }
-        initDatabase();
     }
 
     private void bindViews() {
@@ -128,76 +127,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                     btnMine.setChecked(true);
                     break;
             }
-        }
-    }
-
-    private void initDatabase() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-
-                    //为单词和数据库添加数据，单机版本 要删
-                    String words = RWUtil.inputStream2String(getResources().openRawResource(R.raw
-                            .word));
-                    parseXMLWithPull(words);
-
-                    Book book = DataSupport.where("id = 0").findFirst(Book.class);
-                    List<Word> wordList = DataSupport.where("id < 11").find(Word.class);
-                    book.getWordList().addAll(wordList);
-                    book.save();
-                    book = DataSupport.where("id = -1").findFirst(Book.class);
-                    wordList = DataSupport.where("id > 10 and id < 16").find(Word.class);
-                    book.getWordList().addAll(wordList);
-                    book.save();
-                    book = DataSupport.where("id = 1").findFirst(Book.class);
-                    wordList = DataSupport.where("id > 15 and id < 21").find(Word.class);
-                    book.getWordList().addAll(wordList);
-                    book.save();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
-
-    private void parseXMLWithPull(String xmlData) {
-        try {
-            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-            XmlPullParser xmlPullParser = factory.newPullParser();
-            xmlPullParser.setInput(new StringReader(xmlData));
-            int eventType = xmlPullParser.getEventType();
-            Word word = new Word();
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                String nodeName = xmlPullParser.getName();
-                switch (eventType) {
-                    case XmlPullParser.START_TAG: {
-                        if ("id".equals(nodeName)) {
-                            word.setId(Integer.valueOf(xmlPullParser.nextText()));
-                        } else if ("spell".equals(nodeName)) {
-                            word.setSpell(xmlPullParser.nextText());
-                        } else if ("meaning".equals(nodeName)) {
-                            word.setMean(xmlPullParser.nextText());
-                        } else if ("yinbiao".equals(nodeName)) {
-                            word.setPhonogram(xmlPullParser.nextText());
-                        } else if ("lx".equals(nodeName)) {
-                            word.setSentence(xmlPullParser.nextText());
-                        }
-                        break;
-                    }
-                    case XmlPullParser.END_TAG: {
-                        if ("RECORD".equals(nodeName)) {
-                            word.save();
-                            word = new Word();
-                        }
-                    }
-                    default:
-                        break;
-                }
-                eventType = xmlPullParser.next();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }
