@@ -13,6 +13,7 @@ public class Friend extends DataSupport implements Serializable {
     private List<Book> bookList = new ArrayList<>();
     private int id;
     private String name;
+    private String email;
     private byte[] portrait;
     private byte sex;
     private String birthday;
@@ -20,7 +21,7 @@ public class Friend extends DataSupport implements Serializable {
     private String school;
     private String summary;
     private int messageNum;
-    private int wordNum;
+    private int wordNum;//学会单词数
     private int allTime;
     private int friendNum;
     private int registerNum;
@@ -151,5 +152,13 @@ public class Friend extends DataSupport implements Serializable {
 
     public void setRegisterNum(int registerNum) {
         this.registerNum = registerNum;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

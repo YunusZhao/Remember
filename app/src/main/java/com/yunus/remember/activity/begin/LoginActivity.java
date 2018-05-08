@@ -12,15 +12,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yunus.activity.BaseActivity;
-import com.example.yunus.utils.ActivityCollector;
 import com.example.yunus.utils.RWUtil;
 import com.example.yunus.utils.ViewUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.yunus.remember.R;
 import com.yunus.remember.activity.chief.MainActivity;
+import com.yunus.remember.entity.Book;
+import com.yunus.remember.entity.Friend;
+import com.yunus.remember.entity.RegisterCount;
+import com.yunus.remember.entity.Word;
 import com.yunus.remember.utils.HttpUtil;
 import com.yunus.remember.utils.StorageUtil;
 
+import org.litepal.crud.DataSupport;
+
 import java.io.IOException;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
@@ -80,7 +88,7 @@ public class LoginActivity extends BaseActivity {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            loginToIntel();
+                            login();
                         }
                     }).start();
                 }
@@ -106,13 +114,12 @@ public class LoginActivity extends BaseActivity {
         register = findViewById(R.id.login_to_register);
     }
 
-    private void loginToIntel() {
+    private void login() {
         final RequestBody requestBody = new FormBody.Builder()
                 .add("email", email.getText().toString())
                 .add("password", password.getText().toString())
-                .add("action", "login")
                 .build();
-        HttpUtil.post(requestBody, new Callback() {
+        HttpUtil.login(requestBody, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 runOnUiThread(new Runnable() {
@@ -126,30 +133,135 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                final String result = response.body().string();
-                if (!"-1".equals(result)) {
-                    //TODO 解析数据保存至数据库
-                    String session = response.header("set-cookie");
-                    StorageUtil.updateString(LoginActivity.this, StorageUtil.SESSION, session);
+                Gson gson = new Gson();
+                final Friend friend = gson.fromJson(response.body().string(), Friend.class);
+                if (friend != null) {
+                    saveUser(friend);
+                    getUserBook();
+//                    String session = response.header("set-cookie");
+//                    StorageUtil.updateString(LoginActivity.this, StorageUtil.SESSION, session);
                 }
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        myDialog.dismiss();
-                        switch (result) {
-                            case "-1":
-                                Toast.makeText(LoginActivity.this, "登陆失败", Toast.LENGTH_SHORT)
-                                        .show();
-                                break;
-                            default:
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                ActivityCollector.finishAll();
-                                startActivity(intent);
-                                break;
+                        if (friend == null) {
+                            myDialog.dismiss();
+                            Toast.makeText(LoginActivity.this, "登陆失败", Toast.LENGTH_SHORT)
+                                    .show();
                         }
                     }
                 });
             }
         });
     }
+
+    private void getUserBook() {
+        HttpUtil.userBook(StorageUtil.getInt(LoginActivity.this, StorageUtil.USER_ID, 0) + "",
+                new Callback() {
+
+
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        Gson gson = new Gson();
+                        List<Book> books = gson.fromJson(response.body().string(), new
+                                TypeToken<List<Book>>() {
+                                }.getType());
+                        DataSupport.saveAll(books);
+                        getRegisterCount();
+                    }
+                });
+    }
+
+    private void getRegisterCount() {
+        HttpUtil.registerCount(StorageUtil.getInt(LoginActivity.this, StorageUtil.USER_ID, 0) + "",
+                new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        Gson gson = new Gson();
+                        List<RegisterCount> registerCounts = gson.fromJson(response.body().string
+                                (), new
+                                TypeToken<List<RegisterCount>>() {
+                                }.getType());
+                        DataSupport.saveAll(registerCounts);
+                        getFriend();
+                    }
+                });
+    }
+
+    private void getFriend() {
+        HttpUtil.friend(StorageUtil.getInt(LoginActivity.this, StorageUtil.USER_ID, 0) + "",
+                new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        Gson gson = new Gson();
+                        List<Friend> friends = gson.fromJson(response.body().string(), new
+                                TypeToken<List<Friend>>() {
+                                }.getType());
+                        DataSupport.saveAll(friends);
+                        getWords();
+                    }
+                });
+    }
+
+    private void getWords() {
+        HttpUtil.word(StorageUtil.getInt(LoginActivity.this, StorageUtil.USER_ID, 0) + "",
+                new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        Gson gson = new Gson();
+                        List<Word> words = gson.fromJson(response.body().string(), new
+                                TypeToken<List<Word>>() {
+                                }.getType());
+                        DataSupport.saveAll(words);
+                        complete();
+                    }
+                });
+    }
+
+    private void complete() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                myDialog.dismiss();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void saveUser(Friend friend) {
+        StorageUtil.updateInt(LoginActivity.this, StorageUtil.USER_ID, friend.getId());
+        StorageUtil.updateString(LoginActivity.this, StorageUtil.EMAIL, friend.getEmail());
+        StorageUtil.updateString(LoginActivity.this, StorageUtil.USER_NAME, friend.getName());
+        StorageUtil.updateString(LoginActivity.this, StorageUtil.PASSWORD, password.getText()
+                .toString());
+        StorageUtil.updateInt(LoginActivity.this, StorageUtil.WORDS_NUM, friend.getWordNum());
+        StorageUtil.updateInt(LoginActivity.this, StorageUtil.STUDY_TIME, friend.getAllTime());
+        StorageUtil.updateInt(LoginActivity.this, StorageUtil.WORDS_STUDIED_NUM, friend
+                .getWordNum());
+        DataSupport.deleteAll(Friend.class);
+        friend.save();
+    }
+
+
 }

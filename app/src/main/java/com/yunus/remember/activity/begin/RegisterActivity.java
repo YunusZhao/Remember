@@ -29,16 +29,22 @@ import com.example.yunus.activity.BaseActivity;
 import com.example.yunus.utils.LogUtil;
 import com.example.yunus.utils.RWUtil;
 import com.example.yunus.utils.ViewUtil;
+import com.google.gson.Gson;
 import com.yunus.remember.R;
 import com.yunus.remember.activity.chief.CropperActivity;
+import com.yunus.remember.entity.Friend;
+import com.yunus.remember.entity.User;
 import com.yunus.remember.utils.HttpUtil;
+import com.yunus.remember.utils.StorageUtil;
+
+import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
@@ -248,14 +254,17 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void registerToIntel() {
-        final RequestBody requestBody = new FormBody.Builder()
-                .add("image", new String(imageByte))
-                .add("name", name.getText().toString())
-                .add("email", email.getText().toString())
-                .add("password", password.getText().toString())
-                .add("action", "password")
-                .build();
-        HttpUtil.post(requestBody, new Callback() {
+        Gson gson = new Gson();
+        User me = new User();
+        me.setName(name.getText().toString());
+        me.setEmail(email.getText().toString());
+        me.setPassword(password.getText().toString());
+        me.setPortrait(imageByte);
+
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        RequestBody requestBody = RequestBody.create(JSON, gson.toJson(me));
+
+        HttpUtil.register(requestBody, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 runOnUiThread(new Runnable() {
@@ -269,33 +278,42 @@ public class RegisterActivity extends BaseActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                final String result = response.body().string();
+                Gson gson = new Gson();
+                final User user = gson.fromJson(response.body().string(), User.class);
+                if (user != null) {
+                    saveUser(user);
+                }
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         myDialog.dismiss();
-                        switch (result) {
-                            case "0":
-                                Toast.makeText(RegisterActivity.this, "注册失败", Toast.LENGTH_SHORT)
-                                        .show();
-                                break;
-                            case "1":
-                                Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT)
-                                        .show();
-                                //todo 解析数据，将个人信息存至本地和数据库
-
-                                Intent intent = new Intent(RegisterActivity.this, LoginActivity
-                                        .class);
-                                finish();
-                                startActivity(intent);
-                                break;
-                            default:
-                                Toast.makeText(RegisterActivity.this, "注册失败", Toast.LENGTH_SHORT)
-                                        .show();
+                        if (user == null) {
+                            Toast.makeText(RegisterActivity.this, "注册失败", Toast.LENGTH_SHORT)
+                                    .show();
+                        } else {
+                            Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT)
+                                    .show();
+                            Intent intent = new Intent(RegisterActivity.this, LoginActivity
+                                    .class);
+                            finish();
+                            startActivity(intent);
                         }
                     }
                 });
             }
         });
+    }
+
+    private void saveUser(User user) {
+        StorageUtil.updateInt(RegisterActivity.this, StorageUtil.USER_ID, user.getId());
+        StorageUtil.updateString(RegisterActivity.this, StorageUtil.EMAIL, user.getEmail());
+        StorageUtil.updateString(RegisterActivity.this, StorageUtil.USER_NAME, user.getName());
+        StorageUtil.updateString(RegisterActivity.this, StorageUtil.PASSWORD, user.getPassword());
+        DataSupport.deleteAll(Friend.class);
+        Friend friend = new Friend();
+        friend.setId(user.getId());
+        friend.setName(user.getName());
+        friend.setEmail(user.getEmail());
+        friend.save();
     }
 }
