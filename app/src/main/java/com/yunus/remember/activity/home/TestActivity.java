@@ -120,7 +120,7 @@ public class TestActivity extends BaseActivity {
                 }
                 Intent intent = new Intent(TestActivity.this, DetailActivity.class);
                 intent.putExtra("today_word", words.get(position));
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -130,7 +130,7 @@ public class TestActivity extends BaseActivity {
                 words.get(position).setLevel(3);
                 Intent intent = new Intent(TestActivity.this, DetailActivity.class);
                 intent.putExtra("today_word", words.get(position));
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -247,5 +247,19 @@ public class TestActivity extends BaseActivity {
             word.setLevel(word.getLevel() - 1);
         }
         word.save();
+        StorageUtil.updateInt(TestActivity.this, StorageUtil.TODAY_REMAIN_NUM,
+                StorageUtil.getInt(TestActivity.this, StorageUtil.TODAY_REMAIN_NUM, 1) - 1);
+        StorageUtil.updateInt(TestActivity.this, StorageUtil.TODAY_STUDY_NUM,
+                StorageUtil.getInt(TestActivity.this, StorageUtil.TODAY_STUDY_NUM, 0) + 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                words.get(position).setLevel(-1);
+                updateWord(words.get(position));
+            }
+        }
     }
 }

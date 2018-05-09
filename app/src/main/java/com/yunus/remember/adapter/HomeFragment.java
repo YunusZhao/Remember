@@ -1,7 +1,6 @@
 package com.yunus.remember.adapter;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -211,10 +210,10 @@ public class HomeFragment extends Fragment {
         protected Boolean doInBackground(Void... voids) {
 
             //前期更新
-            if (StorageUtil.getInt(getContext(), StorageUtil.TODAY_NUM, 0)  == 0){
+            if (StorageUtil.getInt(getContext(), StorageUtil.TODAY_NUM, 0) == 0) {
                 StorageUtil.updateInt(getContext(), StorageUtil.TODAY_NUM, 100);
             }
-            if (StorageUtil.getInt(getContext(), StorageUtil.TODAY_NEW_NUM, 0)  == 0){
+            if (StorageUtil.getInt(getContext(), StorageUtil.TODAY_NEW_NUM, 0) == 0) {
                 StorageUtil.updateInt(getContext(), StorageUtil.TODAY_NEW_NUM, 20);
             }
 
@@ -244,24 +243,24 @@ public class HomeFragment extends Fragment {
             }
 
             //更新上次登陆记录
-            if (DataSupport.where("DATE(theDate) <  DATE('now', '-7 day', 'localtime')").count(SevenDaysReview.class) > 0){
-                DataSupport.deleteAll(SevenDaysReview.class, "theDate < DATE(?)", new Date(System
-                        .currentTimeMillis() -
-                        (long) (6 * 24 * 60 * 60 * 1000)).toString());
+            if (DataSupport.where("DATE(theDate) <  DATE('now', '-6 day', 'localtime')").count
+                    (SevenDaysReview.class) > 0) {
+                DataSupport.deleteAll(SevenDaysReview.class, "theDate < DATE(?)",
+                        StorageUtil.getDate(new Date(System.currentTimeMillis()
+                                - (long) (6 * 24 * 60 * 60 * 1000))));
             }
             SevenDaysReview lastReview = DataSupport.findLast(SevenDaysReview.class);
-            if (StorageUtil.getInt(getContext(), StorageUtil.STUDY_TIME, 0) != 0){
-                lastReview.setStudiedTime(StorageUtil.getInt(getContext(), StorageUtil.STUDY_TIME, 0));
+            if (lastReview != null &&
+                    StorageUtil.getInt(getContext(), StorageUtil.STUDY_TIME, 0) != 0) {
+                lastReview.setStudiedTime(StorageUtil.getInt(getContext(), StorageUtil
+                        .STUDY_TIME, 0));
+                lastReview.setTodayStudiedCount(StorageUtil.getInt(getContext(), StorageUtil
+                        .TODAY_STUDY_NUM, 0));
                 lastReview.save();
-                StorageUtil.updateInt(getContext(), StorageUtil.STUDY_TIME, 0);
             }
+            StorageUtil.updateInt(getContext(), StorageUtil.STUDY_TIME, 0);
+            StorageUtil.updateInt(getContext(), StorageUtil.TODAY_STUDY_NUM, 0);
 
-
-            //更新今天记录
-            int studiedNum = DataSupport.where("level < 1").count(Word.class);
-            SevenDaysReview newReview = new SevenDaysReview(StorageUtil.getDate(new Date(System.currentTimeMillis())),
-                    studiedNum);
-            newReview.save();
 
             //本地词库填充
             DataSupport.deleteAll(TodayWord.class);
@@ -326,11 +325,24 @@ public class HomeFragment extends Fragment {
                                 word.getSentence(), 1).save();
                     }
                     DataSupport.saveAll(netWords);
+                    StorageUtil.updateInt(getContext(), StorageUtil.WORDS_NUM,
+                            DataSupport.count(Word.class));
+
+                    //更新今天记录
+                    int studiedNum = DataSupport.where("level < 1").count(Word.class);
+                    int allNum = DataSupport.count(Word.class);
+                    SevenDaysReview newReview = new SevenDaysReview(StorageUtil.getDate(new Date
+                            (System.currentTimeMillis())), studiedNum, allNum);
+                    newReview.save();
                 }
             });
 
             StorageUtil.updateString(getContext(), StorageUtil.TODAY_DATE, StorageUtil.getToday());
             StorageUtil.updateInt(getContext(), StorageUtil.STUDY_TIME, 0);
+            StorageUtil.updateInt(getContext(), StorageUtil.TODAY_REMAIN_NUM,
+                    StorageUtil.getInt(getContext(), StorageUtil.TODAY_NUM, 0));
+
+
             return true;
         }
 

@@ -42,6 +42,7 @@
                 android:id="@+id/test_word_sentence"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textSize="24sp"
                 android:layout_weight="1"/>
             <ImageButton
                 android:id="@+id/test_voice_sentence"
@@ -58,6 +59,7 @@
             <TextView
                 android:id="@+id/test_word_mean"
                 android:visibility="gone"
+                android:textSize="24sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>

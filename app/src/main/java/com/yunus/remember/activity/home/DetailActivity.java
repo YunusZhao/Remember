@@ -107,7 +107,7 @@ public class DetailActivity extends BaseActivity {
                 break;
             case R.id.menu_delete:
                 todayWord.setLevel(-1);
-                todayWord.save();
+                setResult(RESULT_OK);
                 finish();
                 break;
             default:

@@ -16,14 +16,10 @@ public class SevenDaysReview extends DataSupport {
     public SevenDaysReview() {
     }
 
-    public SevenDaysReview(String theDate, int allHadCount) {
+    public SevenDaysReview(String theDate, int allHadCount, int allWordsCount) {
         this.theDate = theDate;
         this.allHadCount = allHadCount;
-    }
-
-    public SevenDaysReview(int allWordsCount, int allHadCount) {
         this.allWordsCount = allWordsCount;
-        this.allHadCount = allHadCount;
     }
 
     public String getTheDate() {

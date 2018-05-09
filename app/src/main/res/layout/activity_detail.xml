@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -38,41 +37,45 @@
                 android:id="@+id/detail_sentence_English_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="英1" />
+                android:text="英1"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/detail_sentence_Chinese_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="汉1" />
+                android:text="汉1"
+                android:textSize="24sp" />
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/detail_sentence_English_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="英2" />
+                android:text="英2"
+                android:textSize="24sp"
+                android:visibility="gone" />
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/detail_sentence_Chinese_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="汉2" />
+                android:text="汉2"
+                android:textSize="24sp"
+                android:visibility="gone" />
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/detail_sentence_English_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="英3" />
+                android:text="英3"
+                android:visibility="gone" />
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/detail_sentence_Chinese_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="汉3" />
+                android:text="汉3"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 
