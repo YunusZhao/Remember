@@ -239,7 +239,7 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
                         String result = response.body().string();
-                        LogUtil.d("word", result);
+                        LogUtil.d("login word", result);
                         Gson gson = new Gson();
                         List<Word> words = gson.fromJson(result, new
                                 TypeToken<List<Word>>() {
@@ -272,6 +272,7 @@ public class LoginActivity extends BaseActivity {
         StorageUtil.updateInt(LoginActivity.this, StorageUtil.STUDY_TIME, friend.getAllTime());
         StorageUtil.updateInt(LoginActivity.this, StorageUtil.WORDS_STUDIED_NUM, friend
                 .getWordNum());
+        StorageUtil.updateString(LoginActivity.this, StorageUtil.PORTRAIT, friend.getPortrait());
         DataSupport.deleteAll(Friend.class);
         friend.save();
     }

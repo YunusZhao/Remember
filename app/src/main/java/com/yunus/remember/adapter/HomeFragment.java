@@ -1,6 +1,7 @@
 package com.yunus.remember.adapter;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.yunus.utils.LogUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yunus.remember.R;
@@ -127,7 +129,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
         if (!StorageUtil.getString(getContext(), StorageUtil.TODAY_DATE, " ").equals(StorageUtil
                 .getToday())) {
 
@@ -141,6 +142,7 @@ public class HomeFragment extends Fragment {
                 new DownloadTask().execute();
             }
         }
+        initText();
     }
 
     private void initText() {
@@ -209,6 +211,13 @@ public class HomeFragment extends Fragment {
         protected Boolean doInBackground(Void... voids) {
 
             //前期更新
+            if (StorageUtil.getInt(getContext(), StorageUtil.TODAY_NUM, 0)  == 0){
+                StorageUtil.updateInt(getContext(), StorageUtil.TODAY_NUM, 100);
+            }
+            if (StorageUtil.getInt(getContext(), StorageUtil.TODAY_NEW_NUM, 0)  == 0){
+                StorageUtil.updateInt(getContext(), StorageUtil.TODAY_NEW_NUM, 20);
+            }
+
             List<Word> allWord = DataSupport.where("level > 0").find(Word.class);
             for (Word word : allWord) {
                 word.setImportance(word.getImportance() + 1);
@@ -218,13 +227,13 @@ public class HomeFragment extends Fragment {
             //计算要下载单词量
             int needStudyNum = StorageUtil.getInt(getContext(), StorageUtil.WORDS_NUM, 0) -
                     StorageUtil.getInt(getContext(), StorageUtil.WORDS_STUDIED_NUM, 0);
-            if (needStudyNum < StorageUtil.getInt(getContext(), StorageUtil.TODAY_NUM, 0)) {
+            if (needStudyNum < StorageUtil.getInt(getContext(), StorageUtil.TODAY_NUM, 100)) {
                 StorageUtil.updateInt(getContext(), StorageUtil.TODAY_REAL_NEW_NUM, StorageUtil
                         .getInt(getContext(),
                                 StorageUtil.TODAY_NUM, 0) - needStudyNum);
             } else {
                 int wordNum = DataSupport.where("importance > 3").count(Word.class);
-                if (wordNum >= StorageUtil.getInt(getContext(), StorageUtil.TODAY_NEW_NUM, 0)) {
+                if (wordNum >= StorageUtil.getInt(getContext(), StorageUtil.TODAY_NEW_NUM, 20)) {
                     StorageUtil.updateInt(getContext(), StorageUtil.TODAY_REAL_NEW_NUM, 0);
                 } else {
                     StorageUtil.updateInt(getContext(), StorageUtil.TODAY_REAL_NEW_NUM,
@@ -235,27 +244,32 @@ public class HomeFragment extends Fragment {
             }
 
             //更新上次登陆记录
-            DataSupport.deleteAll(SevenDaysReview.class, "theDate before ?", new Date(System
-                    .currentTimeMillis() -
-                    (long) (6 * 24 * 60 * 60 * 1000)).toString());
+            if (DataSupport.where("DATE(theDate) <  DATE('now', '-7 day', 'localtime')").count(SevenDaysReview.class) > 0){
+                DataSupport.deleteAll(SevenDaysReview.class, "theDate < DATE(?)", new Date(System
+                        .currentTimeMillis() -
+                        (long) (6 * 24 * 60 * 60 * 1000)).toString());
+            }
             SevenDaysReview lastReview = DataSupport.findLast(SevenDaysReview.class);
-            lastReview.setStudiedTime(StorageUtil.getInt(getContext(), StorageUtil.STUDY_TIME, 0));
-            lastReview.save();
+            if (StorageUtil.getInt(getContext(), StorageUtil.STUDY_TIME, 0) != 0){
+                lastReview.setStudiedTime(StorageUtil.getInt(getContext(), StorageUtil.STUDY_TIME, 0));
+                lastReview.save();
+                StorageUtil.updateInt(getContext(), StorageUtil.STUDY_TIME, 0);
+            }
+
 
             //更新今天记录
             int studiedNum = DataSupport.where("level < 1").count(Word.class);
-            SevenDaysReview newReview = new SevenDaysReview(new Date(System.currentTimeMillis()),
+            SevenDaysReview newReview = new SevenDaysReview(StorageUtil.getDate(new Date(System.currentTimeMillis())),
                     studiedNum);
             newReview.save();
 
             //本地词库填充
             DataSupport.deleteAll(TodayWord.class);
-            int needNum = StorageUtil.getInt(getContext(), StorageUtil.TODAY_NUM, 0) -
+            int needNum = StorageUtil.getInt(getContext(), StorageUtil.TODAY_NUM, 100) -
                     StorageUtil.getInt(getContext
                             (), StorageUtil.TODAY_REAL_NEW_NUM, 0);
             List<Word> words = DataSupport.where("importance > 3").limit(needNum).order
-                    ("importance desc").find(Word
-                    .class);
+                    ("importance desc").find(Word.class);
             List<TodayWord> todayWords = new ArrayList<>();
             for (Word word : words) {
                 todayWords.add(new TodayWord(word.getSpell(), word.getMean(), word.getPhonogram()
@@ -296,12 +310,12 @@ public class HomeFragment extends Fragment {
             HttpUtil.todayWord(body, new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String result = response.body().string();
+                    LogUtil.d("word", result);
                     Gson gson = new Gson();
                     List<Word> netWords = gson.fromJson(result, new TypeToken<List<Word>>() {
                     }.getType());
@@ -324,7 +338,7 @@ public class HomeFragment extends Fragment {
         protected void onPostExecute(Boolean aBoolean) {
             progress.setVisibility(View.GONE);
             commonLayout.setVisibility(View.VISIBLE);
-            startStudy.setText("开始学习");
+            startStudy.setText("学习");
             startStudy.setEnabled(true);
             numLayout.setVisibility(View.VISIBLE);
             welcomeLayout.setVisibility(View.GONE);

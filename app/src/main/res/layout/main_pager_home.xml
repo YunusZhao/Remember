@@ -59,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="心动不如行动，开始学习吧！"
+            android:textColor="@color/blueLight"
             android:textSize="12sp"/>
     </LinearLayout>
 

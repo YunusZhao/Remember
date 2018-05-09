@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.example.yunus.activity.BaseActivity;
+import com.example.yunus.utils.LogUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.yunus.remember.R;
 import com.yunus.remember.adapter.BookAdapter;
 import com.yunus.remember.entity.Book;
@@ -41,8 +44,6 @@ public class BooksActivity extends BaseActivity {
         bookListView = findViewById(R.id.books_list);
 
         updateAllBooks();
-        BookAdapter bookAdapter = new BookAdapter(BooksActivity.this, R.layout.item_book, books);
-        bookListView.setAdapter(bookAdapter);
     }
 
     private void updateAllBooks() {
@@ -54,7 +55,10 @@ public class BooksActivity extends BaseActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                //books = response.body().string();
+                String result = response.body().string();
+                LogUtil.d("book", result);
+                Gson gson = new Gson();
+                books = gson.fromJson(result, new TypeToken<List<Book>>() {}.getType());
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

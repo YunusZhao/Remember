@@ -98,7 +98,7 @@ public class ProgressActivity extends BaseActivity {
             } else {
                 if (i < reviews.size()) {
                     review = reviews.get(i);
-                    if (StorageUtil.getDate(review.getTheDate()).equals(sdf.format(c.getTime()))) {
+                    if (review.getTheDate().equals(sdf.format(c.getTime()))) {
                         i++;
                         lineNumbers[0][j] = (float) review.getAllWordsCount();
                         lineNumbers[1][j] = (float) review.getAllHadCount();
@@ -220,7 +220,7 @@ public class ProgressActivity extends BaseActivity {
             } else {
                 if (k < reviews.size()) {
                     review = reviews.get(k);
-                    if (StorageUtil.getDate(review.getTheDate()).equals(sdf.format(c.getTime()))) {
+                    if (review.getTheDate().equals(sdf.format(c.getTime()))) {
                         k++;
                         num = review.getTodayStudiedCount();
                     } else {
@@ -288,7 +288,7 @@ public class ProgressActivity extends BaseActivity {
             } else {
                 if (i < reviews.size()) {
                     review = reviews.get(i);
-                    if (StorageUtil.getDate(review.getTheDate()).equals(sdf.format(c.getTime()))) {
+                    if (review.getTheDate().equals(sdf.format(c.getTime()))) {
                         i++;
                         comboNumbers[0][j] = (float) review.getStudiedTime();
                     } else {

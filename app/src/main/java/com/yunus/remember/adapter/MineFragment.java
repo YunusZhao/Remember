@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,12 +53,12 @@ public class MineFragment extends Fragment {
         Button book = getActivity().findViewById(R.id.main_book);
         Button word = getActivity().findViewById(R.id.main_word);
         Button progress = getActivity().findViewById(R.id.main_progress);
-        Button message = getActivity().findViewById(R.id.main_message);
+        Button message = getActivity().findViewById(R.id.main_set_message);
         Button setup = getActivity().findViewById(R.id.main_setup);
 
         //init Text
-        Glide.with(getActivity()).load(StorageUtil.getString(getActivity(), StorageUtil.PORTRAIT,
-                "").getBytes()).into(image);
+        Glide.with(getActivity()).load(Base64.decode(StorageUtil.getString(getActivity(),
+                StorageUtil.PORTRAIT, ""), Base64.DEFAULT)).into(image);
         name.setText(StorageUtil.getString(getActivity(), StorageUtil.USER_NAME, ""));
         email.setText(StorageUtil.getString(getActivity(), StorageUtil.EMAIL, ""));
         registerText.setText("打卡" + StorageUtil.getInt(getActivity(), StorageUtil.REGISTER_DAY,

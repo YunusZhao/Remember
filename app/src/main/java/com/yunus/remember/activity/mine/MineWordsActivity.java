@@ -42,7 +42,6 @@ public class MineWordsActivity extends BaseActivity implements RadioGroup.OnChec
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         switch (i) {
-
             case R.id.new_word:
                 wordList = DataSupport.where("level = 5").find(Word.class);
                 wordListView.notify();
@@ -62,7 +61,6 @@ public class MineWordsActivity extends BaseActivity implements RadioGroup.OnChec
             case R.id.today_word:
             default:
                 todayWordList = DataSupport.findAll(TodayWord.class);
-                wordList.clear();
                 for (TodayWord todayWord : todayWordList) {
                     wordList.add(new Word(todayWord.getSpell(), todayWord.getMean(), todayWord
                             .getPhonogram()));

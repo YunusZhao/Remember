@@ -7,16 +7,16 @@ import java.sql.Date;
 //七天记录，方便图表
 public class SevenDaysReview extends DataSupport {
 
-    private Date theDate;
+
     private int allWordsCount;
     private int allHadCount;
     private int todayStudiedCount;
     private int studiedTime;
-
+    private String theDate;
     public SevenDaysReview() {
     }
 
-    public SevenDaysReview(Date theDate, int allHadCount) {
+    public SevenDaysReview(String theDate, int allHadCount) {
         this.theDate = theDate;
         this.allHadCount = allHadCount;
     }
@@ -26,11 +26,11 @@ public class SevenDaysReview extends DataSupport {
         this.allHadCount = allHadCount;
     }
 
-    public Date getTheDate() {
+    public String getTheDate() {
         return theDate;
     }
 
-    public void setTheDate(Date theDate) {
+    public void setTheDate(String theDate) {
         this.theDate = theDate;
     }
 

@@ -120,7 +120,7 @@ public class DetailActivity extends BaseActivity {
         detailSpell.setText(todayWord.getSpell());
         detailPhonogram.setText(todayWord.getPhonogram());
         detailMean.setText(todayWord.getMean());
-        String[] sentences = todayWord.getSentence().split("\n");
+        String[] sentences = todayWord.getSentence().split("\\\\n");
         switch (sentences.length) {
             case 6:
                 sentenceEnglish3.setVisibility(View.VISIBLE);

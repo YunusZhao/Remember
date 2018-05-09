@@ -181,8 +181,8 @@ public class TestActivity extends BaseActivity {
         super.onDestroy();
         //save学习时间
         Date today = new Date(System.currentTimeMillis());
-        SevenDaysReview review = DataSupport.where("date = ?", today.toString()).findLast
-                (SevenDaysReview.class);
+        SevenDaysReview review = DataSupport.where("theDate = ?", StorageUtil.getDate(today))
+                .findLast(SevenDaysReview.class);
         LogUtil.d("TestActivity", today.toString());
         review.setStudiedTime(StorageUtil.getInt(this, StorageUtil.STUDY_TIME, 0));
         review.save();
@@ -225,7 +225,8 @@ public class TestActivity extends BaseActivity {
         } while (words.get(position).getLevel() <= 0);
         spell.setText(words.get(position).getSpell());
         phonogram.setText(words.get(position).getPhonogram());
-        sentenceWord.setText(words.get(position).getSentence());
+        String[] sentences = words.get(position).getSentence().split("\\\\n");
+        sentenceWord.setText(sentences[0]);
         mean.setText(words.get(position).getMean());
     }
 

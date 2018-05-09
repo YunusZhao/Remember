@@ -17,6 +17,7 @@ public class HttpUtil {
     private static final String changePassword = address + "/password";
     private static final String register = address + "/user/register";
     private static final String userBook = address + "/book/userBook";
+    private static final String books = address + "/book/allBook";
     private static final String registerCount = address + "/user/registerCount";
     private static final String friend = address + "/user/friend";
     private static final String addFriend = address + "/user/addFriend";
@@ -100,7 +101,7 @@ public class HttpUtil {
     }
 
     public static void getBook(okhttp3.Callback callback) {
-        get(searchWord, callback);
+        get(books, callback);
     }
 
     public static void changeName(int id, String name, okhttp3.Callback callback) {
