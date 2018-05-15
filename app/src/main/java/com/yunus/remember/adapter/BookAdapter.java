@@ -30,9 +30,9 @@ public class BookAdapter extends ArrayAdapter<Book> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        Book book = getItem(position);
+        final Book book = getItem(position);
         View view;
-        ViewHolder viewHolder;
+        final ViewHolder viewHolder;
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
@@ -51,7 +51,13 @@ public class BookAdapter extends ArrayAdapter<Book> {
         if (num != 0) {
             viewHolder.addBook.setVisibility(View.GONE);
         }
-        //TODO 收藏点击事件
+        viewHolder.addBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                book.save();
+                viewHolder.addBook.setVisibility(View.GONE);
+            }
+        });
         return view;
     }
 
