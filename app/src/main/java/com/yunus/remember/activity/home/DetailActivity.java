@@ -29,6 +29,7 @@ public class DetailActivity extends BaseActivity {
     TextView sentenceChinese2;
     TextView sentenceChinese3;
     Button next;
+    Button wrong;
     TodayWord todayWord;
     long beginTime;
 
@@ -39,7 +40,7 @@ public class DetailActivity extends BaseActivity {
 
         todayWord = getIntent().getParcelableExtra("today_word");
 
-        Toolbar toolbar = findViewById(R.id.detail_toolBar);
+        final Toolbar toolbar = findViewById(R.id.detail_toolBar);
         toolbar.setTitle("探索模式");
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -60,6 +61,7 @@ public class DetailActivity extends BaseActivity {
         sentenceChinese2 = findViewById(R.id.detail_sentence_Chinese_2);
         sentenceChinese3 = findViewById(R.id.detail_sentence_Chinese_3);
         next = findViewById(R.id.detail_next);
+        wrong = findViewById(R.id.detail_wrong);
 
         initText();
 
@@ -74,6 +76,16 @@ public class DetailActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(DetailActivity.this, TestActivity.class);
                 startActivity(intent);
+            }
+        });
+        wrong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                todayWord.setLevel(todayWord.getLevel() + 1);
+                Intent intent1 = new Intent();
+                intent1.putExtra("return", todayWord.getLevel());
+                setResult(RESULT_OK, intent1);
+                finish();
             }
         });
     }
@@ -107,7 +119,9 @@ public class DetailActivity extends BaseActivity {
                 break;
             case R.id.menu_delete:
                 todayWord.setLevel(-1);
-                setResult(RESULT_OK);
+                Intent intent1 = new Intent();
+                intent1.putExtra("return", todayWord.getLevel());
+                setResult(RESULT_OK, intent1);
                 finish();
                 break;
             default:

@@ -79,7 +79,12 @@
         </LinearLayout>
     </ScrollView>
 
-
+    <Button
+        android:id="@+id/detail_wrong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="认错了" />
     <Button
         android:id="@+id/detail_next"
         android:layout_width="wrap_content"

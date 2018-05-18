@@ -257,7 +257,7 @@ public class TestActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-                words.get(position).setLevel(-1);
+                words.get(position).setLevel(data.getIntExtra("return", 0));
                 updateWord(words.get(position));
             }
         }
