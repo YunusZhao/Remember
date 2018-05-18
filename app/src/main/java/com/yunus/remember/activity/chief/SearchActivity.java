@@ -8,6 +8,8 @@ import android.widget.SearchView;
 
 import com.example.yunus.activity.BaseActivity;
 import com.example.yunus.utils.LogUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.yunus.remember.R;
 import com.yunus.remember.adapter.SearchWordAdapter;
 import com.yunus.remember.entity.Word;
@@ -75,28 +77,30 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void getWords(String data) {
-        HttpUtil.searchWord(data, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String result = response.body().string();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (wordList.isEmpty()) {
-                            listView.setVisibility(View.GONE);
-                        } else {
-                            setAdapter(wordList);
+        if (!data.isEmpty()) {
+            HttpUtil.searchWord(data, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                }
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String result = response.body().string();
+                    Gson gson = new Gson();
+                    wordList = gson.fromJson(result, new
+                            TypeToken<List<Word>>() {
+                            }.getType());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (wordList.isEmpty()) {
+                                listView.setVisibility(View.GONE);
+                            } else {
+                                setAdapter(wordList);
+                            }
                         }
-
-                    }
-                });
-            }
-        });
+                    });
+                }
+            });
+        }
     }
-
 }

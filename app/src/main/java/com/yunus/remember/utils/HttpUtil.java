@@ -11,7 +11,7 @@ public class HttpUtil {
 
     private static final String address = "http://10.0.2.2:8080/remember";
     private static final String login = address + "/user/login";
-    private static final String searchWord = address + "/searchWord";
+    private static final String searchWord = address + "/word/searchWord";
     private static final String searchFriend = address + "/searchFriend";
     private static final String changeName = address + "/name";
     private static final String changePassword = address + "/password";
@@ -94,10 +94,9 @@ public class HttpUtil {
     }
 
     public static void searchWord(String data, okhttp3.Callback callback) {
-        RequestBody requestBody = new FormBody.Builder()
-                .add("data", data)
-                .build();
-        post(requestBody, searchWord, callback);
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder().addHeader("word", data).url(searchWord).build();
+        client.newCall(request).enqueue(callback);
     }
 
     public static void getBook(okhttp3.Callback callback) {
