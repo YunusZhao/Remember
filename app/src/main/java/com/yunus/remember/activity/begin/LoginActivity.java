@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yunus.activity.BaseActivity;
+import com.example.yunus.utils.ActivityCollector;
 import com.example.yunus.utils.LogUtil;
 import com.example.yunus.utils.RWUtil;
 import com.example.yunus.utils.ViewUtil;
@@ -257,6 +258,7 @@ public class LoginActivity extends BaseActivity {
             public void run() {
                 myDialog.dismiss();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                ActivityCollector.finishAll();
                 startActivity(intent);
             }
         });

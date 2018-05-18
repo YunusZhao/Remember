@@ -3,11 +3,13 @@ package com.yunus.remember.activity.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.yunus.activity.BaseActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -41,6 +43,9 @@ public class DiariesActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diaries);
         friend = (Friend) getIntent().getSerializableExtra("person");
+        if (friend == null) {
+            friend = DataSupport.findFirst(Friend.class);
+        }
 
         toolbar = findViewById(R.id.diaries_toolbar);
         toolbar.setTitle(R.string.all_diary);
@@ -56,35 +61,30 @@ public class DiariesActivity extends BaseActivity {
         name = findViewById(R.id.diaries_name);
         lvDiaries = findViewById(R.id.diaries_list);
 
-        if (friend != null) {
-            HttpUtil.registerCount(friend.getId() + "", new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
+        initText();
 
-                }
+        HttpUtil.registerCount(friend.getId() + "", new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
 
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    Gson gson = new Gson();
-                    diaries = gson.fromJson(response.body().string(),
-                            new TypeToken<List<RegisterCount>>() {
-                            }.getType());
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            DiaryAdapter diaryAdapter = new DiaryAdapter(DiariesActivity.this,
-                                    R.layout.item_diary, diaries);
-                            lvDiaries.setAdapter(diaryAdapter);
-                        }
-                    });
-                }
-            });
-        } else {
-            diaries = DataSupport.order("dayCount desc").find(RegisterCount.class);
-            DiaryAdapter diaryAdapter = new DiaryAdapter(DiariesActivity.this,
-                    R.layout.item_diary, diaries);
-            lvDiaries.setAdapter(diaryAdapter);
-        }
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Gson gson = new Gson();
+                diaries = gson.fromJson(response.body().string(),
+                        new TypeToken<List<RegisterCount>>() {
+                        }.getType());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        DiaryAdapter diaryAdapter = new DiaryAdapter(DiariesActivity.this,
+                                R.layout.item_diary, diaries);
+                        lvDiaries.setAdapter(diaryAdapter);
+                    }
+                });
+            }
+        });
 
         lvDiaries.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -95,5 +95,11 @@ public class DiariesActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void initText() {
+        name.setText(friend.getName());
+        Glide.with(DiariesActivity.this).load(Base64.decode(friend.getPortrait(), Base64.DEFAULT)
+        ).into(image);
     }
 }

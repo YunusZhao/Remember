@@ -2,6 +2,8 @@ package com.yunus.remember.activity.mine;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.example.yunus.activity.BaseActivity;
 import com.yunus.remember.R;
@@ -58,6 +60,17 @@ public class ProgressActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progress);
+
+        Toolbar toolbar = findViewById(R.id.progress_toolbar);
+        toolbar.setTitle("进步曲线");
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         initDates();
 
         lineChart = (LineChartView) findViewById(R.id.line_chart);

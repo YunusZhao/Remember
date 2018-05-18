@@ -8,7 +8,8 @@
     android:layout_height="match_parent"
     tools:context="com.yunus.remember.activity.mine.ProgressActivity">
     
-    <include layout="@layout/main_toolbar"/>
+    <include layout="@layout/main_toolbar"
+        android:id="@+id/progress_toolbar"/>
     
    <ScrollView
        android:layout_width="match_parent"

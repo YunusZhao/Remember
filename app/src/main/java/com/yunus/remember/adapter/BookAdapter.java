@@ -29,8 +29,8 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        final Book book = getItem(position);
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        Book book = getItem(position);
         View view;
         final ViewHolder viewHolder;
         if (convertView == null) {
@@ -54,7 +54,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
         viewHolder.addBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                book.save();
+                getItem(position).save();
                 viewHolder.addBook.setVisibility(View.GONE);
             }
         });

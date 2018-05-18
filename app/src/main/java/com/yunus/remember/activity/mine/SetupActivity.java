@@ -26,7 +26,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup);
 
-        Toolbar toolbar = findViewById(R.id.books_toolbar);
+        Toolbar toolbar = findViewById(R.id.setup_toolbar);
         toolbar.setTitle("设置");
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -40,6 +40,11 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener 
         account = findViewById(R.id.setup_account);
         about = findViewById(R.id.setup_about);
         logout = findViewById(R.id.setup_logout);
+
+        study.setOnClickListener(this);
+        account.setOnClickListener(this);
+        about.setOnClickListener(this);
+        logout.setOnClickListener(this);
 
     }
 

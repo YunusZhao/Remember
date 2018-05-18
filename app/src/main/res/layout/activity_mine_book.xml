@@ -73,7 +73,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="我的单词书" />
+                android:text="未学习" />
 
             <ListView
                 android:id="@+id/book_mine_list"

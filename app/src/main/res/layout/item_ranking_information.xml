@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
 
-    <android.support.v4.widget.CircleImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ranking_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
