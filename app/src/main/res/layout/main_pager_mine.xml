@@ -123,16 +123,6 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/main_set_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@color/white"
-        android:drawableEnd="@mipmap/go"
-        android:gravity="start|center_vertical"
-        android:text="短信" />
-
-    <Button
         android:id="@+id/main_setup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

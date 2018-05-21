@@ -31,11 +31,4 @@
 
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/main_message"
-        android:layout_width="45dp"
-        android:layout_height="match_parent"
-        android:src="@mipmap/message"
-        android:background="@color/white"/>
-
 </LinearLayout>

@@ -38,7 +38,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     private RadioButton btnMine;
     private ViewPager viewPager;
     private TextView tvSearch;
-    private ImageButton ibMessage;
     private MainFragmentPagerAdapter mAdapter;
 
     @Override
@@ -56,21 +55,12 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         btnRanking = findViewById(R.id.main_bottom__ranking);
         btnMine = findViewById(R.id.main_bottom_mine);
         tvSearch = findViewById(R.id.main_top_search);
-        ibMessage = findViewById(R.id.main_message);
         mainBottom.setOnCheckedChangeListener(this);
 
         tvSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        ibMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, NoticeActivity.class);
                 startActivity(intent);
             }
         });

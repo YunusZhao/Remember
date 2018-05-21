@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.yunus.remember.R;
-import com.yunus.remember.activity.chief.NoticeActivity;
 import com.yunus.remember.activity.home.DiariesActivity;
 import com.yunus.remember.activity.mine.MineBookActivity;
 import com.yunus.remember.activity.mine.MineWordsActivity;
@@ -53,7 +52,6 @@ public class MineFragment extends Fragment {
         Button book = getActivity().findViewById(R.id.main_book);
         Button word = getActivity().findViewById(R.id.main_word);
         Button progress = getActivity().findViewById(R.id.main_progress);
-        Button message = getActivity().findViewById(R.id.main_set_message);
         Button setup = getActivity().findViewById(R.id.main_setup);
 
         //init Text
@@ -89,13 +87,6 @@ public class MineFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ProgressActivity.class);
-                startActivity(intent);
-            }
-        });
-        message.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), NoticeActivity.class);
                 startActivity(intent);
             }
         });
