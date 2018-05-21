@@ -82,6 +82,7 @@ public class SearchActivity extends BaseActivity {
                 @Override
                 public void onFailure(Call call, IOException e) {
                 }
+
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String result = response.body().string();
@@ -89,6 +90,7 @@ public class SearchActivity extends BaseActivity {
                     wordList = gson.fromJson(result, new
                             TypeToken<List<Word>>() {
                             }.getType());
+                    LogUtil.d("after", result);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

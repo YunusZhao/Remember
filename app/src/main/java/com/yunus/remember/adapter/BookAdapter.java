@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.yunus.utils.LogUtil;
 import com.yunus.remember.R;
 import com.yunus.remember.entity.Book;
 
@@ -46,8 +47,10 @@ public class BookAdapter extends ArrayAdapter<Book> {
             viewHolder = (ViewHolder) view.getTag();
         }
         viewHolder.bookName.setText(book.getName());
-        viewHolder.wordNum.setText("包含单词 " + book.getWordNum()+" 个");
+        viewHolder.wordNum.setText("包含单词 " + book.getWordNum() + " 个");
         int num = DataSupport.where("id = ?", "" + book.getId()).count(Book.class);
+        LogUtil.d("aaa", num + "");
+        LogUtil.d("bbb", book.getId() + "");
         if (num != 0) {
             viewHolder.addBook.setVisibility(View.GONE);
         }

@@ -1,7 +1,6 @@
 package com.yunus.remember.activity.mine;
 
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -14,6 +13,7 @@ import com.yunus.remember.entity.Word;
 
 import org.litepal.crud.DataSupport;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MineWordsActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
@@ -25,13 +25,19 @@ public class MineWordsActivity extends BaseActivity implements RadioGroup.OnChec
     private RadioButton had;
     private RadioButton simple;
     private ListView wordListView;
-    private List<Word> wordList;
+    private List<Word> wordList = new ArrayList<>();
     private List<TodayWord> todayWordList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mine_words);
+
+        today = findViewById(R.id.today_word);
+        newWord = findViewById(R.id.new_word);
+        study = findViewById(R.id.study_word);
+        had = findViewById(R.id.had_word);
+        simple = findViewById(R.id.simple_word);
 
         bindViews();
 
@@ -44,19 +50,19 @@ public class MineWordsActivity extends BaseActivity implements RadioGroup.OnChec
         switch (i) {
             case R.id.new_word:
                 wordList = DataSupport.where("level = 5").find(Word.class);
-                wordListView.notify();
+                wordListView.deferNotifyDataSetChanged();
                 break;
             case R.id.study_word:
                 wordList = DataSupport.where("level < 5 and level > 0").find(Word.class);
-                wordListView.notify();
+                wordListView.deferNotifyDataSetChanged();
                 break;
             case R.id.had_word:
                 wordList = DataSupport.where("level = 0").find(Word.class);
-                wordListView.notify();
+                wordListView.deferNotifyDataSetChanged();
                 break;
             case R.id.simple_word:
                 wordList = DataSupport.where("level = -1").find(Word.class);
-                wordListView.notify();
+                wordListView.deferNotifyDataSetChanged();
                 break;
             case R.id.today_word:
             default:
@@ -65,7 +71,7 @@ public class MineWordsActivity extends BaseActivity implements RadioGroup.OnChec
                     wordList.add(new Word(todayWord.getSpell(), todayWord.getMean(), todayWord
                             .getPhonogram()));
                 }
-                wordListView.notify();
+                wordListView.deferNotifyDataSetChanged();
                 break;
         }
     }

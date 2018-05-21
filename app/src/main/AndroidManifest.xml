@@ -22,10 +22,7 @@
         <activity
             android:name=".activity.begin.LoginActivity"
             android:launchMode="singleTask" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity android:name=".activity.begin.RegisterActivity" />
         <activity android:name=".activity.begin.PasswordActivity" />
@@ -54,7 +51,10 @@
         <activity android:name=".activity.chief.ChatActivity" />
         <activity android:name=".activity.chief.CropperActivity" />
         <activity android:name=".activity.begin.WelcomeActivity">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
