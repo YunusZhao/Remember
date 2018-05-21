@@ -25,13 +25,13 @@ public class HttpUtil {
     private static final String todayWord = address + "/word/todayWord";
     private static final String rankingList = address + "/user/ranking";
 
-    public static void get(String address, okhttp3.Callback callback) {
+    private static void get(String address, okhttp3.Callback callback) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(address).build();
         client.newCall(request).enqueue(callback);
     }
 
-    public static void post(RequestBody body, String address, okhttp3.Callback callback) {
+    private static void post(RequestBody body, String address, okhttp3.Callback callback) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(address).addHeader("cookie", StorageUtil
                 .getString(MyApplication

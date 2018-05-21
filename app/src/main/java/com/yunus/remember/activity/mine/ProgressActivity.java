@@ -4,10 +4,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.yunus.activity.BaseActivity;
 import com.yunus.remember.R;
 import com.yunus.remember.entity.SevenDaysReview;
+import com.yunus.remember.entity.Word;
 import com.yunus.remember.utils.StorageUtil;
 
 import org.litepal.crud.DataSupport;
@@ -56,6 +58,11 @@ public class ProgressActivity extends BaseActivity {
     private ColumnChartView columnChart;
     private ComboLineColumnChartView comboChart;
 
+    private TextView all;
+    private TextView had;
+    private TextView studying;
+    private TextView newWord;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +77,11 @@ public class ProgressActivity extends BaseActivity {
                 finish();
             }
         });
+
+        all = findViewById(R.id.progress_all);
+        had = findViewById(R.id.progress_had);
+        studying = findViewById(R.id.progress_ing);
+        newWord = findViewById(R.id.progress_new);
 
         initDates();
 
@@ -92,10 +104,18 @@ public class ProgressActivity extends BaseActivity {
         c = Calendar.getInstance();
         for (int i = 0; i < numberOfPoints; ++i) {
             SimpleDateFormat sdf = new SimpleDateFormat("MM.dd", Locale.getDefault());
-            dates[i] = sdf.format(c.getTime());
+            dates[numberOfPoints - i - 1] = sdf.format(c.getTime());
             c.add(Calendar.DATE, -1);
         }
         reviews = DataSupport.findAll(SevenDaysReview.class);
+
+        int allNum = DataSupport.count(Word.class);
+        int hadNum = DataSupport.where("level < 1").count(Word.class);
+        all.setText("" + allNum);
+        had.setText("" + hadNum);
+        studying.setText("" + (allNum - hadNum));
+        newWord.setText(StorageUtil.getInt(ProgressActivity.this, StorageUtil
+                .TODAY_REAL_NEW_NUM, 0) + "");
     }
 
     private void generateLineValues() {
