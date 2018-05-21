@@ -15,13 +15,22 @@ import com.example.yunus.utils.LogUtil;
 import com.yunus.remember.R;
 import com.yunus.remember.adapter.BookAdapter;
 import com.yunus.remember.entity.Book;
+import com.yunus.remember.utils.StorageUtil;
 
 import org.litepal.crud.DataSupport;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class MineBookActivity extends BaseActivity {
 
+    TextView bookName;
+    TextView wordNum;
+    ProgressBar bookProgress;
+    TextView progressText;
+    TextView finishTime;
     private List<Book> myBook;
     private List<Book> finishBook;
     private Book studyBook;
@@ -42,12 +51,16 @@ public class MineBookActivity extends BaseActivity {
             }
         });
 
-        TextView bookName = findViewById(R.id.mine_book_study_name);
-        TextView wordNum = findViewById(R.id.mine_book_study_word_num);
-        ProgressBar bookProgress = findViewById(R.id.mine_book_progress);
-        TextView progressText = findViewById(R.id.mine_book_progress_text);
-        TextView finishTime = findViewById(R.id.book_finish_time);
+        bookName = findViewById(R.id.mine_book_study_name);
+        wordNum = findViewById(R.id.mine_book_study_word_num);
+        bookProgress = findViewById(R.id.mine_book_progress);
+        progressText = findViewById(R.id.mine_book_progress_text);
+        finishTime = findViewById(R.id.book_finish_time);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         initBook();
         LogUtil.d("MineBookActivity", DataSupport.count(Book.class) + "");
         LogUtil.d("MineBookActivity", studyBook.toString());
@@ -58,19 +71,24 @@ public class MineBookActivity extends BaseActivity {
         bookProgress.setProgress(progress);
         String string = progress + "%";
         progressText.setText(string);
-        finishTime.setText("//完成");
+        int days = (studyBook.getWordNum() - studyBook.getStudyWordNum())
+                / StorageUtil.getInt(MineBookActivity.this, StorageUtil.TODAY_NEW_NUM, 20);
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
+        finishTime.setText("预计"+sdf.format(c.getTime())+"完成");
 
         ListView myList = findViewById(R.id.book_mine_list);
         ListView finishList = findViewById(R.id.book_finish_list);
         if (myBook.isEmpty()) {
-            myList.setVisibility(View.GONE);
+
         } else {
             BookAdapter myAdapter = new BookAdapter(MineBookActivity.this, R.layout.item_book,
                     myBook);
             myList.setAdapter(myAdapter);
         }
         if (finishBook.isEmpty()) {
-            finishList.setVisibility(View.GONE);
+
         } else {
             BookAdapter finishAdapter = new BookAdapter(MineBookActivity.this, R.layout
                     .item_book, finishBook);
