@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.yunus.activity.BaseActivity;
 import com.example.yunus.utils.ActivityCollector;
 import com.example.yunus.utils.LogUtil;
@@ -58,6 +59,8 @@ public class LoginActivity extends BaseActivity {
 
         getView();
         ViewUtil.setToolbar(LoginActivity.this, toolbar);
+
+        Glide.with(LoginActivity.this).load(R.drawable.timg).into(portrait);
 
         forgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override

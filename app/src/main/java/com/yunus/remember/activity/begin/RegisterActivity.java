@@ -75,6 +75,7 @@ public class RegisterActivity extends BaseActivity {
 
         getView();
         ViewUtil.setToolbar(RegisterActivity.this, toolbar);
+        Glide.with(RegisterActivity.this).load(R.drawable.timg).into(portrait);
 
 
 
