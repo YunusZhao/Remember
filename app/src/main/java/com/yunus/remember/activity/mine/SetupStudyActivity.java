@@ -5,6 +5,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.example.yunus.activity.BaseActivity;
 import com.yunus.remember.R;
@@ -127,9 +128,26 @@ public class SetupStudyActivity extends BaseActivity {
                     default:
                         break;
                 }
+                updateRadio(checkedId);
                 StorageUtil.updateInt(SetupStudyActivity.this, StorageUtil.TODAY_NUM, num);
                 StorageUtil.updateInt(SetupStudyActivity.this, StorageUtil.TODAY_NEW_NUM, num / 5);
+                Toast.makeText(SetupStudyActivity.this, "明日开始，每日学习单词变更为" + num + "个", Toast
+                        .LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void updateRadio(int id) {
+        button1.setChecked(false);
+        button2.setChecked(false);
+        button3.setChecked(false);
+        button4.setChecked(false);
+        button5.setChecked(false);
+        button6.setChecked(false);
+        button7.setChecked(false);
+        button8.setChecked(false);
+        button9.setChecked(false);
+        button0.setChecked(false);
+        ((RadioButton) findViewById(id)).setChecked(true);
     }
 }
