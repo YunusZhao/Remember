@@ -66,14 +66,9 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void setAdapter(List<Word> list) {
-        if (listView.getAdapter() == null) {
             SearchWordAdapter adapter = new SearchWordAdapter(SearchActivity.this,
                     R.layout.item_search_word, list);
             listView.setAdapter(adapter);
-        } else {
-            ((SearchWordAdapter) listView.getAdapter()).notifyDataSetChanged();
-            LogUtil.d("SearchActivity", list.toString());
-        }
     }
 
     private void getWords(String data) {
@@ -95,7 +90,6 @@ public class SearchActivity extends BaseActivity {
                         @Override
                         public void run() {
                             if (wordList.isEmpty()) {
-                                listView.setVisibility(View.GONE);
                             } else {
                                 setAdapter(wordList);
                             }

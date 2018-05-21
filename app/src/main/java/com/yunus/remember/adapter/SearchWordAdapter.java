@@ -36,8 +36,8 @@ public class SearchWordAdapter extends ArrayAdapter<Word> {
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
-            viewHolder.spell = view.findViewById(R.id.diaries_item_date);
-            viewHolder.mean = view.findViewById(R.id.diaries_item_text_long);
+            viewHolder.spell = view.findViewById(R.id.search_word_spell);
+            viewHolder.mean = view.findViewById(R.id.search_word_chinese_mean);
             view.setTag(viewHolder);
 
         } else {
