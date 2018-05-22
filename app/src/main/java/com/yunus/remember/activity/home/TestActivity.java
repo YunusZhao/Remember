@@ -184,7 +184,7 @@ public class TestActivity extends BaseActivity {
         SevenDaysReview review = DataSupport.where("theDate = ?", StorageUtil.getDate(today))
                 .findLast(SevenDaysReview.class);
         LogUtil.d("TestActivity", today.toString());
-        review.setStudiedTime(StorageUtil.getInt(this, StorageUtil.STUDY_TIME, 0));
+        review.setStudiedTime(StorageUtil.getInt(this, StorageUtil.STUDY_TIME, 0) / 60000);
         review.save();
 
         DataSupport.saveAll(words);

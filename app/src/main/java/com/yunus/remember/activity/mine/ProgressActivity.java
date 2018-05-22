@@ -98,6 +98,7 @@ public class ProgressActivity extends BaseActivity {
         comboChart = (ComboLineColumnChartView) findViewById(R.id.combo_chart);
         generateComboValues();
         generateComboData();
+        resetComboViewport();
     }
 
     private void initDates() {
@@ -229,7 +230,8 @@ public class ProgressActivity extends BaseActivity {
         // Reset viewport height range to (0,100)
         Viewport v = new Viewport(lineChart.getMaximumViewport());
         v.bottom = 0;
-        v.top = StorageUtil.getInt(ProgressActivity.this, StorageUtil.WORDS_NUM, 100) + 20;
+        //v.top = StorageUtil.getInt(ProgressActivity.this, StorageUtil.WORDS_NUM, 100) + 20;
+        v.top = 350;
         v.left = -0.2f;
         v.right = numberOfPoints - 0.8f;
         lineChart.setMaximumViewport(v);
@@ -378,6 +380,7 @@ public class ProgressActivity extends BaseActivity {
             line.setHasLabels(hasLabels);
             line.setHasLines(hasLines);
             line.setHasPoints(hasPoints);
+            line.setHasLabelsOnlyForSelected(hasLabelForSelected);
             lines.add(line);
         }
         return new LineChartData(lines);
@@ -396,5 +399,18 @@ public class ProgressActivity extends BaseActivity {
             columns.add(new Column(values));
         }
         return new ColumnChartData(columns);
+    }
+
+    private void resetComboViewport() {
+        // Reset viewport height range to (0,100)
+        Viewport v = new Viewport(comboChart.getMaximumViewport());
+        v.bottom = 0;
+//        v.top = StorageUtil.getInt(ProgressActivity.this, StorageUtil.STUDY_TIME, 100000) / 1000
+//                / 60;
+        v.top = 60;
+        v.left = -0.5f;
+        v.right = numberOfPoints - 0.5f;
+        comboChart.setMaximumViewport(v);
+        comboChart.setCurrentViewport(v);
     }
 }
