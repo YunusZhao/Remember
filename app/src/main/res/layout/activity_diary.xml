@@ -38,11 +38,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <android.support.v4.widget.CircleImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/diary_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/delete"/>
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
             <TextView
                 android:id="@+id/diary_name"
                 android:layout_width="wrap_content"
@@ -50,20 +49,23 @@
                 android:layout_toEndOf="@+id/diary_image"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:textSize="30sp"/>
             <TextView
                 android:id="@+id/diary_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/blueLight" />
 
         </RelativeLayout>
 
         <TextView
             android:id="@+id/diary_state_long"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="40sp"/>
 
         <Button
             android:id="@+id/diary_allDiary"

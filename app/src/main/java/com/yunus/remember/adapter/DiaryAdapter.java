@@ -42,7 +42,7 @@ public class DiaryAdapter extends ArrayAdapter<RegisterCount> {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.date.setText(StorageUtil.getDate(diary.getRegisterDate()));
+        viewHolder.date.setText(diary.getRegisterDate());
         viewHolder.textLong.setText("第" + diary.getDayCount() + "天打卡/学习了" + diary.getWordNum() +
                 "个单词，学习时间" + diary.getStudyTime() + "分钟");
         return view;

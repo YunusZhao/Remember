@@ -256,6 +256,8 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void complete() {
+        StorageUtil.updateInt(LoginActivity.this, StorageUtil.REGISTER_DAY,
+                DataSupport.count(RegisterCount.class));
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

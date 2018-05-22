@@ -3,6 +3,7 @@ package com.yunus.remember.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,12 +48,13 @@ public class RankingAdapter extends ArrayAdapter<Friend> {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.ranking.setText(position);
-        Glide.with(view.getContext()).load(friend.getPortrait()).into(viewHolder.image);
+        viewHolder.ranking.setText((position + 1) + "");
+        Glide.with(view.getContext()).load(Base64.decode(friend.getPortrait(), Base64.DEFAULT))
+                .into(viewHolder.image);
         viewHolder.name.setText(friend.getName());
         viewHolder.summary.setText(friend.getSummary());
-        viewHolder.allNum.setText(friend.getWordNum());
-        viewHolder.allTime.setText(friend.getAllTime());
+        viewHolder.allNum.setText("单词数 " + friend.getAllNum());
+        viewHolder.allTime.setText("时间 " + friend.getAllTime());
         return view;
     }
 

@@ -20,11 +20,19 @@ public class Friend extends DataSupport implements Serializable {
     private String place;
     private String school;
     private String summary;
-    private int messageNum;
-    private int wordNum;//学会单词数
+    private int wordNum;//每日学习词数
     private int allTime;
     private int friendNum;
     private int registerNum;
+    private int allNum;
+
+    public int getAllNum() {
+        return allNum;
+    }
+
+    public void setAllNum(int allNum) {
+        this.allNum = allNum;
+    }
 
     public int getId() {
         return id;
@@ -88,14 +96,6 @@ public class Friend extends DataSupport implements Serializable {
 
     public void setSummary(String summary) {
         this.summary = summary;
-    }
-
-    public int getMessageNum() {
-        return messageNum;
-    }
-
-    public void setMessageNum(int messageNum) {
-        this.messageNum = messageNum;
     }
 
     public List<Chat> getChatList() {

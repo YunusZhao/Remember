@@ -3,6 +3,7 @@ package com.yunus.remember.activity.ranking;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.yunus.activity.BaseActivity;
+import com.example.yunus.utils.LogUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yunus.remember.R;
@@ -92,8 +94,10 @@ public class RankingActivity extends BaseActivity {
                             @Override
                             public void onResponse(Call call, Response response) throws
                                     IOException {
+                                String result = response.body().string();
+                                LogUtil.d("RankingActivity", result);
                                 Gson gson = new Gson();
-                               friendList = gson.fromJson(response.body().string(),
+                                friendList = gson.fromJson(result,
                                         new TypeToken<List<Friend>>() {
                                         }.getType());
                                 runOnUiThread(new Runnable() {
@@ -107,11 +111,11 @@ public class RankingActivity extends BaseActivity {
                 );
                 break;
             case 2:
-                friendList = DataSupport.order("wordNum").find(Friend.class);
+                friendList = DataSupport.order("allNum desc").limit(10).find(Friend.class);
                 initText(mode);
                 break;
             case 3:
-                friendList =  DataSupport.order("allTime").find(Friend.class);
+                friendList = DataSupport.order("allTime desc").limit(10).find(Friend.class);
                 initText(mode);
                 break;
         }
@@ -124,12 +128,13 @@ public class RankingActivity extends BaseActivity {
             case 1:
                 me = friendList.get(friendList.size() - 1);
                 friendList.remove(me);
-                ranking.setText(me.getId());
-                Glide.with(RankingActivity.this).load(me.getPortrait()).into(image);
+                ranking.setText(me.getId() + "");
+                Glide.with(RankingActivity.this).load(Base64.decode(me.getPortrait(),
+                        Base64.DEFAULT)).into(image);
                 name.setText(me.getName());
                 summary.setText(me.getSummary());
-                allNum.setText(me.getWordNum());
-                allTime.setText(me.getAllTime());
+                allNum.setText(me.getAllNum() + "");
+                allTime.setText(me.getAllTime() + "");
                 break;
             case 2:
             case 3:
@@ -141,12 +146,13 @@ public class RankingActivity extends BaseActivity {
                         break;
                     }
                 }
-                ranking.setText(i);
-                Glide.with(RankingActivity.this).load(me.getPortrait()).into(image);
+                ranking.setText((1 + i) + "");
+                Glide.with(RankingActivity.this).load(Base64.decode(me.getPortrait(),
+                        Base64.DEFAULT)).into(image);
                 name.setText(me.getName());
                 summary.setText(me.getSummary());
-                allNum.setText(me.getWordNum());
-                allTime.setText(me.getAllTime());
+                allNum.setText("单词数 " + me.getAllNum());
+                allTime.setText("时间 " + me.getAllTime());
                 break;
             default:
         }

@@ -18,6 +18,7 @@ import com.yunus.remember.adapter.DiaryAdapter;
 import com.yunus.remember.entity.Friend;
 import com.yunus.remember.entity.RegisterCount;
 import com.yunus.remember.utils.HttpUtil;
+import com.yunus.remember.utils.StorageUtil;
 
 import org.litepal.crud.DataSupport;
 
@@ -43,9 +44,6 @@ public class DiariesActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diaries);
         friend = (Friend) getIntent().getSerializableExtra("person");
-        if (friend == null) {
-            friend = DataSupport.findFirst(Friend.class);
-        }
 
         toolbar = findViewById(R.id.diaries_toolbar);
         toolbar.setTitle(R.string.all_diary);
@@ -61,30 +59,43 @@ public class DiariesActivity extends BaseActivity {
         name = findViewById(R.id.diaries_name);
         lvDiaries = findViewById(R.id.diaries_list);
 
-        initText();
+        if (friend == null) {
+            friend = DataSupport.where("id = ?", StorageUtil.getInt(DiariesActivity.this,
+                    StorageUtil.USER_ID, 0) + "").findFirst(Friend.class);
+            initText();
+            HttpUtil.registerCount(friend.getId() + "", new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
 
-        HttpUtil.registerCount(friend.getId() + "", new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
+                }
 
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Gson gson = new Gson();
-                diaries = gson.fromJson(response.body().string(),
-                        new TypeToken<List<RegisterCount>>() {
-                        }.getType());
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        DiaryAdapter diaryAdapter = new DiaryAdapter(DiariesActivity.this,
-                                R.layout.item_diary, diaries);
-                        lvDiaries.setAdapter(diaryAdapter);
-                    }
-                });
-            }
-        });
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    Gson gson = new Gson();
+                    diaries = gson.fromJson(response.body().string(),
+                            new TypeToken<List<RegisterCount>>() {
+                            }.getType());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            DiaryAdapter diaryAdapter = new DiaryAdapter(DiariesActivity.this,
+                                    R.layout.item_diary, diaries);
+                            lvDiaries.setAdapter(diaryAdapter);
+                        }
+                    });
+                }
+            });
+        } else {
+            name.setText(StorageUtil.getString(DiariesActivity.this, StorageUtil.USER_NAME, ""));
+            Glide.with(DiariesActivity.this).load(Base64.decode(StorageUtil.getString
+                            (DiariesActivity.this, StorageUtil.PORTRAIT, ""),
+                    Base64.DEFAULT)
+            ).into(image);
+            diaries = DataSupport.order("dayCount desc").find(RegisterCount.class);
+            DiaryAdapter diaryAdapter = new DiaryAdapter(DiariesActivity.this,
+                    R.layout.item_diary, diaries);
+            lvDiaries.setAdapter(diaryAdapter);
+        }
 
         lvDiaries.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -92,6 +103,7 @@ public class DiariesActivity extends BaseActivity {
                 RegisterCount registerCount = diaries.get(position);
                 Intent intent = new Intent(DiariesActivity.this, DiaryActivity.class);
                 intent.putExtra("date", registerCount);
+                intent.putExtra("user", friend);
                 startActivity(intent);
             }
         });
