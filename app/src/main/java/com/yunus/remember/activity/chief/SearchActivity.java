@@ -66,9 +66,9 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void setAdapter(List<Word> list) {
-            SearchWordAdapter adapter = new SearchWordAdapter(SearchActivity.this,
-                    R.layout.item_search_word, list);
-            listView.setAdapter(adapter);
+        SearchWordAdapter adapter = new SearchWordAdapter(SearchActivity.this,
+                R.layout.item_search_word, list);
+        listView.setAdapter(adapter);
     }
 
     private void getWords(String data) {

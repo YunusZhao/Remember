@@ -16,15 +16,6 @@ import com.example.yunus.activity.BaseActivity;
 import com.example.yunus.utils.RWUtil;
 import com.example.yunus.utils.ViewUtil;
 import com.yunus.remember.R;
-import com.yunus.remember.utils.HttpUtil;
-
-import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class PasswordActivity extends BaseActivity {
 

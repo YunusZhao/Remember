@@ -4,25 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.yunus.activity.BaseActivity;
-import com.example.yunus.utils.RWUtil;
 import com.yunus.remember.R;
 import com.yunus.remember.adapter.MainFragmentPagerAdapter;
-import com.yunus.remember.entity.Book;
-import com.yunus.remember.entity.Word;
-
-import org.litepal.crud.DataSupport;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.List;
 
 public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener,
         ViewPager.OnPageChangeListener {

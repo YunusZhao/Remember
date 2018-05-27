@@ -78,7 +78,6 @@ public class RegisterActivity extends BaseActivity {
         Glide.with(RegisterActivity.this).load(R.drawable.timg).into(portrait);
 
 
-
         addPortrait.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -261,7 +260,7 @@ public class RegisterActivity extends BaseActivity {
         me.setName(name.getText().toString());
         me.setEmail(email.getText().toString());
         me.setPassword(password.getText().toString());
-        me.setPortrait(Base64.encodeToString(imageByte,Base64.DEFAULT));
+        me.setPortrait(Base64.encodeToString(imageByte, Base64.DEFAULT));
 
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         RequestBody requestBody = RequestBody.create(JSON, gson.toJson(me));
