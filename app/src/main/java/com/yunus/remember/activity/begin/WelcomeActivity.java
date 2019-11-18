@@ -62,11 +62,11 @@ public class WelcomeActivity extends BaseActivity implements Runnable {
             e.printStackTrace();
         }
 
-        if (DataSupport.count(SevenDaysReview.class) == 0) {
+        DataSupport.deleteAll(SevenDaysReview.class);
             List<SevenDaysReview> reviews = new ArrayList<>();
             for (int i = 0; i < 7; i++) {
                 SevenDaysReview review = new SevenDaysReview();
-                review.setTheDate("2018.05." + (16 + i));
+                review.setTheDate("2018.05." + (23 + i));
                 review.setAllWordsCount(200 + i * 20);
                 review.setAllHadCount(100 + i * 20);
                 review.setStudiedTime((int) (20 + Math.random() * (60 - 20 + 1)));
@@ -74,6 +74,6 @@ public class WelcomeActivity extends BaseActivity implements Runnable {
                 reviews.add(review);
             }
             DataSupport.saveAll(reviews);
-        }
+
     }
 }
